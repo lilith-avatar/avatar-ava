@@ -1,0 +1,6 @@
+Type,String,String,Int
+,enemy_id,difficulty,hp
+1,foe_01,easy,100
+2,foe_01,hard,150
+3,foe_02,easy,300
+4,foe_02,hard,400
