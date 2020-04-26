@@ -1,5 +1,9 @@
 Smap/AutoSave_*
 Code/Csv/*.lua
+Code/CSV/*.lua
 Code/Luas/*.csv
+Code/Lua/*.csv
+Code/LUA/*.csv
 *.smap.storage
+*.iso
 ~$*
