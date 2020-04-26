@@ -10,7 +10,7 @@ GameMgr:Init()
 --     end
 -- )
 
--- TEST ONLY BELOW 之后删掉
+-- TEST ONLY BELOW
 wait(1)
 invoke(
     function()

@@ -41,11 +41,6 @@ function InsertParameter(UIObj, ParaTable, DataName)
 end
 
 function StartAnimation(DataName, isBackRun)
-    if DataName == nil then
-        print(DataName, '不存在该动画,检查配置表或代码')
-        return
-    end
-
     --判断是否已经有动画正在播放中
     if OnPlay then
         print('不允许同时播放两段动画')

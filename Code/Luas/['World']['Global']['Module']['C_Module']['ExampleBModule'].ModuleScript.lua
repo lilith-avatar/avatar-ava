@@ -26,7 +26,7 @@ end
 -- 函数命名格式为 事件名 + 'Handler'
 function ExampleB:Example02CustomEventHandler(arg1)
     print('[信息] 收到Example02CustomEvent, 参数:', arg1)
-	localPlayer.Local.FUNC_UIAnimation.StartAnimationEvent:Fire('TestAnimation')
+    localPlayer.Local.FUNC_UIAnimation.StartAnimationEvent:Fire('TestAnimation')
 end
 
 return ExampleB
