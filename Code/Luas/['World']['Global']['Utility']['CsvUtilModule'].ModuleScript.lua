@@ -83,7 +83,7 @@ function CsvUtil.GetCsvInfo(_csv, _id, _isPrimaryKey)
     _isPrimaryKey = _isPrimaryKey or _isPrimaryKey == nil -- default is true
     local tmp = _csv:GetRows()
     local result = {}
-    if _id == 'Type' or _id == 'type' then
+    if _id == 'Type' then
         for _, v in pairs(tmp) do
             table.insert(result, v)
         end

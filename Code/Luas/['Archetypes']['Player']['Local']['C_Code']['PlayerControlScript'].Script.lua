@@ -19,7 +19,7 @@ local MoveLeft = 0
 local MoveRight = 0
 
 --- 获取按键盘时的移动方向最终取值
-function GetMovement()
+local function GetMovement()
     MoveForward = Input.GetPressKeyData(ForwardKey) > 0 and 1 or 0
     MoveBack = Input.GetPressKeyData(BackKey) > 0 and -1 or 0
     MoveLeft = Input.GetPressKeyData(LeftKey) > 0 and 1 or 0
@@ -33,7 +33,7 @@ function GetMovement()
 end
 
 --- 移动逻辑
-function Move(Dir)
+local function Move(Dir)
     Dir.y = 0
     if Player.State == Enum.CharacterState.Died then
         Dir = Vector2.Zero
@@ -49,7 +49,7 @@ function Move(Dir)
 end
 
 --- 玩家死亡时的逻辑
-function PlayerDie()
+local function PlayerDie()
     Player:MoveTowards(Vector2(0, 0))
     Player:Die()
     local RespawnTime = Player.RespawnTime
@@ -57,10 +57,8 @@ function PlayerDie()
     Player:Reset()
 end
 
-Player.OnDead:Connect(PlayerDie)
-
 --- 每个渲染帧处理操控逻辑
-function MainControl()
+local function MainControl()
     if Player.Health <= 0 then
         Player:Die()
         return
@@ -90,4 +88,5 @@ function MainControl()
     Move(Dir)
 end
 
+Player.OnDead:Connect(PlayerDie)
 world.OnRenderStepped:Connect(MainControl)
