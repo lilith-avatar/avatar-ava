@@ -1,6 +1,15 @@
 # Avatar Ava
 Avatar Ava is a intergated framework that is designed to support the development on Avatar engine.
 
+[Explore Github Wiki>>](https://github.com/lilith-avatar/avatar-ava/wiki)
+
+## Table of contents
+
+* [Who is Ava](#who-is-ava?)
+* [Ava Structure](#ava-structure)
+* [Quick Start](#quick-start)
+
+
 ## Who is Ava? 
 ![ava logo](https://i.pinimg.com/564x/f1/af/3d/f1af3d3db9c5711dda1d29a585c3bf03.jpg "ava: blessed, beautiful")
 
@@ -57,3 +66,10 @@ Avatar Ava is a intergated framework that is designed to support the development
   * C_Code
     * PlayerControlScript
     * PlayerMain
+
+## Quick Start
+Several quick start options are available:
+
+ * [Download the latest release](https://github.com/lilith-avatar/avatar-ava/releases)
+ * Clone the repo: `git clone https://github.com/lilith-avatar/avatar-ava.git`
+
