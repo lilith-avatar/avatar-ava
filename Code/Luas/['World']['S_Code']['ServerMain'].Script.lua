@@ -4,13 +4,9 @@
 -- @author XXX, XXX
 
 GameMgr:Init()
--- invoke(
---     function()
---         GameMgr:StartUpdate()
---     end
--- )
 
 -- TEST ONLY BELOW
+-- 以下内容仅为测试用，请删掉
 wait(1)
 invoke(
     function()
