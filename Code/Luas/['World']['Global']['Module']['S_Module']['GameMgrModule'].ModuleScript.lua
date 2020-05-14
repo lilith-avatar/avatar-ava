@@ -5,15 +5,19 @@
 local GameMgr, this =
     {
         isRun = false,
+        baseTime = 0, -- 游戏开始的时间戳
         dt = 0, -- delta time 每帧时间
         tt = 0 -- total time 游戏总时间
     },
     nil
 
+local now = os.clock -- 用于lua优化
+
 --- 初始化
 function GameMgr:Init()
     print('[信息] GameMgr:Init')
     this = self
+    self.baseTime = now()
     self:InitListeners()
 
     -- TODO: 其他服务器模块初始化
@@ -28,11 +32,12 @@ end
 
 --- Update函数
 -- @param dt delta time 每帧时间
-function GameMgr:Update(dt)
+function GameMgr:Update(dt, tt)
     -- TODO: 其他服务器模块Update
-    ExampleA:Update(dt)
+    ExampleA:Update(dt, tt)
 end
 
+--- 开始Update
 function GameMgr:StartUpdate()
     print('[信息] GameMgr:StartUpdate')
     if self.isRun then
@@ -42,13 +47,17 @@ function GameMgr:StartUpdate()
 
     self.isRun = true
 
-    while (self.isRun) do
-        self.dt = wait()
-        self.tt = self.tt + self.dt
-        self:Update(self.dt)
+    local prevTime, nowTime = now(), nil -- two timestamps
+    while (self.isRun and wait()) do
+        nowTime = now()
+        self.dt = nowTime - prevTime
+        self.tt = nowTime - self.baseTime
+        self:Update(self.dt, self.tt)
+        prevTime = nowTime
     end
 end
 
+--- 停止Update
 function GameMgr:StopUpdate()
     print('[信息] GameMgr:StopUpdate')
     self.isRun = false
