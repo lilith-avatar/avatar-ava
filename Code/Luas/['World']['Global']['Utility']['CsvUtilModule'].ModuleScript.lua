@@ -3,7 +3,7 @@
 -- @copyright Lilith Games, Avatar Team
 -- @author Yuancheng Zhang
 -- @see https://wiki.lilithgames.com/x/RGEMAg
-local CsvUtil = {}
+local CsvUtil = class('CsvUtil')
 
 --- 读取配置表,会根据id生成lua表
 -- @param _csv 表格
@@ -79,7 +79,7 @@ local CsvUtil = {}
 --         }
 --     }
 -- }
-function CsvUtil.GetCsvInfo(_csv, _id, _isPrimaryKey)
+function CsvUtil.static.GetCsvInfo(_csv, _id, _isPrimaryKey)
     _isPrimaryKey = _isPrimaryKey or _isPrimaryKey == nil -- default is true
     local tmp = _csv:GetRows()
     local result = {}
