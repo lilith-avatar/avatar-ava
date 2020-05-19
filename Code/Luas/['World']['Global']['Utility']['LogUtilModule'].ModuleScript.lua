@@ -29,25 +29,25 @@ LogUtil.debugMode = true
 local on = LogUtil.debugMode
 
 function LogUtil.Debug(...)
-    if on and level >= LevelEnum.DEBUG then
+    if on and LogUtil.level >= LevelEnum.DEBUG then
         print('[DEBUG]', ...)
     end
 end
 
 function LogUtil.Info(...)
-    if on and level >= LevelEnum.INFO then
+    if on and LogUtil.level >= LevelEnum.INFO then
         print('[INFO]', ...)
     end
 end
 
 function LogUtil.Warn(...)
-    if on and level >= LevelEnum.WARN then
+    if on and LogUtil.level >= LevelEnum.WARN then
         print('[WARN]', ...)
     end
 end
 
 function LogUtil.Error(...)
-    if on and level >= LevelEnum.ERROR then
+    if on and LogUtil.level >= LevelEnum.ERROR then
         print('[ERROR]', ...)
     end
 end

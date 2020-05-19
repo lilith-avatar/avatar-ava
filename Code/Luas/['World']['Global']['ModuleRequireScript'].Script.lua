@@ -2,6 +2,16 @@
 -- @script Module Defines
 -- @copyright Lilith Games, Avatar Team
 
+-- Log utility
+local LogUtil = require(Utility.LogUtilModule)
+debug = LogUtil.Debug
+info = LogUtil.Info
+warn = LogUtil.Warn
+error = LogUtil.Error
+
+-- 定义日志等级
+LogUtil.level = LogUtil.LevelEnum.DEBUG
+
 -- Utilities
 NetUtil = require(Utility.NetUtilModule)
 CsvUtil = require(Utility.CsvUtilModule)
