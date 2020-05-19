@@ -4,13 +4,15 @@
 
 -- Log utility
 local LogUtil = require(Utility.LogUtilModule)
+-- 封装四个全局接口
 debug = LogUtil.Debug
 info = LogUtil.Info
 warn = LogUtil.Warn
 error = LogUtil.Error
 
--- 定义日志等级
+-- 定义日志等级、开关
 LogUtil.level = LogUtil.LevelEnum.DEBUG
+LogUtil.debugMode = true
 
 -- Utilities
 NetUtil = require(Utility.NetUtilModule)
