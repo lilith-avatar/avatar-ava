@@ -90,13 +90,13 @@ function CsvUtil.static.GetCsvInfo(_csv, _id, _isPrimaryKey)
     else
         for k, v in pairs(tmp) do
             if v[_id] == nil then
-                print(string.format('CSV缺少参数：csv:%s, _id:%s', _csv.Name, _id))
+                error(string.format('CSV缺少参数：csv:%s, _id:%s', _csv.Name, _id))
                 return
             end
             if _isPrimaryKey then
                 -- id是唯一主键
                 if result[v[_id]] ~= nil then
-                    print(string.format('CSV数据覆盖：csv:%s, _id:%s', _csv.Name, _id))
+                    warn(string.format('CSV数据覆盖：csv:%s, _id:%s', _csv.Name, _id))
                 end
                 result[v[_id]] = v
                 v.Type = tonumber(k)
@@ -109,7 +109,7 @@ function CsvUtil.static.GetCsvInfo(_csv, _id, _isPrimaryKey)
             end
         end
     end
-    print(string.format('CSV数据载入: _csv:%s', _csv.Name))
+    info(string.format('CSV数据载入: _csv:%s', _csv.Name))
     return result
 end
 

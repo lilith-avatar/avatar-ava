@@ -15,7 +15,7 @@ local now = os.clock -- 用于lua优化
 
 --- 初始化
 function GameMgr:Init()
-    print('[信息] GameMgr:Init')
+    info('GameMgr:Init')
     this = self
     self.baseTime = now()
     self:InitListeners()
@@ -39,9 +39,9 @@ end
 
 --- 开始Update
 function GameMgr:StartUpdate()
-    print('[信息] GameMgr:StartUpdate')
+    info('GameMgr:StartUpdate')
     if self.isRun then
-        print('[警告] GameMgr:StartUpdate 正在运行')
+        warn('GameMgr:StartUpdate 正在运行')
         return
     end
 
@@ -59,31 +59,31 @@ end
 
 --- 停止Update
 function GameMgr:StopUpdate()
-    print('[信息] GameMgr:StopUpdate')
+    info('GameMgr:StopUpdate')
     self.isRun = false
 end
 
 --- TEST ONLY 处理Example01CustomEvent事件
 -- 函数命名格式为 事件名 + 'Handler'
 function GameMgr:Example01CustomEventHandler()
-    print('[信息] 收到Example01CustomEvent')
+    debug('收到Example01CustomEvent')
     self:StartUpdate()
 end
 
 --- TEST ONLY 处理Example02CustomEvent事件
 -- 函数命名格式为 事件名 + 'Handler'
 function GameMgr:Example02CustomEventHandler()
-    print('[信息] 收到Example02CustomEvent')
-    print('打印预加载的表格Example01,单一主键')
+    debug('收到Example02CustomEvent')
+    debug('打印预加载的表格Example01,单一主键')
     table.dump(CsvConfig.Example01)
-    print('打印预加载的表格Example01,多主键')
+    debug('打印预加载的表格Example01,多主键')
     table.dump(CsvConfig.Example02)
 end
 
 --- TEST ONLY 处理Example02CustomEvent事件
 -- 函数命名格式为 事件名 + 'Handler'
 function GameMgr:Example03CustomEventHandler()
-    print('[信息] 收到Example03CustomEvent')
+    debug('[信息] 收到Example03CustomEvent')
     self:StopUpdate()
 end
 

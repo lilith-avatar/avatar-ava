@@ -43,7 +43,7 @@ end
 function StartAnimation(DataName, isBackRun)
     --判断是否已经有动画正在播放中
     if OnPlay then
-        print('不允许同时播放两段动画')
+        warn('不允许同时播放两段动画')
         return
     end
 
@@ -52,7 +52,7 @@ function StartAnimation(DataName, isBackRun)
     DataModule:Calculate(DataName)
     Data = DataModule.Data[DataName]
     if Data.count == nil or Data.count == 0 then
-        print('配表错误,请填写动画数据的帧数')
+        error('配表错误,请填写动画数据的帧数')
         return
     end
     if isBackRun == nil or isBackRun == false then

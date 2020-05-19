@@ -20,12 +20,12 @@ local CsvConfig = {
 
 --- 初始化:加载所有预加载表格
 function CsvConfig:Init()
-    print('[信息] CsvConfig:Init')
+    info('CsvConfig:Init')
     self:PreloadCsv()
 end
 
 function CsvConfig:PreloadCsv()
-    print('[信息] CsvConfig:PreloadCsv')
+    info('CsvConfig:PreloadCsv')
     for _, pl in pairs(self.preLoad) do
         if not string.isnilorempty(pl.csv) and not string.isnilorempty(pl.id) then
             self[pl.csv] = CsvUtil.GetCsvInfo(Csv[pl.csv], pl.id, pl.isPrimary)

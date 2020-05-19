@@ -21,14 +21,14 @@ function EventUtil.LinkConnects(_eventFolder, _module, _moduleName, _this)
                         handler(_this, ...)
                     end
                 )
-                print(string.format('[信息] %s/%s 事件绑定%s成功', _eventFolder.Name, ent.Name, _moduleName))
+                debug(string.format('%s/%s 事件绑定%s成功', _eventFolder.Name, ent.Name, _moduleName))
                 total = total + 1
             end
         else
-            print(string.format('[警告] S_Event/%s 命名没有以Event结尾', ent.Name))
+            warn(string.format('S_Event/%s 命名没有以Event结尾', ent.Name))
         end
     end
-    print(string.format('[信息] %s共绑定%s个事件', _moduleName, total))
+    debug(string.format('%s共绑定%s个事件', _moduleName, total))
 end
 
 return EventUtil
