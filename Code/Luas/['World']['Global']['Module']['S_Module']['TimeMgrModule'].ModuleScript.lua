@@ -84,10 +84,10 @@ end
 -- @see https://www.w3schools.com/jsref/met_win_settimeout.asp
 function TimeMgr.SetTimeout(_func, _seconds)
     if _func == nil then
-        print('[错误] TimeMgr.SetTimeout() _func 不能为空')
+        error('TimeMgr.SetTimeout() _func 不能为空')
         return
     elseif _seconds < 1 then
-        print('[错误] TimeMgr.SetTimeout() _seconds 最小时间单位是1s')
+        error('TimeMgr.SetTimeout() _seconds 最小时间单位是1s')
         return
     end
     local id = #eventList + 1
