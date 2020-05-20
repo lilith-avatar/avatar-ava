@@ -13,6 +13,12 @@ Avatar Ava is a intergated framework that is designed to support the development
 ## Who is Ava? 
 ![ava logo](https://i.pinimg.com/564x/f1/af/3d/f1af3d3db9c5711dda1d29a585c3bf03.jpg "ava: blessed, beautiful")
 
+## Branches
+* [master](https://github.com/lilith-avatar/avatar-ava) trunk branch for debug after development finish, and documents 
+* [dev](https://github.com/lilith-avatar/avatar-ava/tree/dev) development branch for new feature, debug and new issue
+* [release](https://github.com/lilith-avatar/avatar-ava/tree/release) release new version, can't change until next version release
+* [example](https://github.com/lilith-avatar/avatar-ava/tree/example) release version with test cases and examples
+
 ## Ava Structure
 ### World Hierarchy
 * Global
