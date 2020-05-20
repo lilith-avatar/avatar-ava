@@ -1,6 +1,7 @@
---- 以下内容仅为测试用，请删掉；TEST ONLY BELOW
--- @script Server Main Function
+--- TEST:框架服务端测试脚本(用后删)；
+-- @script Test Server Scirpt
 -- @copyright Lilith Games, Avatar Team
+-- @author Yuancheng Zhang
 
 wait(1)
 invoke(
