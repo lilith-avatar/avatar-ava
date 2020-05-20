@@ -25,6 +25,7 @@ ConstDef = require(Define.ConstDefModule)
 
 -- Server Modules
 GameMgr = require(Module.S_Module.GameMgrModule)
+TimeMgr = require(Module.S_Module.TimeMgrModule)
 CsvConfig = require(Module.S_Module.CsvConfigModule)
 ExampleA = require(Module.S_Module.ExampleAModule)
 

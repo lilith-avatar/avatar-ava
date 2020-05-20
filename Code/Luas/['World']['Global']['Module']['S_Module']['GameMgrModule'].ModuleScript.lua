@@ -20,9 +20,11 @@ function GameMgr:Init()
     self.baseTime = now()
     self:InitListeners()
 
+    TimeMgr:Init()
+    CsvConfig:Init()
+
     -- TODO: 其他服务器模块初始化
     ExampleA:Init()
-    CsvConfig:Init()
 end
 
 --- 初始化Game Manager自己的监听事件
