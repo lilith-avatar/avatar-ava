@@ -18,6 +18,7 @@ LogUtil.debugMode = true
 NetUtil = require(Utility.NetUtilModule)
 CsvUtil = require(Utility.CsvUtilModule)
 EventUtil = require(Utility.EventUitlModule)
+CamUtil = require(Utility.CamUtilModule)
 
 -- Defines
 GlobalDef = require(Define.GlobalDefModule)
