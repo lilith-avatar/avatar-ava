@@ -1,92 +1,88 @@
 --- 时间管理器模块
 -- @module Module Time Manager
 -- @copyright Lilith Games, Avatar Team
--- @author Bingyun Chen
-local TimeMgr, this =
-    {
-        isRun = false,
-        baseTime = 0
-    },
-    nil
+-- @author Bingyun Chen, Yuancheng Zhang
+-- @see the functions defined by JavaScript syntax
 
+local TimeMgr = {}
+
+-- All registered events
 local eventList = {}
-local activeEvents = math.huge
-local clock = os.clock -- 缓存，用于lua优化
-local id = 0
-local now
-local run = false
-local updateTime = 1 --每1秒更新一次
 
---- 初始化
-function TimeMgr:Init()
-    info('TimeMgr:Init')
-    self.baseTime = clock()
-    this = self
+-- Current active event list
+local activeEvents = {}
+
+local running = false
+
+-- Set update delta time
+local DELTA_TIME = 1
+
+-- Temporary varables
+local now, event, i
+
+--- Find all registered events to trigger
+local function CheckEvents()
+    now = os.time()
+    i = 1
+    while i <= #eventList do
+        event = eventList[i]
+        if event.triggerTime <= now then
+            table.insert(activeEvents, event)
+            if event.loop then
+                event.triggerTime = event.triggerTime + event.delay
+                i = i + 1
+            else
+                table.remove(eventList, i)
+            end
+        else
+            i = i + 1
+        end
+    end
 end
 
-function TimeMgr:SetTimeout(_seconds, _func)
-    return RegisterEvent(false, _seconds, _func)
+--- Trigger events
+local function TriggerEvents()
+    i = 1
+    while i <= #activeEvents do
+        event = activeEvents[i]
+        invoke(event.func)
+        table.remove(activeEvents, i)
+    end
 end
 
-function TimeMgr:SetInterval(_seconds, _func)
-    return RegisterEvent(true, _seconds, _func)
-end
-
---- Update函数
--- @param dt delta time 每帧时间
-function TimeMgr:Update(dt)
-    now = clock()
-    if activeEvents < now then --如果最小的ctiveEvents(触发时间)小于当前时间,则触发事件.
+--- Update
+local function Update()
+    while running do
+        -- print(os.time())
+        CheckEvents()
         TriggerEvents()
-        FindNextEvent()
+        wait(DELTA_TIME)
     end
 end
 
---- CancelEvent删除需要触发的事件
--- @param Int _id 需要取消的事件id
-function TimeMgr:CancelEvent(_id)
-    for i, v in pairs(eventList) do
-        for j = #v, 1, -1 do
-            if v[j].eid == _id then
-                --print(string.format('删除了eid为: %s 的事件',v[j].eid))
-                table.remove(v, j)
-            end
-        end
-    end
+--- Initialization
+function TimeMgr.Init()
+    TimeMgr.Start()
 end
 
---- StartUpdate 运行TimeMgr
-function TimeMgr:StartUpdate()
-    run = true
-    local update = function()
-        while run and wait(updateTime) do
-            TimeMgr:Update()
-        end
-    end
-    invoke(update)
+--- Run Update()
+function TimeMgr.Start()
+    running = true
+    invoke(Update)
 end
 
---- StopUpdate 停止TimeMgr更新
--- @param bool Cleareventlist true为删除eventlist里的所有事件
-function TimeMgr:StopUpdate(_Cleareventlist)
-    if _Cleareventlist then
-        for i, v in pairs(eventList) do
-            for j = #v, 1, -1 do
-                table.remove(v, j)
-            end
-        end
-    end
-    run = false
+--- Stop Update()
+function TimeMgr.Stop()
+    running = false
 end
 
------------------------------------------------------主要函数-----------------
-
---- RegisterEvent函数 将事件插入时间线队列中,并返回该事件的id
--- @param bool  _IsLoop 是否循环触发 true就会根据当前时间 每_dlyt秒触发一次
--- @param float	_seconds 延迟时间 单位s
--- @param _function 需要触发的函数
-function RegisterEvent(_IsLoop, _seconds, _func)
-    now = clock()
+--- Call a function after a specified number of milliseconds,
+-- use ClearTimeout() method to prevent the function from running
+-- @param _func execution function to call
+-- @param _delayTime
+-- @return timer id
+-- @see https://www.w3schools.com/jsref/met_win_settimeout.asp
+function TimeMgr.SetTimeout(_func, _seconds)
     if _func == nil then
         print('[错误] TimeMgr.SetTimeout() _func 不能为空')
         return
@@ -94,47 +90,63 @@ function RegisterEvent(_IsLoop, _seconds, _func)
         print('[错误] TimeMgr.SetTimeout() _seconds 最小时间单位是1s')
         return
     end
-    local actt = nil --重置主键
-    actt = now + _seconds --该事件的主键
-    id = id + 1
-    AddtoEventList(actt)[#eventList[actt] + 1] = {Isl = _IsLoop, delay = _seconds, func = _func, eid = id} --将事件插到eventList里面
-    return id --返回该事件的id
+    local id = #eventList + 1
+    local timestamp = _seconds + os.time()
+    table.insert(
+        eventList,
+        {
+            id = id,
+            func = _func,
+            delay = _seconds,
+            triggerTime = timestamp
+        }
+    )
+    return id
 end
 
---- ActiveEvent 函数 触发队列最前的事件
-function TriggerEvents()
-    local curEvent = eventList[activeEvents]
-    for i, v in ipairs(curEvent) do --触发该时间内所有队列中的事件
-        invoke(curEvent[i].func)
-        if curEvent[i].Isl then --循环事件会在触发后移动到新主键位置
-            local nextRound = activeEvents + curEvent[i].delay
-            AddtoEventList(nextRound)[#eventList[nextRound] + 1] = curEvent[i]
+--- Call a function or evaluates an expression at specified intervals (in milliseconds),
+-- the method will continue calling the function until ClearInterval() is called, or the game is over.
+-- @param _func execution function to call
+-- @param _delayTime
+-- @return timer id
+-- @see https://www.w3schools.com/jsref/met_win_setinterval.asp
+function TimeMgr.SetInterval(_func, _seconds)
+    if _func == nil then
+        print('[错误] TimeMgr.SetInterval() _func 不能为空')
+        return
+    elseif _seconds < 1 then
+        print('[错误] TimeMgr.SetInterval() 最小时间单位是1s')
+        return
+    end
+    local id = #eventList + 1
+    local timestamp = _seconds + os.time()
+    table.insert(
+        eventList,
+        {
+            id = id,
+            func = _func,
+            delay = _seconds,
+            triggerTime = timestamp,
+            loop = true
+        }
+    )
+    return id
+end
+
+--- Clear a timer set with the SetTimeout() method
+-- @param _id timmer id
+-- @see https://www.w3schools.com/jsref/met_win_cleartimeout.asp
+function TimeMgr.ClearTimeout(_id)
+    for k, e in pairs(eventList) do
+        if e.id == _id then
+            table.remove(eventList, k)
+            break
         end
     end
-    eventList[activeEvents] = nil --将已触发的时间段的整个队列删除
 end
 
---- FindNextEvent 函数 寻找触发时间最小的表
-function FindNextEvent()
-    activeEvents = math.huge
-    for i, v in pairs(eventList) do --寻找下一个最近发生的事件队列
-        if i < activeEvents then
-            activeEvents = i
-        end
-    end
-end
-
---- 在eventlist里面生成对应的主键
-function AddtoEventList(_actt)
-    if eventList[_actt] == nil then --如果该时间没有需要触发的事件序列,则创建一个
-        eventList[_actt] = {}
-        if activeEvents > _actt then --如果距离该事件发生的时间是最快的,则将最快发生时间更新
-            activeEvents = _actt
-        end
-    end
-    return eventList[_actt]
-end
-
---------------------------------------------------------------
+--- Clear a timer set with the SetInterval() method, used as ClearTimeout()
+-- @see https://www.w3schools.com/jsref/met_win_clearinterval.asp
+TimeMgr.ClearInterval = TimeMgr.ClearTimeout
 
 return TimeMgr

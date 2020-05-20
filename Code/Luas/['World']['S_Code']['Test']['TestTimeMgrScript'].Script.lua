@@ -1,6 +1,10 @@
-local c = 0
+--- TEST:时间管理器测试脚本(用后删)
+-- @module Test Time Manager
+-- @copyright Lilith Games, Avatar Team
+-- @author Bingyun Chen, Yuancheng Zhang
 
-print('Test InitDone')
+TimeMgr.Init()
+
 function Test01(_param)
     print(string.format('Test01: %s', _param))
 end
@@ -13,45 +17,33 @@ function Test03(a, b, c)
     print(string.format('Test03: %s, %s, %s', a, b, c))
 end
 
-print(
-    TimeMgr:SetTimeout(
-        1,
-        function()
-            Test01(1)
-        end
-    )
-) --第2秒打印 Test01:1
-
-print(
-    TimeMgr:SetInterval(
-        2,
-        function()
-            Test02(2)
-        end
-    )
-) --第2秒打印Test02:2
-
-print(
-    TimeMgr:SetInterval(
-        2,
-        function()
-            Test03(3, 3, 3)
-        end
-    )
-) --第2秒打印Test03:3,3,3
-
-invoke(
+-- 第2秒打印 Test01
+TimeMgr.SetTimeout(
     function()
-        TimeMgr:CancelEvent(2)
+        Test01(1)
     end,
-    5
+    2
 )
 
---TimeMgr:CancelEvent(4)
-TimeMgr:StartUpdate()
-wait(5)
-print('1')
-TimeMgr:StopUpdate(true)
-wait(5)
-TimeMgr:StartUpdate()
-print('2')
+-- 每2秒打印 Test02
+TimeMgr.SetInterval(
+    function()
+        Test02(2)
+    end,
+    2
+)
+
+-- 每3秒打印 Test03
+local timerId =
+    TimeMgr.SetInterval(
+    function()
+        Test03(12, 23, 34)
+    end,
+    3
+)
+
+print(string.format('timerId = %s', timerId))
+
+-- 10秒后取消循环打印 Test03
+wait(10)
+TimeMgr.ClearInterval(timerId)
