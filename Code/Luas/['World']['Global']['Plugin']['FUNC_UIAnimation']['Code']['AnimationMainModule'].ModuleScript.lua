@@ -4,14 +4,16 @@ function AnimationMain:Init()
 	self.onPlay = false
 	self:InitListeners()
 	self.DataModule = require(world.Global.Plugin.FUNC_UIAnimation.Code.DataModule)
+	self.DataModule:Init()
 end
 
 function AnimationMain:InitListeners()
-    EventUtil.LinkConnects(localPlayer.C_Event, AnimationMain, 'AnimationMain', this)
+    EventUtil.LinkConnects(localPlayer.C_Event, AnimationMain, 'AnimationMain', self)
 end
 
 function AnimationMain:StartAnimationEventHandler(_dataName,_isBackRun)
 	--判断是否已经有动画正在播放中
+	print(self)
     if self.onPlay then
         warn('不允许同时播放两段动画')
         return
@@ -19,44 +21,44 @@ function AnimationMain:StartAnimationEventHandler(_dataName,_isBackRun)
 
     self.onPlay = true
 
-    self.DataModule:Calculate(DataName)
-    local Data = self.DataModule.Data[DataName]
+    self.DataModule:Calculate(_dataName)
+    local Data = self.DataModule.Data[_dataName]
     if Data.count == nil or Data.count == 0 then
         error('配表错误,请填写动画数据的帧数')
         return
     end
-    if isBackRun == nil or isBackRun == false then
+    if _isBackRun == nil or _isBackRun == false then
         for k, v in pairs(Data) do
             if k ~= 'count' then
-                self.InsertParameter(v.Obj, v.Init)
+                self:InsertParameter(v.Obj, v.Init)
             end
         end
-        localPlayer.C_Event.AnimationStateEvent:Fire(DataName, 'Start')
+        localPlayer.C_Event.AnimationStateEvent:Fire(_dataName, 'Start')
         for i = 1, Data.count do
             wait(0.016)
             for k, v in pairs(Data) do
                 if k ~= 'count' and v.PerFrame[i] then
-                    self.InsertParameter(v.Obj, v.PerFrame[i], DataName)
+                    self:InsertParameter(v.Obj, v.PerFrame[i], _dataName)
                 end
             end
         end
-    elseif isBackRun == true then
+    elseif _isBackRun == true then
         for k, v in pairs(Data) do
             if k ~= 'count' then
-                self.InsertParameter(v.Obj, v.PerFrame[#v.PerFrame])
+                self:InsertParameter(v.Obj, v.PerFrame[#v.PerFrame])
             end
         end
-        localPlayer.C_Event.AnimationStateEvent:Fire(DataName, 'Start')
+        localPlayer.C_Event.AnimationStateEvent:Fire(_dataName, 'Start')
         for i = 1, Data.count do
             wait(0.016)
             for k, v in pairs(Data) do
                 if k ~= 'count' and v.PerFrame[Data.count - i + 1] then
-                    self.InsertParameter(v.Obj, v.PerFrame[Data.count - i + 1], DataName)
+                    self:InsertParameter(v.Obj, v.PerFrame[Data.count - i + 1], _dataName)
                 end
             end
         end
     end
-    localPlayer.C_Event.AnimationStateEvent:Fire(DataName, 'Complete')
+    localPlayer.C_Event.AnimationStateEvent:Fire(_dataName, 'Complete')
     self.onPlay = false
 end
 
