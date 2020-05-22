@@ -17,8 +17,16 @@ function NetUtil.Fire_C(_eventName, _player, ...)
         error(string.format('玩家身上不存在%s事件', _eventName))
         return
     end
-    _player.C_Event[_eventName]:Fire(...)
-    debug(string.format('客户端事件: %s , 玩家: ', _eventName, _player.Name))
+    local _msg = { ... }
+	for k, v in pairs(_msg) do
+		if type(v) == 'table' then
+			_msg[k] = 'JSON'..LuaJson:encode(v)..'JSON'
+		end
+	end
+	_player.C_Event[_eventName]:Fire(table.unpack(_msg))
+    if _eventName ~= 'PlayerGameTimeChangeEvent' then
+        debug(string.format('客户端事件: %s , 玩家: ', _eventName, _player.Name))
+    end
 end
 
 --- 向服务端发送消息
@@ -29,7 +37,13 @@ function NetUtil.Fire_S(_eventName, ...)
         error(string.format('服务端不存在%s事件', _eventName))
         return
     end
-    world.S_Event[_eventName]:Fire(...)
+    local _msg = { ... }
+	for k, v in pairs(_msg) do
+		if type(v) == 'table' then
+			_msg[k] = 'JSON'..LuaJson:encode(v)..'JSON'
+		end
+	end
+	world.S_Event[_eventName]:Fire(table.unpack(_msg))
     info(string.format('服务器事件: %s', _eventName))
 end
 
@@ -37,8 +51,14 @@ end
 -- @param @string _eventName 事件的名字(严格对应)
 -- @param ... 事件参数
 function NetUtil.Broadcast(_eventName, ...)
-    world.Players:BroadcastEvent(_eventName, ...)
-    info(string.format('[信息] 客户端广播事件: %s ,参数为：%s ', _eventName, ...))
+    local _msg = { ... }
+    for k, v in pairs(_msg) do
+		if type(v) == 'table' then
+			_msg[k] = 'JSON'..LuaJson:encode(v)..'JSON'
+		end
+	end
+    world.Players:BroadcastEvent(_eventName, table.unpack(_msg))
+    info(string.format('[信息] 客户端广播事件: %s ,参数为：%s ', _eventName, table.unpack(_msg)))
 end
 
 return NetUtil

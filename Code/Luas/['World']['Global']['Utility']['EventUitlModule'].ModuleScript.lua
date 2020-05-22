@@ -18,7 +18,14 @@ function EventUtil.LinkConnects(_eventFolder, _module, _moduleName, _this)
             if handler ~= nil then
                 ent:Connect(
                     function(...)
-                        handler(_this, ...)
+						local _s = { ... }
+						for k, v in pairs(_s) do
+							if type(v) == 'string' and string.endswith(v, 'JSON') and string.startswith(v, 'JSON') then
+								local json = string.sub(v, 5, -5)
+								_s[k] = LuaJson:decode(json)
+							end
+						end
+						handler(_this, table.unpack(_s))                    
                     end
                 )
                 debug(string.format('%s/%s 事件绑定%s成功', _eventFolder.Name, ent.Name, _moduleName))
