@@ -21,6 +21,7 @@ EventUtil = require(Utility.EventUitlModule)
 CamUtil = require(Utility.CamUtilModule)
 SoundUtil = require(Utility.SoundUtilModule)
 LuaJson = require(Utility.LuaJsonUtilModule)
+ObjPoolUtil = require(Utility.ObjPoolUtilModule)
 
 -- Defines
 GlobalDef = require(Define.GlobalDefModule)
