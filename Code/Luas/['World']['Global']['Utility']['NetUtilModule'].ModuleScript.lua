@@ -24,9 +24,7 @@ function NetUtil.Fire_C(_eventName, _player, ...)
 		end
 	end
 	_player.C_Event[_eventName]:Fire(table.unpack(_msg))
-    if _eventName ~= 'PlayerGameTimeChangeEvent' then
-        debug(string.format('客户端事件: %s , 玩家: ', _eventName, _player.Name))
-    end
+    debug(string.format('客户端事件: %s , 玩家: ', _eventName, _player.Name))
 end
 
 --- 向服务端发送消息
