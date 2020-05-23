@@ -35,6 +35,7 @@ function ObjPoolUtil:Create(_position, _rotation)
        realObj = world:CreateInstance(self.obj, self.obj, self.folder, _position,_rotation)
        if realObj == nil then
             error('Archetype下没有名为'..self.obj..'的对象')
+            return
        end
        return realObj
     else
