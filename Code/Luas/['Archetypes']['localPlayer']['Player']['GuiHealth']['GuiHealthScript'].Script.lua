@@ -1,7 +1,9 @@
--- script
-local HealthBar = script.Parent.Health
-local HealthBackground = script.Parent.BackGround
-local OriginSize = HealthBar.Size
+--- 生命血条UI脚本
+-- @script Health GUI
+-- @copyright Lilith Games, Avatar Team
+local ImgHealth = script.Parent.ImgHealth
+local ImgBg = script.Parent.ImgBackground
+local OriginSize = ImgHealth.Size
 local HealthRed = ResourceManager.GetTexture('Blood_Red')
 local HealthGreen = ResourceManager.GetTexture('Blood_Green')
 local HealthOrange = ResourceManager.GetTexture('Blood_Orange')
@@ -13,39 +15,39 @@ local function HealthChange()
     HealthChangeTime = Timer.GetTime()
     Property = player.Health / player.MaxHealth
     if Property >= 0.7 then
-        HealthBar.Texture = HealthGreen
+        ImgHealth.Texture = HealthGreen
     elseif Property >= 0.3 then
-        HealthBar.Texture = HealthOrange
+        ImgHealth.Texture = HealthOrange
     else
-        HealthBar.Texture = HealthRed
+        ImgHealth.Texture = HealthRed
     end
-    HealthBar.Size = Vector2(OriginSize.x * Property, OriginSize.y)
+    ImgHealth.Size = Vector2(OriginSize.x * Property, OriginSize.y)
 end
 
 local function StartTimer()
     while true do
         TimerNow = Timer.GetTime()
         if player.HealthDisplayMode == Enum.HealthDisplayMode.Always then
-            HealthBar:SetActive(true)
-            HealthBackground:SetActive(true)
+            ImgHealth:SetActive(true)
+            ImgBg:SetActive(true)
         elseif player.HealthDisplayMode == Enum.HealthDisplayMode.Never then
-            HealthBar:SetActive(false)
-            HealthBackground:SetActive(false)
+            ImgHealth:SetActive(false)
+            ImgBg:SetActive(false)
         elseif player.HealthDisplayMode == Enum.HealthDisplayMode.OnHit then
             if player.Health ~= player.MaxHealth then
-                HealthBar:SetActive(true)
-                HealthBackground:SetActive(true)
+                ImgHealth:SetActive(true)
+                ImgBg:SetActive(true)
             else
-                HealthBar:SetActive(false)
-                HealthBackground:SetActive(true)
+                ImgHealth:SetActive(false)
+                ImgBg:SetActive(true)
             end
         else
             if TimerNow <= HealthChangeTime + 2 and HealthChangeTime ~= 0 then
-                HealthBar:SetActive(true)
-                HealthBackground:SetActive(true)
+                ImgHealth:SetActive(true)
+                ImgBg:SetActive(true)
             else
-                HealthBar:SetActive(false)
-                HealthBackground:SetActive(false)
+                ImgHealth:SetActive(false)
+                ImgBg:SetActive(false)
             end
         end
         wait(0.01)
