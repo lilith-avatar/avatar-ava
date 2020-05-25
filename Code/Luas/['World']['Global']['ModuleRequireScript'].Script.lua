@@ -18,10 +18,6 @@ LogUtil.debugMode = true
 NetUtil = require(Utility.NetUtilModule)
 CsvUtil = require(Utility.CsvUtilModule)
 EventUtil = require(Utility.EventUitlModule)
-CamUtil = require(Utility.CamUtilModule)
-SoundUtil = require(Utility.SoundUtilModule)
-LuaJson = require(Utility.LuaJsonUtilModule)
-ObjPoolUtil = require(Utility.ObjPoolUtilModule)
 
 -- Defines
 GlobalDef = require(Define.GlobalDefModule)
@@ -36,3 +32,7 @@ ExampleA = require(Module.S_Module.ExampleAModule)
 -- Client Modules
 PlayerMgr = require(Module.C_Module.PlayerMgrModule)
 ExampleB = require(Module.C_Module.ExampleBModule)
+
+-- Plugin Modules
+AnimationMain = require(world.Global.Plugin.FUNC_UIAnimation.Code.AnimationMainModule)
+LeadingSystem = require(world.Global.Plugin.FUNC_Leading.LeadingSystemModule)
