@@ -1,38 +1,35 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
+title: ":beetle: "
+labels: bug
+assignees: lilith-avatar-zhangyuancheng
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Describe the bug 描述BUG**
+A clear and concise description of what the bug is. 简单表述BUG
 
-**To Reproduce**
-Steps to reproduce the behavior:
+**To Reproduce 复现步骤**
+Steps to reproduce the behavior 复现步骤的操作流程:
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
+**Expected behavior 目标表现**
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
+**Screenshots 截屏**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+**Engine Version 编辑器版本**
+![](https://img.shields.io/badge/-v0.0.1.20198-PaleTurquoise)
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+**Platform 平台**
+- [ ] Editor 编辑器
+- [ ] PC Launcher 电脑客户端
+- [ ] Smartphone 手机
 
-**Additional context**
+**Additional context 附加信息**
 Add any other context about the problem here.
