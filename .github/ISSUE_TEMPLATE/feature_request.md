@@ -1,20 +1,20 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
+title: ":bulb:"
+labels: enhancement
+assignees: lilith-avatar-zhangyuancheng
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+**新功能的类型**
+- [ ] New Module 新模块
+- [ ] Utility 新框架
+- [ ] Plugin 插件
+- [ ] Optimaztion 重构/优化 
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+**新功能名称**
+新模块/插件/工具的名称写在这里。
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
-
-**Additional context**
-Add any other context or screenshots about the feature request here.
+**新功能的描述**
+简要叙述实现的功能写在这里。
