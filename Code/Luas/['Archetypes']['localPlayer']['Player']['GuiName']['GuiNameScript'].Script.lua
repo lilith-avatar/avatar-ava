@@ -4,11 +4,11 @@
 local TxtNameBar = script.Parent.TxtNameBar
 local GuiName = script.Parent
 local ImgHealth = script.Parent.Parent.GuiHealth.ImgHealth
-local player = script.Parent.Parent
+local player = localPlayer.Player
 
 while true do
     TxtNameBar:SetActive(player.DisplayName)
-    TxtNameBar.Text = player.Name
+    TxtNameBar.Text = localPlayer.Name
 
     if ImgHealth == nil or ImgHealth.ActiveSelf == false then
         GuiName.Position = player.Position + Vector3(0, 1 + player.Avatar.Height, 0)

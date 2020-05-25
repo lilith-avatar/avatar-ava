@@ -1,11 +1,20 @@
+---客户端UI默认触摸移动脚本
+---@script Default Touch
+---@copyright Lilith Games, Avatar Team
 local TouchNumber = 0
 
 local function CameraMove(pos, dis, deltapos, speed)
     local Camera = world.CurrentCamera
-    if ((Camera.CameraMode == 1 and Camera.Distance > 0) or Camera.CameraMode == 5) and TouchNumber == 1 then
+    if
+        ((Camera.CameraMode == Enum.CameraMode.Social and Camera.Distance > 0) or
+            Camera.CameraMode == Enum.CameraMode.Orbital) and
+            TouchNumber == 1
+     then
         Camera:CameraMove(deltapos)
     elseif
-        ((Camera.CameraMode == 1 and Camera.Distance < 0) or Camera.CameraMode == 2 or Camera.CameraMode == 3) and
+        ((Camera.CameraMode == Enum.CameraMode.Social and Camera.Distance < 0) or
+            Camera.CameraMode == Enum.CameraMode.Fpp or
+            Camera.CameraMode == Enum.CameraMode.Tpp) and
             TouchNumber == 1
      then
         localPlayer:RotateAround(localPlayer.Position, Camera.UpVector, deltapos.x)
@@ -14,7 +23,7 @@ local function CameraMove(pos, dis, deltapos, speed)
 end
 
 local function CameraZoom(pos1, pos2, dis, speed)
-    if world.CurrentCamera.CameraMode == 1 then
+    if world.CurrentCamera.CameraMode == Enum.CameraMode.Social then
         world.CurrentCamera.Distance = world.CurrentCamera.Distance - dis / 50
     end
 end

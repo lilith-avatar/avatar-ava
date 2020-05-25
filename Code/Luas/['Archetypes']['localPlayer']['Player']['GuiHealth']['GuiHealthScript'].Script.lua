@@ -9,7 +9,7 @@ local HealthGreen = ResourceManager.GetTexture('Blood_Green')
 local HealthOrange = ResourceManager.GetTexture('Blood_Orange')
 local HealthChangeTime = 0
 local TimerNow = 0
-local player = script.Parent.Parent
+local player = localPlayer.Player
 
 local function HealthChange()
     HealthChangeTime = Timer.GetTime()
@@ -50,7 +50,7 @@ local function StartTimer()
                 ImgBg:SetActive(false)
             end
         end
-        wait(0.01)
+        wait()
     end
 end
 
