@@ -35,4 +35,4 @@ ExampleB = require(Module.C_Module.ExampleBModule)
 
 -- Plugin Modules
 AnimationMain = require(world.Global.Plugin.FUNC_UIAnimation.Code.AnimationMainModule)
-LeadingSystem = require(world.Global.Plugin.FUNC_Leading.LeadingSystemModule)
+GuideSystem = require(world.Global.Plugin.FUNC_Guide.GuideSystemModule)
