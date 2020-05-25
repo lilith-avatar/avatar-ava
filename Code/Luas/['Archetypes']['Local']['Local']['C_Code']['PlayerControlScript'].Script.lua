@@ -1,5 +1,5 @@
 --- 玩家控制
--- @script Player Control
+-- @script Player Controll
 -- @copyright Lilith Games, Avatar Team
 
 local Client = localPlayer
@@ -7,7 +7,7 @@ local Player = localPlayer.Player
 local Gui = Client.Local.GuiDefault
 local Joystick = Gui.Joystick
 
-world.CurrentCamera = Client.Local.GameCamera
+world.CurrentCamera = Client.Local.CameraCam
 local Camera = world.CurrentCamera
 local Mode = Camera.CameraMode
 Camera.LookAt = Player
