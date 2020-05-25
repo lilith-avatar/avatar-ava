@@ -3,7 +3,7 @@ local Client = localPlayer
 local GUI = Client.Local.ScreenGUI
 local Joystick = GUI.Joystick
 
-world.CurrentCamera = Client.Local.GameCamera
+world.CurrentCamera = Client.Local.CamGame
 local Camera = world.CurrentCamera
 local Mode = Camera.CameraMode
 Camera.LookAt = Player
