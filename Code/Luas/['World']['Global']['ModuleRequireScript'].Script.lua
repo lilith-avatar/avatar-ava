@@ -20,6 +20,7 @@ NetUtil = require(Utility.NetUtilModule)
 CsvUtil = require(Utility.CsvUtilModule)
 EventUtil = require(Utility.EventUitlModule)
 UUID = require(Utility.UuidModule)
+LinkedList = Utility.LinkedListModule
 
 -- Defines
 GlobalDef = require(Define.GlobalDefModule)
