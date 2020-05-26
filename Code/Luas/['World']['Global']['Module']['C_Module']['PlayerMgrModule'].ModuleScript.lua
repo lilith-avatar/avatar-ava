@@ -17,6 +17,8 @@ function PlayerMgr:Init()
     self:InitListeners()
 
     -- TODO: 其他客户端模块初始化
+    
+    AnimationMain:Init()
     ExampleB:Init()
 end
 

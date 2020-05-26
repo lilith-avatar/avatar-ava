@@ -15,7 +15,7 @@ invoke(
     function()
         for _, p in pairs(world:FindPlayers()) do
             NetUtil.Fire_C('ClientExample01Event', p, p.Name)
-            NetUtil.Fire_C('ClientExample02Event', p)
+            NetUtil.Fire_C('ClientExample02Event', p, 'TestAnimation')
         end
     end
 )

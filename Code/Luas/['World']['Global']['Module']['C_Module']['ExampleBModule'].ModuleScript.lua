@@ -1,5 +1,5 @@
 --- 样例模块(看后删掉)
--- @module Module Example A
+-- @module Module Example B
 -- @copyright Lilith Games, Avatar Team
 -- @author XXX, XXXX
 local ExampleB, this = {}, nil
@@ -24,9 +24,11 @@ end
 
 --- TEST ONLY 处理Example02CustomEvent事件
 -- 函数命名格式为 事件名 + 'Handler'
-function ExampleB:Example02CustomEventHandler(arg1)
-    debug('收到Example02CustomEvent, 参数:', arg1)
-    localPlayer.Local.FUNC_UIAnimation.StartAnimationEvent:Fire('TestAnimation')
+function ExampleB:ClientExample02EventHandler(_animName)
+    debug('收到ClientExample02Event, 参数:', _animName)
+    if type(_animName) == 'string' then
+        localPlayer.C_Event.StartAnimationEvent:Fire(_animName)
+    end
 end
 
 return ExampleB

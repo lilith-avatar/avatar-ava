@@ -1,3 +1,8 @@
+--- UI动画插件-数据相关
+-- @module UI Animation Plugin - DataModule
+-- @copyright Lilith Games, Avatar Team
+-- @author Xinwu Zhang
+-- @see https://github.com/lilith-avatar/avatar-ava/wiki/Plugins#func_uianimation
 local DataModule = {Data = {}}
 
 --初始化函数,读取动画表

@@ -1,19 +1,24 @@
+--- UI动画插件-表现相关
+-- @module UI Animation Plugin - Animation Main
+-- @copyright Lilith Games, Avatar Team
+-- @author Xinwu Zhang, Yuancheng Zhang
+-- @see https://github.com/lilith-avatar/avatar-ava/wiki/Plugins#func_uianimation
 local AnimationMain = {}
 
 function AnimationMain:Init()
-	self.onPlay = false
-	self:InitListeners()
-	self.DataModule = require(world.Global.Plugin.FUNC_UIAnimation.Code.DataModule)
-	self.DataModule:Init()
+    info('AnimationMain:Init')
+    self.onPlay = false
+    self:InitListeners()
+    self.DataModule = require(world.Global.Plugin.FUNC_UIAnimation.Code.DataModule)
+    self.DataModule:Init()
 end
 
 function AnimationMain:InitListeners()
     EventUtil.LinkConnects(localPlayer.C_Event, AnimationMain, 'AnimationMain', self)
 end
 
-function AnimationMain:StartAnimationEventHandler(_dataName,_isBackRun)
-	--判断是否已经有动画正在播放中
-	print(self)
+function AnimationMain:StartAnimationEventHandler(_dataName, _isBackRun)
+    --判断是否已经有动画正在播放中
     if self.onPlay then
         warn('不允许同时播放两段动画')
         return
