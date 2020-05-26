@@ -6,11 +6,13 @@ Avatar Ava is a intergated framework that is designed to support the development
 [![](https://img.shields.io/badge/-Ava-ff69b4)](https://github.com/lilith-avatar/avatar-ava/wiki)
 [![](https://img.shields.io/badge/-wiki-DeepSkyBlue)](https://github.com/lilith-avatar/avatar-ava/wiki)
 [![](https://img.shields.io/badge/-api%20plugin-9cf)](https://github.com/lilith-avatar/davinci-api-wrap)
+[![](https://img.shields.io/badge/Last%20release-v1.0-Tan)](https://github.com/lilith-avatar/avatar-ava/releases)
 
 ## Table of contents
 
 * [Who is Ava](#who-is-ava?)
-* [Ava Structure](#ava-structure)
+* [Brancher](#branches)
+* [Ava Wiki](#ava-wiki)
 * [Quick Start](#quick-start)
 
 
@@ -23,8 +25,11 @@ Avatar Ava is a intergated framework that is designed to support the development
 * [release](https://github.com/lilith-avatar/avatar-ava/tree/release) release new version, can't change until next version release
 * [example](https://github.com/lilith-avatar/avatar-ava/tree/example) release version with test cases and examples
 
-## Ava Structure
-[Ava Hierarchy on GitHub wiki](https://github.com/lilith-avatar/avatar-ava/wiki/Hierarchy)
+## Ava Wiki
+* [How to use](https://github.com/lilith-avatar/avatar-ava/wiki/Get-Started)
+* [Ava Hierarchy](https://github.com/lilith-avatar/avatar-ava/wiki/Hierarchy)
+* [Reference](https://github.com/lilith-avatar/avatar-ava/wiki/Reference)
+* [Plugins](https://github.com/lilith-avatar/avatar-ava/wiki/Plugins)
 
 ## Quick Start
 Several quick start options are available:
