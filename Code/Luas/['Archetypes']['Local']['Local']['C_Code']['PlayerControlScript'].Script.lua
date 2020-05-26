@@ -1,7 +1,6 @@
 --- 玩家控制
 -- @script Player Controll
 -- @copyright Lilith Games, Avatar Team
-
 -- 获取本地玩家
 local player = localPlayer.Player
 

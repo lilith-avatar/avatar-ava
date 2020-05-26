@@ -6,9 +6,9 @@
 local player = localPlayer.Player
 
 -- 姓名板
-local nameGUI = player.NameGUI
-nameGUI.NameBar1.Text = localPlayer.Name
-nameGUI.NameBar2.Text = localPlayer.Name
+local nameGUI = player.GuiName
+nameGUI.TxtNameBar1.Text = localPlayer.Name
+nameGUI.TxtNameBar2.Text = localPlayer.Name
 
 -- 姓名板的显示逻辑
 function NameBarLogic()
@@ -20,9 +20,9 @@ function NameBarLogic()
 end
 
 -- 血条
-local healthGUI = player.HealthGUI
-local background = healthGUI.Background
-local healthBar = background.HealthBar
+local healthGUI = player.GuiHealth
+local background = healthGUI.ImgBackground
+local healthBar = background.ImgHealthBar
 local RED_BAR = ResourceManager.GetTexture('Internal/Blood_Red')
 local GREEN_BAR = ResourceManager.GetTexture('Internal/Blood_Green')
 local ORANGE_BAR = ResourceManager.GetTexture('Internal/Blood_Orange')
