@@ -1,7 +1,7 @@
 --- 游戏服务器主逻辑
 -- @module Game Manager, Server-side
 -- @copyright Lilith Games, Avatar Team
--- @author XXX, XXXX
+-- @author Yuancheng Zhang
 local GameMgr, this =
     {
         isRun = false,
@@ -77,9 +77,11 @@ end
 function GameMgr:Example02CustomEventHandler()
     debug('收到Example02CustomEvent')
     debug('打印预加载的表格Example01,单一主键')
-    table.dump(CsvConfig.Example01)
-    debug('打印预加载的表格Example01,多主键')
-    table.dump(CsvConfig.Example02)
+    table.dump(CsvConfig.Test01)
+    debug('打印预加载的表格Example02,多主键')
+    table.dump(CsvConfig.Test02)
+    debug('打印预加载的表格Example02,单一主键,主键为Type')
+    table.dump(CsvConfig.Test03)
 end
 
 --- TEST ONLY 处理Example02CustomEvent事件
