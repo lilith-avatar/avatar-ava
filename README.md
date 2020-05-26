@@ -4,9 +4,8 @@ Avatar Ava is a intergated framework that is designed to support the development
 [![](https://img.shields.io/badge/-DaVinci-MediumPurple)](http://api.projectdavinci.com/)
 [![](https://img.shields.io/badge/-framework-brightgreen)](https://github.com/lilith-avatar/avatar-ava)
 [![](https://img.shields.io/badge/-Ava-ff69b4)](https://github.com/lilith-avatar/avatar-ava/wiki)
+[![](https://img.shields.io/badge/-wiki-DeepSkyBlue)](https://github.com/lilith-avatar/avatar-ava/wiki)
 [![](https://img.shields.io/badge/-api%20plugin-9cf)](https://github.com/lilith-avatar/davinci-api-wrap)
-
-[Explore Github Wiki>>](https://github.com/lilith-avatar/avatar-ava/wiki)
 
 ## Table of contents
 
@@ -25,58 +24,7 @@ Avatar Ava is a intergated framework that is designed to support the development
 * [example](https://github.com/lilith-avatar/avatar-ava/tree/example) release version with test cases and examples
 
 ## Ava Structure
-### World Hierarchy
-* Global
-  * AutoAssignTeamScript
-  * LuaFunctionScript
-  * ModuleRequireScript
-  * Utility
-    * NetUtilModule
-    * CsvUtilModule
-    * EventUtilModule
-  * Plugin
-    * FUNC_UIAnimation
-  * Define
-    * GlobalDefModule
-    * ConstDefModule
-  * Module
-    * S_Module
-      * GameMgrModule
-      * CsvConfigModule
-      * ExampleAModule
-    * C_Module
-      * PlayerMgrModule
-      * ExampleBModule
-  * Csv
-    * UIAnimation
-    * Example01
-    * Example02
-* S_Event
-  * Example01CustomEvent
-  * Example02CustomEvent
-  * Example03CustomEvent
-* S_Code
-  * ServerMain
-* BaseFloor
-* SpawnLocations
-* BGM
-* Sky
-* Players
-* Terrain
-### Player Hierarchy
-* C_Event
-  * ClientExample01Event
-  * ClientExample02Event
-  * ClientExample03Event
-* Avatar
-* NameGUI
-* HealthGUI
-* Local
-  * ScreenGUI
-  * ConstrainFree
-  * C_Code
-    * PlayerControlScript
-    * PlayerMain
+[Ava Hierarchy on GitHub wiki](https://github.com/lilith-avatar/avatar-ava/wiki/Hierarchy)
 
 ## Quick Start
 Several quick start options are available:
