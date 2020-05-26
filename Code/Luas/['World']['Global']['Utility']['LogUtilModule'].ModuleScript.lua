@@ -25,6 +25,12 @@ LogUtil.level = LogUtil.LevelEnum.DEBUG
 --- 开关
 LogUtil.debugMode = true
 
+function LogUtil.Test(...)
+    if LogUtil.debugMode and LogUtil.level <= LogUtil.LevelEnum.DEBUG then
+        print('[TEST]', ...)
+    end
+end
+
 function LogUtil.Debug(...)
     if LogUtil.debugMode and LogUtil.level <= LogUtil.LevelEnum.DEBUG then
         print('[DEBUG]', ...)

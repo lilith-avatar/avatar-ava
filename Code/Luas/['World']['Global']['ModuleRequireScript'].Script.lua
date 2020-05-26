@@ -5,6 +5,7 @@
 -- Log utility
 local LogUtil = require(Utility.LogUtilModule)
 -- 封装四个全局接口
+test = LogUtil.Test
 debug = LogUtil.Debug
 info = LogUtil.Info
 warn = LogUtil.Warn
