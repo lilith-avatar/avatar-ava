@@ -22,6 +22,12 @@ local GameCsv = {
             csv = 'Example02',
             id = 'Type',
             isPrimary = true
+        },
+        {
+            name = 'Sound', --SoundUtil模块调用
+            csv = 'Sound',
+            id = 'ID',
+            isPrimary = true
         }
     }
 }
