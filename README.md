@@ -35,5 +35,5 @@ Avatar Ava is a intergated framework that is designed to support the development
 Several quick start options are available:
 
  * [Download the latest release](https://github.com/lilith-avatar/avatar-ava/releases)
- * Clone the repo: `git clone https://github.com/lilith-avatar/avatar-ava.git`
+ * Clone this repo: `git clone https://github.com/lilith-avatar/avatar-ava.git`
 
