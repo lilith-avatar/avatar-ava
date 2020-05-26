@@ -19,10 +19,10 @@ local mode = Camera.CameraMode
 camera.LookAt = player
 
 -- 手机端交互UI
-local gui = localPlayer.Local.ControlGUI
+local gui = localPlayer.Local.GuiControl
 local joystick = gui.Joystick
-local touchScreen = gui.TouchFigure
-local jumpButton = gui.JumpButton
+local touchScreen = gui.FigTouch
+local jumpButton = gui.BtnJump
 
 -- PC端交互按键
 local FORWARD_KEY = Enum.KeyCode.W

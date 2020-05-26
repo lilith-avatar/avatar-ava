@@ -1,9 +1,9 @@
 Type,String,Int,String,Boolean,Int,Vector2,Vector2,Vector2,Float,Vector2,Float,String,String
 ,AnimationName,Count,UINode,IsInit,KeyFrame,Size,AnchorsX,AnchorsY,Angle,Offset,Alpha,Tag,Type
-1,TestAnimation,12,Local.ScreenGUI.JumpButton,TRUE,0,,,,90,"0,-100",,,
-2,TestAnimation,,Local.ScreenGUI.JumpButton,,1,,,,90,"0,-100",,Tag1,Linear
-3,TestAnimation,,Local.ScreenGUI.JumpButton,,10,,,,0.1,"0,-1",,,Linear
-4,TestAnimation,,Local.ScreenGUI.Joystick,TRUE,0,"0,1",,,,,,,
-5,TestAnimation,,Local.ScreenGUI.Joystick,,1,"0,1",,,,,,,Linear
-6,TestAnimation,,Local.ScreenGUI.Joystick,,10,"350,350",,,,,,,Linear
-7,TestAnimation,,Local.ScreenGUI.Joystick,,12,"300,300",,,,,,,Linear
+1,TestAnimation,12,Local.GuiControl.BtnJump,TRUE,0,,,,90,"0,-100",,,
+2,TestAnimation,,Local.GuiControl.BtnJump,,1,,,,90,"0,-100",,Tag1,Linear
+3,TestAnimation,,Local.GuiControl.BtnJump,,10,,,,0.1,"0,-1",,,Linear
+4,TestAnimation,,Local.GuiControl.Joystick,TRUE,0,"0,1",,,,,,,
+5,TestAnimation,,Local.GuiControl.Joystick,,1,"0,1",,,,,,,Linear
+6,TestAnimation,,Local.GuiControl.Joystick,,10,"350,350",,,,,,,Linear
+7,TestAnimation,,Local.GuiControl.Joystick,,12,"300,300",,,,,,,Linear
