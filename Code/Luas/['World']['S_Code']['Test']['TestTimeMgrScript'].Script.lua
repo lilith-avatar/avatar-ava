@@ -6,15 +6,15 @@
 TimeMgr.Init()
 
 function Test01(_param)
-    print(string.format('Test01: %s', _param))
+    test('Test01: ', _param)
 end
 
 function Test02(_param)
-    print(string.format('Test02: %s', _param))
+    test('Test02: ', _param)
 end
 
 function Test03(a, b, c)
-    print(string.format('Test03: %s, %s, %s', a, b, c))
+    test('Test03: ', a, b, c)
 end
 
 -- 第2秒打印 Test01
@@ -42,7 +42,7 @@ local timerId =
     3
 )
 
-print(string.format('timerId = %s', timerId))
+test('timerId = ', timerId)
 
 -- 10秒后取消循环打印 Test03
 wait(10)
