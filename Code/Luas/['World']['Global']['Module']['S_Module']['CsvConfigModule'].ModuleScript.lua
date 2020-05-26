@@ -14,6 +14,11 @@ local CsvConfig = {
             csv = 'Example02',
             id = 'enemy_id',
             isPrimary = false
+        },
+        {
+            csv = 'Sound',
+            id = 'ID',
+            isPrimary = true
         }
     }
 }
