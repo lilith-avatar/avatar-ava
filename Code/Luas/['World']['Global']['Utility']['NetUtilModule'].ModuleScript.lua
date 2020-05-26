@@ -1,7 +1,7 @@
 --- 网路工具/事件工具
 -- @module Network utilities
 -- @copyright Lilith Games, Avatar Team
--- @author Shang Ma, Yuancheng Zhang, Yen Yuan
+-- @author Sharif Ma, Yuancheng Zhang, Yen Yuan
 local NetUtil = {}
 
 --- 向指定的玩家发送消息

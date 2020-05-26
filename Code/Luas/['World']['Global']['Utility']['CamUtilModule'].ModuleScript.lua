@@ -1,7 +1,7 @@
 ---摄像机工具类
 ---@module Cam Utility
 ---@copyright Lilith Games, Avatar Team
----@author Shang Ma
+---@author Sharif Ma
 ---@class CamUtil
 local CamUtil = {}
 
@@ -22,16 +22,18 @@ function CamUtil.ToRoleForward(_player, _cam, _time)
         _cam:CameraMoveInDegree(Vector2(alpha, 0))
         return
     end
-    invoke(function()
-        local curTime = 0
-        while true do
-            local dt = wait()
-            local dtDe = alpha * dt / _time
-            _cam:CameraMoveInDegree(Vector2(dtDe, 0))
-            curTime = curTime + dt
-            if curTime >= _time then
-                return
+    invoke(
+        function()
+            local curTime = 0
+            while true do
+                local dt = wait()
+                local dtDe = alpha * dt / _time
+                _cam:CameraMoveInDegree(Vector2(dtDe, 0))
+                curTime = curTime + dt
+                if curTime >= _time then
+                    return
+                end
             end
         end
-    end)
+    )
 end
