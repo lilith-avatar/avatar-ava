@@ -21,7 +21,7 @@ function GameMgr:Init()
     self:InitListeners()
 
     TimeMgr:Init()
-    CsvConfig:Init()
+    GameCsv:Init()
 
     -- TODO: 其他服务器模块初始化
     ExampleA:Init()
@@ -68,26 +68,26 @@ end
 --- TEST ONLY 处理Example01CustomEvent事件
 -- 函数命名格式为 事件名 + 'Handler'
 function GameMgr:Example01CustomEventHandler()
-    debug('收到Example01CustomEvent')
+    test('收到Example01CustomEvent')
     self:StartUpdate()
 end
 
 --- TEST ONLY 处理Example02CustomEvent事件
 -- 函数命名格式为 事件名 + 'Handler'
 function GameMgr:Example02CustomEventHandler()
-    debug('收到Example02CustomEvent')
-    debug('打印预加载的表格Example01,单一主键')
-    table.dump(CsvConfig.Test01)
-    debug('打印预加载的表格Example02,多主键')
-    table.dump(CsvConfig.Test02)
-    debug('打印预加载的表格Example02,单一主键,主键为Type')
-    table.dump(CsvConfig.Test03)
+    test('收到Example02CustomEvent')
+    test('GameCsv打印预加载的表格Example01,单一主键')
+    table.dump(GameCsv.Test01)
+    test('GameCsv打印预加载的表格Example02,多主键')
+    table.dump(GameCsv.Test02)
+    test('GameCsv打印预加载的表格Example02,单一主键,主键为Type')
+    table.dump(GameCsv.Test03)
 end
 
 --- TEST ONLY 处理Example02CustomEvent事件
 -- 函数命名格式为 事件名 + 'Handler'
 function GameMgr:Example03CustomEventHandler()
-    debug('[信息] 收到Example03CustomEvent')
+    test('[信息] 收到Example03CustomEvent')
     self:StopUpdate()
 end
 

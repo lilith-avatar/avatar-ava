@@ -7,7 +7,7 @@ local SoundUtil = {}
 
 function SoundUtil:Init()
     self.SoundPlaying = {}
-    self.Table_Sound = CsvConfig.Sound
+    self.Table_Sound = GameCsv.Sound
 end
 
 ---创建一个新音效并播放
@@ -29,13 +29,13 @@ function SoundUtil:PlaySound(_ID, _SoundSourceObj)
         end
     end
     if sameSoundPlayingNum > 0 and not Info.CoverPlay then
-        info(_ID..'音效CoverPlay字段为false，不能覆盖播放')
+        info(_ID .. '音效CoverPlay字段为false，不能覆盖播放')
         return
     end
 
-    local Audio = world:CreateObject("AudioSource", "Audio_" .. Info.FileName, _SoundSourceObj)
+    local Audio = world:CreateObject('AudioSource', 'Audio_' .. Info.FileName, _SoundSourceObj)
     Audio.LocalPosition = Vector3.Zero
-    Audio.SoundClip = ResourceManager.GetSoundClip("Audio/" .. Info.FileName)
+    Audio.SoundClip = ResourceManager.GetSoundClip('Audio/' .. Info.FileName)
     print('Audio.SoundClip', Audio.SoundClip)
     Audio.Volume = Info.Volume
     Audio.MaxDistance = 10
@@ -44,18 +44,24 @@ function SoundUtil:PlaySound(_ID, _SoundSourceObj)
     Audio:Play()
     table.insert(self.SoundPlaying, _ID)
     _Duration = _Duration or 1
-    invoke(function()
-        if Audio then
-            Audio:Destroy()
-        end
-    end, _Duration)
-    invoke(function()
-        for k, v in pairs(self.SoundPlaying) do
-            if v == _ID then
-                table.remove(self.SoundPlaying, k)
+    invoke(
+        function()
+            if Audio then
+                Audio:Destroy()
             end
-        end
-    end, _Duration)
+        end,
+        _Duration
+    )
+    invoke(
+        function()
+            for k, v in pairs(self.SoundPlaying) do
+                if v == _ID then
+                    table.remove(self.SoundPlaying, k)
+                end
+            end
+        end,
+        _Duration
+    )
 end
 
 return SoundUtil

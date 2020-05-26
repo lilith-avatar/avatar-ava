@@ -29,11 +29,12 @@ ConstDef = require(Define.ConstDefModule)
 -- Server Modules
 GameMgr = require(Module.S_Module.GameMgrModule)
 TimeMgr = require(Module.S_Module.TimeMgrModule)
-CsvConfig = require(Module.S_Module.CsvConfigModule)
+GameCsv = require(Module.S_Module.GameCsvModule)
 ExampleA = require(Module.S_Module.ExampleAModule)
 
 -- Client Modules
 PlayerMgr = require(Module.C_Module.PlayerMgrModule)
+PlayerCsv = require(Module.C_Module.PlayerCsvModule)
 ExampleB = require(Module.C_Module.ExampleBModule)
 
 -- Plugin Modules

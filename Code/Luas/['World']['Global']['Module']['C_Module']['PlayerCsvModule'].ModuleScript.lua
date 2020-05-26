@@ -1,39 +1,27 @@
---- 游戏表格处理
--- @module Csv Config Load
+--- 游戏表格预处理-客户端端
+-- @module Csv Config Load - Client Side
 -- @copyright Lilith Games, Avatar Team
 -- @author Yuancheng Zhang
-local CsvConfig = {
+local PlayerCsv = {
     -- TEST ONLY 需要预先加载为Lua Table的表格名称
     preLoad = {
         {
-            name = 'Test01', -- Lua Table的名字，调用为CsvConfig.Test01
+            name = 'Test04', -- Lua Table的名字，调用为PlayerCsv.Test04
             csv = 'Example01', -- smap中CSV表格的名称(World/Global/Csv/)
-            id = 'level_id', -- 索引的id
+            id = 'Type', -- 索引的id
             isPrimary = true -- 索引id是否为主键
-        },
-        {
-            name = 'Test02',
-            csv = 'Example02',
-            id = 'enemy_id',
-            isPrimary = false
-        },
-        {
-            name = 'Test03',
-            csv = 'Example02',
-            id = 'Type',
-            isPrimary = true
         }
     }
 }
 
 --- 初始化:加载所有预加载表格
-function CsvConfig:Init()
-    info('CsvConfig:Init')
+function PlayerCsv:Init()
+    info('PlayerCsv:Init')
     self:PreloadCsv()
 end
 
-function CsvConfig:PreloadCsv()
-    info('CsvConfig:PreloadCsv')
+function PlayerCsv:PreloadCsv()
+    info('PlayerCsv:PreloadCsv')
     for _, pl in pairs(self.preLoad) do
         if not string.isnilorempty(pl.csv) and not string.isnilorempty(pl.id) then
             self[pl.name] = CsvUtil.GetCsvInfo(Csv[pl.csv], pl.id, pl.isPrimary)
@@ -41,4 +29,4 @@ function CsvConfig:PreloadCsv()
     end
 end
 
-return CsvConfig
+return PlayerCsv

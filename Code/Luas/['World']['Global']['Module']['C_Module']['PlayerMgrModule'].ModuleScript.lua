@@ -16,9 +16,10 @@ function PlayerMgr:Init()
     this = self
     self:InitListeners()
 
-    -- TODO: 其他客户端模块初始化
-    
     AnimationMain:Init()
+    PlayerCsv:Init()
+
+    -- TODO: 其他客户端模块初始化
     ExampleB:Init()
 end
 
@@ -58,7 +59,9 @@ end
 --- TEST ONLY 处理ClientExample01Event事件
 -- 函数命名格式为 事件名 + 'Handler'
 function PlayerMgr:ClientExample01EventHandler(arg1)
-    debug('收到ClientExample01Event, 参数:', arg1)
+    test('收到ClientExample01Event, 参数:', arg1)
+    test('PlayerCsv打印预加载的表格Example01,单一主键,主键为Type')
+    table.dump(PlayerCsv.Test04)
     self:StartUpdate()
 end
 
