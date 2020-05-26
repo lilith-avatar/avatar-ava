@@ -7,9 +7,8 @@ Avatar Ava is a intergated framework that is designed to support the development
 [![](https://img.shields.io/badge/-wiki-DeepSkyBlue)](https://github.com/lilith-avatar/avatar-ava/wiki)
 [![](https://img.shields.io/badge/-api%20plugin-9cf)](https://github.com/lilith-avatar/davinci-api-wrap)
 [![](https://img.shields.io/badge/release-v1.0-Tan)](https://github.com/lilith-avatar/avatar-ava/releases)
-[![](https://img.shields.io/badge/download-smap-success)](https://github.com/lilith-avatar/avatar-ava/raw/release/Smap/avatar-ava.smap)
-
-
+[![](https://img.shields.io/badge/smap-eg-LightCoral)](https://github.com/lilith-avatar/avatar-ava/raw/example/Smap/avatar-ava.smap)
+[![](https://img.shields.io/badge/smap-download-success)](https://github.com/lilith-avatar/avatar-ava/raw/release/Smap/avatar-ava.smap)
 
 ## Table of Contents
 
