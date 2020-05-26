@@ -17,13 +17,14 @@ function NetUtil.Fire_C(_eventName, _player, ...)
         error(string.format('玩家身上不存在%s事件', _eventName))
         return
     end
-    local _msg = {...}
-    for k, v in pairs(_msg) do
+    local args = {...}
+    for k, v in pairs(args) do
         if type(v) == 'table' then
-            _msg[k] = string.format('JSON%sJSON', LuaJson:encode(v))
+            args[k] = string.format('JSON%sJSON', LuaJson:encode(v))
         end
     end
-    _player.C_Event[_eventName]:Fire(table.unpack(_msg))
+    table.dump(args)
+    _player.C_Event[_eventName]:Fire(table.unpack(args))
     debug(string.format('客户端事件: %s , 玩家: ', _eventName, _player.Name))
 end
 
