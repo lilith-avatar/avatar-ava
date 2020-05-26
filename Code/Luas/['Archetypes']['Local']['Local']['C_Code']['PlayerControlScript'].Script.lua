@@ -2,96 +2,156 @@
 -- @script Player Controll
 -- @copyright Lilith Games, Avatar Team
 
-local Client = localPlayer
-local Player = localPlayer.Player
-local Gui = Client.Local.GuiDefault
-local Joystick = Gui.Joystick
+-- 获取本地玩家
+local player = localPlayer.Player
 
-world.CurrentCamera = Client.Local.CameraCam
-local Camera = world.CurrentCamera
-local Mode = Camera.CameraMode
-Camera.LookAt = Player
+--声明变量
+local isDead = false
+local forwardDir = Vector3.Forward
+local rightDir = Vector3.Right
+local finalDir = Vector3.Zero
+local horizontal = 0
+local vertical = 0
 
-local ForwardKey = Enum.KeyCode.W
-local BackKey = Enum.KeyCode.S
-local LeftKey = Enum.KeyCode.A
-local RightKey = Enum.KeyCode.D
-local JumpKey = Enum.KeyCode.Space
+-- 摄像机看向自己
+world.CurrentCamera = localPlayer.Local.CamGame
+local camera = world.CurrentCamera
+local mode = Camera.CameraMode
+camera.LookAt = player
 
-local MoveForward = 0
-local MoveBack = 0
-local MoveLeft = 0
-local MoveRight = 0
+-- 手机端交互UI
+local gui = localPlayer.Local.ControlGUI
+local joystick = gui.Joystick
+local touchScreen = gui.TouchFigure
+local jumpButton = gui.JumpButton
+
+-- PC端交互按键
+local FORWARD_KEY = Enum.KeyCode.W
+local BACK_KEY = Enum.KeyCode.S
+local LEFT_KEY = Enum.KeyCode.A
+local RIGHT_KEY = Enum.KeyCode.D
+local JUMP_KEY = Enum.KeyCode.Space
+
+-- 键盘的输入值
+local moveForwardAxis = 0
+local moveBackAxis = 0
+local moveLeftAxis = 0
+local moveRightAxis = 0
+
+-- 移动方向是否遵循摄像机方向
+function IsFreeMode()
+	return (mode == Enum.CameraMode.Social and camera.Distance >= 0) or mode == Enum.CameraMode.Orbital or
+		mode == Enum.CameraMode.Custom
+end
 
 --获取按键盘时的移动方向最终取值
-local function GetMovement()
-	MoveForward = Input.GetPressKeyData(ForwardKey) > 0 and 1 or 0
-	MoveBack = Input.GetPressKeyData(BackKey) > 0 and -1 or 0
-	MoveLeft = Input.GetPressKeyData(LeftKey) > 0 and 1 or 0
-	MoveRight = Input.GetPressKeyData(RightKey) > 0 and -1 or 0
-	if Player.State == Enum.CharacterState.Died then
-		MoveForward = 0
-		MoveBack = 0
-		MoveLeft = 0
-		MoveRight = 0
+function GetKeyValue()
+	moveForwardAxis = Input.GetPressKeyData(FORWARD_KEY) > 0 and 1 or 0
+	moveBackAxis = Input.GetPressKeyData(BACK_KEY) > 0 and -1 or 0
+	moveLeftAxis = Input.GetPressKeyData(LEFT_KEY) > 0 and 1 or 0
+	moveRightAxis = Input.GetPressKeyData(RIGHT_KEY) > 0 and -1 or 0
+	if player.State == Enum.CharacterState.Died then
+		moveForwardAxis, moveBackAxis, moveLeftAxis, moveRightAxis = 0, 0, 0, 0
 	end
 end
 
---移动逻辑
-local function Move(Dir)
-	Dir.y = 0
-	if Player.State == Enum.CharacterState.Died then
-		Dir = Vector2.Zero
-	end
-	if Dir.Magnitude > 0 then
-		if Mode == Enum.CameraMode.Social and Camera.Distance >= 0 or Mode == Enum.CameraMode.Custom then
-			Player:FaceToDir(Dir, 4 * math.pi)
-		end
-		Player:MoveTowards(Vector2(Dir.x, Dir.z).Normalized)
+-- 获取移动方向
+function GetMoveDir()
+	forwardDir = IsFreeMode() and camera.Forward or player.Forward
+	forwardDir.y = 0
+	rightDir = Vector3(0, 1, 0):Cross(forwardDir)
+	horizontal = joystick.Horizontal
+	vertical = joystick.Vertical
+	if horizontal ~= 0 or vertical ~= 0 then
+		finalDir = rightDir * horizontal + forwardDir * vertical
 	else
-		Player:MoveTowards(Vector2.Zero)
+		GetKeyValue()
+		finalDir = forwardDir * (moveForwardAxis + moveBackAxis) - rightDir * (moveLeftAxis + moveRightAxis)
 	end
 end
 
---玩家死亡时的逻辑
-local function PlayerDie()
-	Player:MoveTowards(Vector2.Zero)
-	Player:Die()
-	local RespawnTime = Player.RespawnTime
-	wait(RespawnTime)
-	Player:Reset()
+-- 移动逻辑
+function PlayerMove(dir)
+	dir.y = 0
+	if player.State == Enum.CharacterState.Died then
+		dir = Vector3.Zero
+	end
+	if dir.Magnitude > 0 then
+		if IsFreeMode then
+			player:FaceToDir(dir, 4 * math.pi)
+		end
+		player:MoveTowards(Vector2(dir.x, dir.z).Normalized)
+	else
+		player:MoveTowards(Vector2.Zero)
+	end
 end
 
---每个渲染帧处理操控逻辑
-local function MainControl()
-	if Player.Health <= 0 then
-		Player:Die()
+-- 跳跃逻辑
+function PlayerJump()
+	if (player.IsOnGround or player.State == Enum.CharacterState.Seated) and not isDead then
+		player:Jump()
 		return
 	end
-	if Input.GetPressKeyData(JumpKey) > 0 then
-		if Player.IsOnGround and Player.State ~= Enum.CharacterState.Died then
-			Player:Jump()
-			return
+end
+jumpButton.OnDown:Connect(PlayerJump)
+Input.OnKeyDown:Connect(
+	function()
+		if Input.GetPressKeyData(JUMP_KEY) == 1 then
+			PlayerJump()
 		end
 	end
-	Camera = world.CurrentCamera
-	Mode = Camera.CameraMode
-	local Forward =
-		(Mode == Enum.CameraMode.Social and Camera.Distance >= 0 or Mode == Enum.CameraMode.Custom) and Camera.Forward or
-		Player.Forward
-	Forward.y = 0
-	local Right = Vector3.Up:Cross(Forward)
-	local Horizontal = Joystick.Horizontal
-	local Vertical = Joystick.Vertical
-	local Dir = Vector3.Zero
-	if Horizontal ~= 0 or Vertical ~= 0 then
-		Dir = Right * Horizontal + Forward * Vertical
-	else
-		GetMovement()
-		Dir = Forward * (MoveForward + MoveBack) - Right * (MoveLeft + MoveRight)
-	end
-	Move(Dir)
-end
+)
 
-Player.OnDead:Connect(PlayerDie)
+-- 死亡逻辑
+function PlayerDie()
+	isDead = true
+	wait(player.RespawnTime)
+	player:Reset()
+	isDead = false
+end
+player.OnDead:Connect(PlayerDie)
+
+-- 生命值检测
+function HealthCheck(oldHealth, newHealth)
+	if newHealth <= 0 then
+		player:Die()
+	end
+end
+player.OnHealthChange:Connect(HealthCheck)
+
+-- 每个渲染帧处理操控逻辑
+function MainControl()
+	camera = world.CurrentCamera
+	mode = camera.CameraMode
+	GetMoveDir()
+	PlayerMove(finalDir)
+end
 world.OnRenderStepped:Connect(MainControl)
+
+-- 检测触屏的手指数
+local touchNumber = 0
+function countTouch(container)
+	touchNumber = #container
+end
+touchScreen.OnTouched:Connect(countTouch)
+
+-- 滑屏转向
+function cameraMove(pos, dis, deltapos, speed)
+	if touchNumber == 1 then
+		if IsFreeMode() then
+			camera:CameraMove(deltapos)
+		else
+			player:RotateAround(player.Position, Vector3.Up, deltapos.x)
+			camera:CameraMove(Vector2(0, deltapos.y))
+		end
+	end
+end
+touchScreen.OnPanStay:Connect(cameraMove)
+
+-- 双指缩放摄像机距离
+function cameraZoom(pos1, pos2, dis, speed)
+	if mode == Enum.CameraMode.Social then
+		camera.Distance = camera.Distance - dis / 50
+	end
+end
+touchScreen.OnPinchStay:Connect(cameraZoom)
