@@ -56,10 +56,10 @@ function PlayerMgr:StopUpdate()
     self.isRun = false
 end
 
---- TEST ONLY 处理ClientExample01Event事件
+--- TEST ONLY 处理Test01ClientEvent事件
 -- 函数命名格式为 事件名 + 'Handler'
-function PlayerMgr:ClientExample01EventHandler(arg1)
-    test('收到ClientExample01Event, 参数:', arg1)
+function PlayerMgr:Test01ClientEventHandler(arg1)
+    test('收到Test01ClientEvent, 参数:', arg1)
     test('PlayerCsv打印预加载的表格Example01,单一主键,主键为Type')
     table.dump(PlayerCsv.Test04)
     self:StartUpdate()

@@ -22,10 +22,10 @@ function ExampleB:Update(dt)
     --debug(string.format('[测试] 模块:%s, deltaTime = %.4f', 'ExampleB', dt))
 end
 
---- TEST ONLY 处理Example02CustomEvent事件
+--- TEST ONLY 处理Test02ServerEvent事件
 -- 函数命名格式为 事件名 + 'Handler'
-function ExampleB:ClientExample02EventHandler(_animName)
-    debug('收到ClientExample02Event, 参数:', _animName)
+function ExampleB:Test02ClientEventHandler(_animName)
+    debug('收到Test02ClientEvent, 参数:', _animName)
     if type(_animName) == 'string' then
         localPlayer.C_Event.StartAnimationEvent:Fire(_animName)
     end

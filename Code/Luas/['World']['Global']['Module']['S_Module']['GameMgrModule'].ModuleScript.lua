@@ -65,17 +65,17 @@ function GameMgr:StopUpdate()
     self.isRun = false
 end
 
---- TEST ONLY 处理Example01CustomEvent事件
+--- TEST ONLY 处理Test01ServerEvent事件
 -- 函数命名格式为 事件名 + 'Handler'
-function GameMgr:Example01CustomEventHandler()
-    test('收到Example01CustomEvent')
+function GameMgr:Test01ServerEventHandler()
+    test('收到Test01ServerEvent')
     self:StartUpdate()
 end
 
---- TEST ONLY 处理Example02CustomEvent事件
+--- TEST ONLY 处理Test02ServerEvent事件
 -- 函数命名格式为 事件名 + 'Handler'
-function GameMgr:Example02CustomEventHandler()
-    test('收到Example02CustomEvent')
+function GameMgr:Test02ServerEventHandler()
+    test('收到Test02ServerEvent')
     test('GameCsv打印预加载的表格Example01,单一主键')
     table.dump(GameCsv.Test01)
     test('GameCsv打印预加载的表格Example02,多主键')
@@ -84,10 +84,10 @@ function GameMgr:Example02CustomEventHandler()
     table.dump(GameCsv.Test03)
 end
 
---- TEST ONLY 处理Example02CustomEvent事件
+--- TEST ONLY 处理Test02ServerEvent事件
 -- 函数命名格式为 事件名 + 'Handler'
-function GameMgr:Example03CustomEventHandler()
-    test('[信息] 收到Example03CustomEvent')
+function GameMgr:Test03ServerEventHandler()
+    test('[信息] 收到Test03ServerEvent')
     self:StopUpdate()
 end
 

@@ -6,7 +6,7 @@
 wait(1)
 invoke(
     function()
-        NetUtil.Fire_S('Example01CustomEvent')
+        NetUtil.Fire_S('Test01ServerEvent')
     end
 )
 
@@ -14,8 +14,8 @@ wait(1)
 invoke(
     function()
         for _, p in pairs(world:FindPlayers()) do
-            NetUtil.Fire_C('ClientExample01Event', p, p.Name)
-            NetUtil.Fire_C('ClientExample02Event', p, 'TestAnimation')
+            NetUtil.Fire_C('Test01ClientEvent', p, p.Name)
+            NetUtil.Fire_C('Test02ClientEvent', p, 'TestAnimation')
         end
     end
 )
@@ -23,13 +23,13 @@ invoke(
 wait(1)
 invoke(
     function()
-        NetUtil.Fire_S('Example02CustomEvent')
+        NetUtil.Fire_S('Test02ServerEvent')
     end
 )
 
 wait(1)
 invoke(
     function()
-        NetUtil.Fire_S('Example03CustomEvent')
+        NetUtil.Fire_S('Test03ServerEvent')
     end
 )
