@@ -7,7 +7,7 @@ local PlayerCsv = {
     preLoad = {
         {
             name = 'Test04', -- Lua Table的名字，调用为PlayerCsv.Test04
-            csv = 'Example01', -- smap中CSV表格的名称(World/Global/Csv/)
+            csv = 'TestCsv01', -- smap中CSV表格的名称(World/Global/Csv/)
             id = 'Type', -- 索引的id
             isPrimary = true -- 索引id是否为主键
         }

@@ -14,19 +14,19 @@ local GameCsv = {
         -- TEST:以下为测试内容，用后请删掉
         {
             name = 'Test01', -- Lua Table的名字，调用为GameCsv.Test01
-            csv = 'Example01', -- smap中CSV表格的名称(World/Global/Csv/)
+            csv = 'TestCsv01', -- smap中CSV表格的名称(World/Global/Csv/)
             id = 'level_id', -- 索引的id
             isPrimary = true -- 索引id是否为主键
         },
         {
             name = 'Test02',
-            csv = 'Example02',
+            csv = 'TestCsv02',
             id = 'enemy_id',
             isPrimary = false
         },
         {
             name = 'Test03',
-            csv = 'Example02',
+            csv = 'TestCsv02',
             id = 'Type',
             isPrimary = true
         }
