@@ -6,7 +6,7 @@ local ExampleA, this = {}, nil
 
 --- 初始化
 function ExampleA:Init()
-    print('[信息] ExampleA:Init')
+    info('ExampleA:Init')
     this = self
     self:InitListeners()
 end
@@ -19,7 +19,7 @@ end
 --- Update函数
 -- @param dt delta time 每帧时间
 function ExampleA:Update(dt)
-    --print(string.format('[测试] 模块:%s, deltaTime = %.4f', 'ExampleA', dt))
+    --debug(string.format('[测试] 模块:%s, deltaTime = %.4f', 'ExampleA', dt))
 end
 
 return ExampleA

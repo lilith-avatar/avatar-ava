@@ -12,9 +12,12 @@ local PlayerMgr, this =
 
 --- 初始化
 function PlayerMgr:Init()
-    print('[信息] PlayerMgr:Init')
+    info('PlayerMgr:Init')
     this = self
     self:InitListeners()
+
+    AnimationMain:Init()
+    PlayerCsv:Init()
 
     -- TODO: 其他客户端模块初始化
     ExampleB:Init()
@@ -33,9 +36,9 @@ function PlayerMgr:Update(dt)
 end
 
 function PlayerMgr:StartUpdate()
-    print('[信息] PlayerMgr:StartUpdate')
+    info('PlayerMgr:StartUpdate')
     if self.isRun then
-        print('[警告] PlayerMgr:StartUpdate 正在运行')
+        warn('PlayerMgr:StartUpdate 正在运行')
         return
     end
 
@@ -49,14 +52,16 @@ function PlayerMgr:StartUpdate()
 end
 
 function PlayerMgr:StopUpdate()
-    print('[信息] PlayerMgr:StopUpdate')
+    info('PlayerMgr:StopUpdate')
     self.isRun = false
 end
 
---- TEST ONLY 处理ClientExample01Event事件
+--- TEST ONLY 处理Test01ClientEvent事件
 -- 函数命名格式为 事件名 + 'Handler'
-function PlayerMgr:ClientExample01EventHandler(arg1)
-    print('[信息] 收到ClientExample01Event, 参数:', arg1)
+function PlayerMgr:Test01ClientEventHandler(arg1)
+    test('收到Test01ClientEvent, 参数:', arg1)
+    test('PlayerCsv打印预加载的表格Example01,单一主键,主键为Type')
+    table.dump(PlayerCsv.Test04)
     self:StartUpdate()
 end
 

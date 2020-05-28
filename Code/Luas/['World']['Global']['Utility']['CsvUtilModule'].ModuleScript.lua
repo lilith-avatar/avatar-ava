@@ -82,34 +82,35 @@ local CsvUtil = {}
 function CsvUtil.GetCsvInfo(_csv, _id, _isPrimaryKey)
     _isPrimaryKey = _isPrimaryKey or _isPrimaryKey == nil -- default is true
     local tmp = _csv:GetRows()
+
+    if _id == 'Type' then
+        info(string.format('CSV数据载入, CSV:%s, key:%s', _csv.Name, _id))
+        return tmp
+    end
+
     local result = {}
-    if _id == 'Type' or _id == 'type' then
-        for _, v in pairs(tmp) do
-            table.insert(result, v)
+    for k, v in pairs(tmp) do
+        if v[_id] == nil then
+            error(string.format('CSV缺少参数, CSV:%s, _id:%s', _csv.Name, _id))
+            return
         end
-    else
-        for k, v in pairs(tmp) do
-            if v[_id] == nil then
-                print(string.format('CSV缺少参数：csv:%s, _id:%s', _csv.Name, _id))
-                return
+        if _isPrimaryKey then
+            -- id是唯一主键
+            if result[v[_id]] ~= nil then
+                warn(string.format('CSV数据覆盖, CSV:%s, _id:%s', _csv.Name, _id))
             end
-            if _isPrimaryKey then
-                -- id是唯一主键
-                if result[v[_id]] ~= nil then
-                    print(string.format('CSV数据覆盖：csv:%s, _id:%s', _csv.Name, _id))
-                end
-                result[v[_id]] = v
-                v.Type = tonumber(k)
-            else
-                -- id不是主键,合并同id的数据
-                if result[v[_id]] == nil then
-                    result[v[_id]] = {}
-                end
-                table.insert(result[v[_id]], v)
+            result[v[_id]] = v
+            v.Type = tonumber(k)
+        else
+            -- id不是主键,合并同id的数据
+            if result[v[_id]] == nil then
+                result[v[_id]] = {}
             end
+            table.insert(result[v[_id]], v)
         end
     end
-    print(string.format('CSV数据载入: _csv:%s', _csv.Name))
+
+    info(string.format('CSV数据载入, CSV:%s, key:%s', _csv.Name, _id))
     return result
 end
 

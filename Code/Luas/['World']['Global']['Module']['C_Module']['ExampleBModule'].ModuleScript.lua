@@ -1,12 +1,12 @@
 --- 样例模块(看后删掉)
--- @module Module Example A
+-- @module Module Example B
 -- @copyright Lilith Games, Avatar Team
 -- @author XXX, XXXX
 local ExampleB, this = {}, nil
 
 --- 初始化
 function ExampleB:Init()
-    print('[信息] ExampleB:Init')
+    debug('ExampleB:Init')
     this = self
     self:InitListeners()
 end
@@ -19,14 +19,16 @@ end
 --- Update函数
 -- @param dt delta time 每帧时间
 function ExampleB:Update(dt)
-    --print(string.format('[测试] 模块:%s, deltaTime = %.4f', 'ExampleB', dt))
+    --debug(string.format('[测试] 模块:%s, deltaTime = %.4f', 'ExampleB', dt))
 end
 
---- TEST ONLY 处理Example02CustomEvent事件
+--- TEST ONLY 处理Test02ServerEvent事件
 -- 函数命名格式为 事件名 + 'Handler'
-function ExampleB:Example02CustomEventHandler(arg1)
-    print('[信息] 收到Example02CustomEvent, 参数:', arg1)
-    localPlayer.Local.FUNC_UIAnimation.StartAnimationEvent:Fire('TestAnimation')
+function ExampleB:Test02ClientEventHandler(_animName)
+    debug('收到Test02ClientEvent, 参数:', _animName)
+    if type(_animName) == 'string' then
+        localPlayer.C_Event.StartAnimationEvent:Fire(_animName)
+    end
 end
 
 return ExampleB

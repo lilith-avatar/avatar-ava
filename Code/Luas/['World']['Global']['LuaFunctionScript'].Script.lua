@@ -440,7 +440,6 @@ function table.shallowcopy(orig)
     local orig_type = type(orig)
     local copy
     if orig_type == 'table' then
-        --        setmetatable(copy,table.deepcopy2(getmetatable(orig)))
         copy = {}
         for orig_key, orig_value in next, orig, nil do
             copy[table.shallowcopy(orig_key)] = table.shallowcopy(orig_value)
