@@ -10,11 +10,11 @@ local NetUtil = {}
 -- @param ... 事件参数
 function NetUtil.Fire_C(_eventName, _player, ...)
     if _player.Player == nil or _player.Player.ClassName ~= 'PlayerInstance' then
-        error('Fire_C 第二个参数需要是玩家对象,错误事件为 ', _eventName)
+        error(string.format('Fire_C 第二个参数需要是玩家对象,错误事件为 %s', _eventName))
         return
     end
     if _player.C_Event[_eventName] == nil then
-        error(string.format('玩家身上不存在%s事件', _eventName))
+        error(string.format('玩家身上不存在事件 %s', _eventName))
         return
     end
     local args = {...}

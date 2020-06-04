@@ -49,10 +49,4 @@ function LogUtil.Warn(...)
     end
 end
 
-function LogUtil.Error(...)
-    if LogUtil.debugMode and LogUtil.level <= LogUtil.LevelEnum.ERROR then
-        print('[ERROR]', ...)
-    end
-end
-
 return LogUtil
