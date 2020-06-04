@@ -8,27 +8,23 @@ local GameCsv = {
         {
             name = 'Sound', --SoundUtil模块调用
             csv = 'Sound',
-            id = 'ID',
-            isPrimary = true
+            ids = {'ID'}
         },
         -- TEST:以下为测试内容，用后请删掉
         {
             name = 'Test01', -- Lua Table的名字，调用为GameCsv.Test01
             csv = 'TestCsv01', -- smap中CSV表格的名称(World/Global/Csv/)
-            id = 'level_id', -- 索引的id
-            isPrimary = true -- 索引id是否为主键
+            ids = {'level_id'} -- 索引的id,可以是单一主键,或多主键(多主键先后顺序决定lua table结构)
         },
         {
             name = 'Test02',
             csv = 'TestCsv02',
-            id = 'enemy_id',
-            isPrimary = false
+            ids = {'enemy_id', 'difficulty'}
         },
         {
             name = 'Test03',
             csv = 'TestCsv02',
-            id = 'Type',
-            isPrimary = true
+            ids = {'difficulty', 'enemy_id'}
         }
     }
 }
@@ -42,8 +38,8 @@ end
 function GameCsv:PreloadCsv()
     info('GameCsv:PreloadCsv')
     for _, pl in pairs(self.preLoad) do
-        if not string.isnilorempty(pl.csv) and not string.isnilorempty(pl.id) then
-            self[pl.name] = CsvUtil.GetCsvInfo(Csv[pl.csv], pl.id, pl.isPrimary)
+        if not string.isnilorempty(pl.csv) and #pl.ids > 0 then
+            self[pl.name] = CsvUtil.GetCsvInfo(Csv[pl.csv], table.unpack(pl.ids))
         end
     end
 end

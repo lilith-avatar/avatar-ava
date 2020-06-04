@@ -9,7 +9,6 @@ test = LogUtil.Test
 debug = LogUtil.Debug
 info = LogUtil.Info
 warn = LogUtil.Warn
-error = LogUtil.Error
 
 -- 定义日志等级、开关
 LogUtil.level = LogUtil.LevelEnum.DEBUG

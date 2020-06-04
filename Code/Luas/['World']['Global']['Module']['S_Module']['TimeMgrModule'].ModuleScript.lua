@@ -112,10 +112,10 @@ end
 -- @see https://www.w3schools.com/jsref/met_win_setinterval.asp
 function TimeMgr.SetInterval(_func, _seconds)
     if _func == nil then
-        print('[错误] TimeMgr.SetInterval() _func 不能为空')
+        error('TimeMgr.SetInterval() _func 不能为空')
         return
     elseif _seconds < 1 then
-        print('[错误] TimeMgr.SetInterval() 最小时间单位是1s')
+        error('TimeMgr.SetInterval() 最小时间单位是1s')
         return
     end
     local id = #eventList + 1
