@@ -114,4 +114,45 @@ function CsvUtil.GetCsvInfo(_csv, _id, _isPrimaryKey)
     return result
 end
 
+function CsvUtil.GetCsvNew(_csv, ...)
+    local rawTable = _csv:GetRows()
+    local ids = {...}
+    if #ids < 1 or (#ids == 1 and ids[1] == 'Type') then
+        -- 直接返回
+        return rawTable
+    end
+    table.dump(ids)
+    local result = {}
+    local tmp = result
+    local key, id
+    for _, v in pairs(rawTable) do
+        tmp = result
+        for i = 1, #ids do
+            id = ids[i]
+            key = v[id]
+            if key == nil then
+                table.dump(v)
+                error(string.format('CSV表格没有找到此id, CSV:%s, id: %s', _csv.Name, id))
+            end
+            if i == #ids then
+                -- 最后的键，确定唯一性
+                if tmp[key] ~= nil then
+                    table.dump(v)
+                    error(string.format('CSV数据重复, ids不是唯一的, CSV: %s, ids: %s', _csv.Name, tostring(...)))
+                else
+                    tmp[key] = v
+                end
+            else
+                -- 多键，之后还有
+                if tmp[key] == nil then
+                    tmp[key] = {}
+                end
+                tmp = tmp[key]
+            end
+        end
+    end
+    print('==========================================')
+    return result
+end
+
 return CsvUtil
