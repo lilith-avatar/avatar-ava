@@ -9,7 +9,7 @@ local NetUtil = {}
 -- @param _player 玩家对象
 -- @param ... 事件参数
 function NetUtil.Fire_C(_eventName, _player, ...)
-    if _player.Player == nil or _player.Player.ClassName ~= 'PlayerInstance' then
+    if _player == nil or _player.ClassName ~= 'PlayerInstance' then
         error(string.format('Fire_C 第二个参数需要是玩家对象,错误事件为 %s', _eventName))
         return
     end

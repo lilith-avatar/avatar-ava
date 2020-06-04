@@ -3,7 +3,7 @@
 -- @copyright Lilith Games, Avatar Team
 
 -- 获取本地玩家
-local player = localPlayer.Player
+local player = localPlayer
 
 -- 姓名板
 local nameGUI = player.GuiName

@@ -2,7 +2,7 @@
 -- @script Player Controll
 -- @copyright Lilith Games, Avatar Team
 -- 获取本地玩家
-local player = localPlayer.Player
+local player = localPlayer
 
 --声明变量
 local isDead = false
@@ -13,7 +13,7 @@ local horizontal = 0
 local vertical = 0
 
 -- 摄像机看向自己
-world.CurrentCamera = localPlayer.Local.CamGame
+world.CurrentCamera = localPlayer.Local.ConstraintFree.Cube.CamGame
 local camera = world.CurrentCamera
 local mode = Camera.CameraMode
 camera.LookAt = player
