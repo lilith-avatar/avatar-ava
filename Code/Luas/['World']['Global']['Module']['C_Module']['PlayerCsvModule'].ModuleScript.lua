@@ -9,6 +9,11 @@ local PlayerCsv = {
             name = 'Test04', -- Lua Table的名字，调用为PlayerCsv.Test04
             csv = 'TestCsv01', -- smap中CSV表格的名称(World/Global/Csv/)
             ids = {'Type'} -- 索引的id,可以是单一主键,或多主键(多主键先后顺序决定lua table结构)
+        },
+		{
+            name = 'Message',
+            csv = 'Message',
+            ids = {'MsgId'}
         }
     }
 }

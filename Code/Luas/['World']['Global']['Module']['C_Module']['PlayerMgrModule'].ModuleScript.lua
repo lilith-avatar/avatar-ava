@@ -18,6 +18,7 @@ function PlayerMgr:Init()
 
     AnimationMain:Init()
     PlayerCsv:Init()
+	Notice:Init()
 
     -- TODO: 其他客户端模块初始化
     ExampleB:Init()

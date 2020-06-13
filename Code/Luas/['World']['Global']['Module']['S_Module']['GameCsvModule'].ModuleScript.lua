@@ -25,6 +25,11 @@ local GameCsv = {
             name = 'Test03',
             csv = 'TestCsv02',
             ids = {'difficulty', 'enemy_id'}
+        },
+		{
+            name = 'Message',
+            csv = 'Message',
+            ids = {'MsgId'}
         }
     }
 }

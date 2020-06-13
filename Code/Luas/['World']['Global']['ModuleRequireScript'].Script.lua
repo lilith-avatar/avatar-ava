@@ -35,6 +35,7 @@ ExampleA = require(Module.S_Module.ExampleAModule)
 PlayerMgr = require(Module.C_Module.PlayerMgrModule)
 PlayerCsv = require(Module.C_Module.PlayerCsvModule)
 ExampleB = require(Module.C_Module.ExampleBModule)
+Notice = require(Module.C_Module.NoticeModule)
 
 -- Plugin Modules
 AnimationMain = require(world.Global.Plugin.FUNC_UIAnimation.Code.AnimationMainModule)
