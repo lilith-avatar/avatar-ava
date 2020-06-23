@@ -37,3 +37,5 @@ function CamUtil.ToRoleForward(_player, _cam, _time)
         end
     )
 end
+
+return CamUtil
