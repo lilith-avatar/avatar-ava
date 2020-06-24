@@ -1,13 +1,13 @@
 --- 音效播放模块
 ---@module SoundUtil
 ---@copyright Lilith Games, Avatar Team
----@author Sharif Ma
+---@author Sharif Ma, Zoey Zhao
 ---@class SoundUtil
 local SoundUtil = {}
 
 function SoundUtil:Init()
     self.SoundPlaying = {}
-    self.Table_Sound = GameCsv.Sound
+    self.Table_Sound = PlayerCsv.Sound or GameCsv.Sound
 end
 
 ---创建一个新音效并播放
@@ -38,8 +38,8 @@ function SoundUtil:PlaySound(_ID, _SoundSourceObj)
     Audio.SoundClip = ResourceManager.GetSoundClip('Audio/' .. Info.FileName)
     print('Audio.SoundClip', Audio.SoundClip)
     Audio.Volume = Info.Volume
-    Audio.MaxDistance = 10
-    Audio.MinDistance = 10
+    Audio.MaxDistance = Info.MaxDistance
+    Audio.MinDistance = Info.MinDistance
     Audio.Loop = Info.IsLoop
     Audio:Play()
     table.insert(self.SoundPlaying, _ID)

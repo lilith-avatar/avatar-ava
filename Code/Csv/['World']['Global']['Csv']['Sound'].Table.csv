@@ -1,3 +1,3 @@
-Type,Int,Boolean,Int,String,String,Float,Boolean
-,ID,IsLoop,Volume,FileName,Detail,Duration,CoverPlay
-1,test_01,,,,,,
+Type,Int,Boolean,Int,String,String,Float,Boolean,Float,Float
+,ID,IsLoop,Volume,FileName,Detail,Duration,CoverPlay,MaxDistance,MinDistance
+1,test_01,,,,,,,,
