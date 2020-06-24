@@ -106,8 +106,10 @@ end
 -- table.merge(dest, src)
 -- >> dest = {a = 1, b = 2, c = 3, d = 4}
 function table.merge(dest, src)
-    for k, v in pairs(src) do
-        dest[k] = v
+    if src and dest and type(src) == 'table' and type(dest) == 'table' then
+        for k, v in pairs(src) do
+            dest[k] = v
+        end
     end
 end
 
@@ -126,18 +128,20 @@ end
 -- table.insertto(dest, src, 5)
 -- >> dest = {1, 2, 3, nil, 4, 5, 6}
 function table.insertto(dest, src, begin)
-    if begin == nil then
-        begin = #dest + 1
-    else
-        begin = checkint(begin)
-        if begin <= 0 then
+    if src and dest and type(src) == 'table' and type(dest) == 'table' and begin > 0 then
+        if begin == nil then
             begin = #dest + 1
+        else
+            begin = checkint(begin)
+            if begin <= 0 then
+                begin = #dest + 1
+            end
         end
-    end
 
-    local len = #src
-    for i = 0, len - 1 do
-        dest[i + begin] = src[i + 1]
+        local len = #src
+        for i = 0, len - 1 do
+            dest[i + begin] = src[i + 1]
+        end
     end
 end
 
