@@ -1,7 +1,9 @@
-<p style='font-size: 40px;border-bottom:none' align='center'>Avatar Ava</p>
-<p style='font-size:20px' align='center'>
-Avatar Ava is a intergated framework that is designed to support the development on Avatar engine.
+<p>
+    <h1 style='border-bottom:none'  align='center'>Avatar Ava</h1>
+    <p style='font-size:20px' align='center'>Avatar Ava is a intergated framework that is designed to support the development on Avatar engine.</p>
 </p>
+
+
 <br>
 
 [![](https://img.shields.io/badge/-DaVinci-MediumPurple)](http://api.projectdavinci.com/)
