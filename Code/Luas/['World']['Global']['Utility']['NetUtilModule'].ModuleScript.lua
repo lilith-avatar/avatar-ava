@@ -20,7 +20,7 @@ function NetUtil.Fire_C(_eventName, _player, ...)
     local args = {...}
     for k, v in pairs(args) do
         if type(v) == 'table' then
-            args[k] = string.format('JSON%sJSON', LuaJson:encode(v))
+            args[k] = string.format('JSON%sJSON', LuaJsonUtil:encode(v))
         end
     end
     table.dump(args)
@@ -39,7 +39,7 @@ function NetUtil.Fire_S(_eventName, ...)
     local _msg = {...}
     for k, v in pairs(_msg) do
         if type(v) == 'table' then
-            _msg[k] = string.format('JSON%sJSON', LuaJson:encode(v))
+            _msg[k] = string.format('JSON%sJSON', LuaJsonUtil:encode(v))
         end
     end
     world.S_Event[_eventName]:Fire(table.unpack(_msg))
@@ -53,7 +53,7 @@ function NetUtil.Broadcast(_eventName, ...)
     local _msg = {...}
     for k, v in pairs(_msg) do
         if type(v) == 'table' then
-            _msg[k] = string.format('JSON%sJSON', LuaJson:encode(v))
+            _msg[k] = string.format('JSON%sJSON', LuaJsonUtil:encode(v))
         end
     end
     world.Players:BroadcastEvent(_eventName, table.unpack(_msg))
