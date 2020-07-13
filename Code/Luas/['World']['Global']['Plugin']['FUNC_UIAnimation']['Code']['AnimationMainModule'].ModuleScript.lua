@@ -6,30 +6,30 @@
 local AnimationMain = {}
 
 function AnimationMain:Init()
-    info('AnimationMain:Init')
-    self.onPlay = false
-    self:InitListeners()
+    if localPlayer == nil then warn('禁止在服务端使用UI动效模块,Init无效') return end
+
     self.DataModule = require(world.Global.Plugin.FUNC_UIAnimation.Code.DataModule)
     self.DataModule:Init()
+
+    --事件及事件文件夹的创建
+    if localPlayer.C_Event == nil then world:CreateObject('FolderObject','C_Event',localPlayer) end
+    self.startEvent = world:CreateObject('CustomEvent','StartAnimationEvent',localPlayer.C_Event)
+    self.stateEvent = world:CreateObject('CustomEvent','AnimationStateEvent',localPlayer.C_Event)
+    self.startEvent:Connect(function(_dataName,_isBackRun)
+        self:StartAnimation(_dataName,_isBackRun)
+    end)
+
+    info('AnimationMain:Init   Success')
 end
 
-function AnimationMain:InitListeners()
-    EventUtil.LinkConnects(localPlayer.C_Event, AnimationMain, 'AnimationMain', self)
-end
-
-function AnimationMain:StartAnimationEventHandler(_dataName, _isBackRun)
-    --判断是否已经有动画正在播放中
-    if self.onPlay then
-        warn('不允许同时播放两段动画')
+function AnimationMain:StartAnimation(_dataName, _isBackRun)
+    if self.DataModule:Calculate(_dataName) == false then
+        warn('计算数据出错,检查log查看错误原因')
         return
     end
-
-    self.onPlay = true
-
-    self.DataModule:Calculate(_dataName)
     local Data = self.DataModule.Data[_dataName]
     if Data.count == nil or Data.count == 0 then
-        error('配表错误,请填写动画数据的帧数')
+        warn('配表错误,请填写动画数据的帧数')
         return
     end
     if _isBackRun == nil or _isBackRun == false then
@@ -38,7 +38,7 @@ function AnimationMain:StartAnimationEventHandler(_dataName, _isBackRun)
                 self:InsertParameter(v.Obj, v.Init)
             end
         end
-        localPlayer.C_Event.AnimationStateEvent:Fire(_dataName, 'Start')
+        self.stateEvent:Fire(_dataName, 'Start')
         for i = 1, Data.count do
             wait(0.016)
             for k, v in pairs(Data) do
@@ -63,41 +63,45 @@ function AnimationMain:StartAnimationEventHandler(_dataName, _isBackRun)
             end
         end
     end
-    localPlayer.C_Event.AnimationStateEvent:Fire(_dataName, 'Complete')
+    self.stateEvent:Fire(_dataName, 'Complete')
     self.onPlay = false
 end
 
-function AnimationMain:InsertParameter(UIObj, ParaTable, DataName)
-    if ParaTable.Size then
-        UIObj.Size = ParaTable.Size
+function AnimationMain:InsertParameter(_uiObj, _paraTable, _dataName)
+    if _uiObj == nil then
+        warn('找不到Ui动画的节点',_dataName,'检查配置表与查看log寻找原因')
+        return
     end
-    if ParaTable.AnchorsX then
-        UIObj.AnchorsX = ParaTable.AnchorsX
+    if _paraTable.Size then
+        _uiObj.Size = _paraTable.Size
     end
-    if ParaTable.AnchorsY then
-        UIObj.AnchorsY = ParaTable.AnchorsY
+    if _paraTable.AnchorsX then
+        _uiObj.AnchorsX = _paraTable.AnchorsX
     end
-    if ParaTable.Angle then
-        UIObj.Angle = ParaTable.Angle
+    if _paraTable.AnchorsY then
+        _uiObj.AnchorsY = _paraTable.AnchorsY
     end
-    if ParaTable.Offset then
-        UIObj.Offset = ParaTable.Offset
+    if _paraTable.Angle then
+        _uiObj.Angle = _paraTable.Angle
     end
-    if ParaTable.Alpha then
-        UIObj.Alpha = ParaTable.Alpha
-        for k, v in pairs(UIObj:GetChildren()) do
+    if _paraTable.Offset then
+        _uiObj.Offset = _paraTable.Offset
+    end
+    if _paraTable.Alpha then
+        _uiObj.Alpha = _paraTable.Alpha
+        for k, v in pairs(_uiObj:GetChildren()) do
             if v.Alpha then
-                v.Alpha = ParaTable.Alpha
+                v.Alpha = _paraTable.Alpha
             end
             for k2, v2 in pairs(v:GetChildren()) do
                 if v2.Alpha then
-                    v2.Alpha = ParaTable.Alpha
+                    v2.Alpha = _paraTable.Alpha
                 end
             end
         end
     end
-    if ParaTable.Tag then
-        localPlayer.C_Event.AnimationStateEvent:Fire(DataName, ParaTable.Tag)
+    if _paraTable.Tag then
+        self.stateEvent:Fire(_dataName, _paraTable.Tag)
     end
 end
 

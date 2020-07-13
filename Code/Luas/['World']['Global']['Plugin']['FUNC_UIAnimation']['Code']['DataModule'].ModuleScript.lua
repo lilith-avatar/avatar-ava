@@ -8,15 +8,21 @@ local DataModule = {Data = {}}
 --初始化函数,读取动画表
 function DataModule:Init()
     if localPlayer == nil then
+        warn('禁止在服务端使用UI动效模块,Init无效')
         return
     end
     local InfoTable = world.Global.Csv.UIAnimation
+    if InfoTable == nil then warn('未找到UI动效的配置表,请检查Global/Csv/UIAnimation是否存在') end
     local RowNum = InfoTable:GetRowNum()
     for i = 1, RowNum do
         local AnimationName = InfoTable:GetCell('AnimationName', i)
         --如果该数据的动画名为新增,则在数据表中新插入一段空的动画数据
         if self.Data[AnimationName] == nil then
             self.Data[AnimationName] = {}
+            if InfoTable:GetCell('Count', i) == 0 then
+                warn(AnimationName..'动画未配置总帧数,配表错误,请检查配置表'..i..'行')
+                goto Continue
+            end
             self.Data[AnimationName].count = InfoTable:GetCell('Count', i)
         end
 
@@ -30,13 +36,13 @@ function DataModule:Init()
                 if UiNode[v] then
                     UiNode = UiNode[v]
                 else
-                    print('AnimationName = ', AnimationName, 'The Path NotFind:', v, 'in', UiPath)
-                    return
+                    warn('第'..i..'行节点路径未找到:', v, 'in', UiPath)
+                    goto Continue
                 end
             end
         else
-            print('暂时不支持Local以外的UI节点动画')
-            return
+            warn('暂时不支持Local以外的UI节点动画,请检查配置表第'..i..'行数据')
+            goto Continue
         end
 
         --判断初始帧,并执行初始帧逻辑
@@ -69,8 +75,8 @@ function DataModule:Init()
         else
             --配置表初始帧配置校验
             if self.Data[AnimationName][PathStr] == nil then
-                print(AnimationName, '未配置初始帧,配表错误')
-                return
+                warn(AnimationName,PathStr, '未配置初始帧,配表错误')
+                goto Continue
             end
             local tFrame, tSize, tAnchorsX, tAnchorsY, tAngle, tOffset, tAlpha, tTag
             --记录关键帧数据
@@ -116,11 +122,16 @@ function DataModule:Init()
             }
             table.insert(self.Data[AnimationName][PathStr].KeyFrame, OneFrame)
         end
+        ::Continue::
     end
 end
 
-function DataModule:Calculate(DataName)
-    for k, v in pairs(self.Data[DataName]) do
+function DataModule:Calculate(_dataName)
+    if self.Data[_dataName] == nil then
+        warn('找不到动画数据'.._dataName)
+        return false
+    end
+    for k, v in pairs(self.Data[_dataName]) do
         local NowKeyFrame = 0
         local NextKeyFrame = 0
         if k ~= 'count' then
@@ -344,6 +355,7 @@ function DataModule:Calculate(DataName)
             end
         end
     end
+    return true
 end
 
 function DataModule:Interpolation(_ParaOne, _TypeOne, _ParaTwo, _TypeTwo, _Count)
