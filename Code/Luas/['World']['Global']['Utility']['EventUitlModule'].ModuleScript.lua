@@ -19,7 +19,7 @@ local function ArgsAux(...)
     for k, v in pairs(_s) do
         if IsJsonTable(v) then
             local json = string.sub(v, 5, -5)
-            _s[k] = LuaJson:decode(json)
+            _s[k] = LuaJsonUtil:decode(json)
         end
     end
     return table.unpack(_s)

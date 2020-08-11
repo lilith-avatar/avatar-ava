@@ -20,7 +20,7 @@ CsvUtil = require(Utility.CsvUtilModule)
 EventUtil = require(Utility.EventUitlModule)
 UUID = require(Utility.UuidModule)
 LinkedList = Utility.LinkedListModule
-
+LuaJsonUtil = require(Utility.LuaJsonUtilModule)
 -- Defines
 GlobalDef = require(Define.GlobalDefModule)
 ConstDef = require(Define.ConstDefModule)

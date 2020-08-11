@@ -1,5 +1,10 @@
-# Avatar Ava
-Avatar Ava is a intergated framework that is designed to support the development on Avatar engine.
+<p>
+    <h1 style='border-bottom:none'  align='center'>Avatar Ava</h1>
+    <p style='font-size:20px' align='center'>Avatar Ava is a intergated framework that is designed to support the development on Avatar engine.</p>
+</p>
+
+
+<br>
 
 [![](https://img.shields.io/badge/-DaVinci-MediumPurple)](http://api.projectdavinci.com/)
 [![](https://img.shields.io/badge/project-Ava-ff69b4)](https://github.com/lilith-avatar/avatar-ava/projects/1)
@@ -8,6 +13,8 @@ Avatar Ava is a intergated framework that is designed to support the development
 [![](https://img.shields.io/badge/release-v1.1.1-Tan)](https://github.com/lilith-avatar/avatar-ava/releases)
 [![](https://img.shields.io/badge/smap-eg-LightCoral)](https://github.com/lilith-avatar/avatar-ava/raw/example/Smap/avatar-ava.smap)
 [![](https://img.shields.io/badge/smap-download-success)](https://github.com/lilith-avatar/avatar-ava/raw/release/Smap/avatar-ava.smap)
+<br>
+<br>
 
 ## Table of Contents
 
@@ -15,6 +22,7 @@ Avatar Ava is a intergated framework that is designed to support the development
 * [Brancher](#branches)
 * [Ava Wiki](#ava-wiki)
 * [Quick Start](#quick-start)
+
 
 
 ## Who is Ava? 
