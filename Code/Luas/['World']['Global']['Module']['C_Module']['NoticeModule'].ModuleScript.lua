@@ -3,7 +3,7 @@ local Notice = {}
 
 ---初始化
 function Notice:Init()
-    self.root = localPlayer.Local.NoticeGUI
+    self.root = localPlayer.Local.NoticeGui
     self.isShow = false
     self.message = {}
     self:InitListeners()
@@ -24,7 +24,7 @@ function Notice:Show()
         self.root.Visible = true
         self.isShow = true
         for k, v in pairs(self.message) do
-            self.root.Image.Content.Text = v
+            self.root.BackgroundImg.NoticeTxt.Text = v
             table.remove(self.message, k)
             wait(2)
         end

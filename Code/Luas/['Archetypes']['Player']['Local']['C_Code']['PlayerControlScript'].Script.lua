@@ -13,16 +13,16 @@ local horizontal = 0
 local vertical = 0
 
 -- 摄像机看向自己
-world.CurrentCamera = localPlayer.Local.ConstraintFree.Cube.CamGame
+world.CurrentCamera = localPlayer.Local.Independent.GameCam
 local camera = world.CurrentCamera
 local mode = Camera.CameraMode
 camera.LookAt = player
 
 -- 手机端交互UI
-local gui = localPlayer.Local.GuiControl
+local gui = localPlayer.Local.ControlGui
 local joystick = gui.Joystick
-local touchScreen = gui.FigTouch
-local jumpButton = gui.BtnJump
+local touchScreen = gui.TouchFig
+local jumpButton = gui.JumpBtn
 
 -- PC端交互按键
 local FORWARD_KEY = Enum.KeyCode.W

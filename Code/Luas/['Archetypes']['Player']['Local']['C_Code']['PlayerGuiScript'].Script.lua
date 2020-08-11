@@ -1,3 +1,11 @@
+--[[
+Author: your name
+Date: 2020-06-04 23:23:59
+LastEditTime: 2020-08-11 17:52:25
+LastEditors: Please set LastEditors
+Description: In User Settings Edit
+FilePath: \Luas\['Archetypes']['Player']['Local']['C_Code']['PlayerGuiScript'].Script.lua
+--]]
 --- 玩家默认UI
 -- @script Player Default GUI
 -- @copyright Lilith Games, Avatar Team
@@ -6,9 +14,9 @@
 local player = localPlayer
 
 -- 姓名板
-local nameGUI = player.GuiName
-nameGUI.TxtNameBar1.Text = localPlayer.Name
-nameGUI.TxtNameBar2.Text = localPlayer.Name
+local nameGUI = player.NameGui
+nameGUI.NameBarTxt1.Text = localPlayer.Name
+nameGUI.NameBarTxt2.Text = localPlayer.Name
 
 -- 姓名板的显示逻辑
 function NameBarLogic()
@@ -20,9 +28,9 @@ function NameBarLogic()
 end
 
 -- 血条
-local healthGUI = player.GuiHealth
-local background = healthGUI.ImgBackground
-local healthBar = background.ImgHealthBar
+local healthGUI = player.HealthGui
+local background = healthGUI.BackgroundImg
+local healthBar = background.HealthBarImg
 local RED_BAR = ResourceManager.GetTexture('Internal/Blood_Red')
 local GREEN_BAR = ResourceManager.GetTexture('Internal/Blood_Green')
 local ORANGE_BAR = ResourceManager.GetTexture('Internal/Blood_Orange')
