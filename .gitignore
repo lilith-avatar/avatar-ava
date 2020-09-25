@@ -7,3 +7,4 @@ Code/LUA/*.csv
 *.smap.storage
 *.iso
 ~$*
+*.idea/
