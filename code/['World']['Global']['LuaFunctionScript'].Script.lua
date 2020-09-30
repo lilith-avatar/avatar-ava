@@ -128,7 +128,7 @@ end
 -- table.insertto(dest, src, 5)
 -- >> dest = {1, 2, 3, nil, 4, 5, 6}
 function table.insertto(dest, src, begin)
-    if src and dest and type(src) == 'table' and type(dest) == 'table' and begin > 0 then
+    if src and dest and type(src) == 'table' and type(dest) == 'table' then
         if begin == nil then
             begin = #dest + 1
         else
