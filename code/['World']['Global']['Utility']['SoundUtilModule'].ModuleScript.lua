@@ -1,13 +1,14 @@
 --- 音效播放模块
 ---@module SoundUtil
 ---@copyright Lilith Games, Avatar Team
----@author Sharif Ma, Zoey Zhao
+---@author Sharif Ma
 ---@class SoundUtil
 local SoundUtil = {}
 
 function SoundUtil:Init()
+    print('[SoundUtil] Init()')
     self.SoundPlaying = {}
-    self.Table_Sound = PlayerCsv.Sound or GameCsv.Sound
+    self.Table_Sound = Config.Sound
 end
 
 ---创建一个新音效并播放
@@ -17,10 +18,7 @@ function SoundUtil:PlaySound(_ID, _SoundSourceObj)
     local Info, _Duration
     _SoundSourceObj = _SoundSourceObj or world.CurrentCamera
     Info = self.Table_Sound[_ID]
-    if not Info then
-        error('表中不存在该ID的音效')
-        return
-    end
+    assert(Info, '[SoundUtil] 表中不存在该ID的音效')
     _Duration = Info.Duration
     local sameSoundPlayingNum = 0
     for k, v in pairs(self.SoundPlaying) do
@@ -29,17 +27,17 @@ function SoundUtil:PlaySound(_ID, _SoundSourceObj)
         end
     end
     if sameSoundPlayingNum > 0 and not Info.CoverPlay then
-        info(_ID .. '音效CoverPlay字段为false，不能覆盖播放')
+        print(string.format('[SoundUtil] %s音效CoverPlay字段为false，不能覆盖播放', _ID))
         return
     end
 
     local Audio = world:CreateObject('AudioSource', 'Audio_' .. Info.FileName, _SoundSourceObj)
     Audio.LocalPosition = Vector3.Zero
     Audio.SoundClip = ResourceManager.GetSoundClip('Audio/' .. Info.FileName)
-    print('Audio.SoundClip', Audio.SoundClip)
+    print('[SoundUtil] Audio.SoundClip', Audio.SoundClip)
     Audio.Volume = Info.Volume
-    Audio.MaxDistance = Info.MaxDistance
-    Audio.MinDistance = Info.MinDistance
+    Audio.MaxDistance = 10
+    Audio.MinDistance = 10
     Audio.Loop = Info.IsLoop
     Audio:Play()
     table.insert(self.SoundPlaying, _ID)

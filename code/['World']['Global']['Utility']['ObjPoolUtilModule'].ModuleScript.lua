@@ -12,7 +12,7 @@ local ObjPoolUtil = class('ObjPoolUtil')
 ---@return ObjPoolUtil
 function ObjPoolUtil.static.Newpool(_folderName, _objName, _maxCount)
     if _folderName == nil or _objName == nil then
-        error('管理目录或管理对象为空')
+        error('[ObjPoolUtil] 管理目录或管理对象为空')
     end
     if _maxCount == nil then
         _maxCount = 100
@@ -22,19 +22,19 @@ function ObjPoolUtil.static.Newpool(_folderName, _objName, _maxCount)
     realPool.static.folder = _folderName
     realPool.static.maxCount = _maxCount
     realPool.pool = {}
-    debug(string.format('创建了一个%s的对象池，目录为%s', _objName, _folderName))
+    print(string.format('[ObjPoolUtil] 创建了一个%s的对象池，目录为%s', _objName, _folderName))
     return realPool
 end
 
 ---从池中创建对象到世界下
 ---@param _position Vector3
 ---@param _rotation EulerDegree
-function ObjPoolUtil:Create(_position, _rotation)
+function ObjPoolUtil:Spawn(_position, _rotation)
     local realObj = nil
     if #self.pool == 0 then
         realObj = world:CreateInstance(self.obj, self.obj, self.folder, _position, _rotation)
         if realObj == nil then
-            error(string.format('Archetype下没有名为%s的对象', self.obj))
+            error(string.format('[ObjPoolUtil] Archetype下没有名为%s的对象', self.obj))
             return
         end
         return realObj
@@ -50,11 +50,11 @@ end
 
 ---从世界中销毁对象到池中
 ---@param _obj Object
-function ObjPoolUtil:Destroy(_obj)
+function ObjPoolUtil:Despawn(_obj)
     if _obj == nil then
-        error('传入对象为空')
+        error('[ObjPoolUtil] 传入对象为空')
     elseif #self.pool > self.maxCount then
-        warn(string.format('%s对象池已满，该对象会永久销毁', self.obj))
+        error(string.format('[ObjPoolUtil] %s对象池已满，该对象会永久销毁', self.obj))
         _obj:Destroy()
     else
         table.insert(self.pool, _obj)
