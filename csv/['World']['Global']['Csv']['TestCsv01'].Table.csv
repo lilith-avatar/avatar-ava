@@ -1,6 +1,0 @@
-Type,String,String,Int
-,level_id,level_name,reward
-1,easy_01,Level 01,100
-2,easy_02,Level 02,140
-3,hard_01,Level 03,280
-4,hard_02,Level 04,320
