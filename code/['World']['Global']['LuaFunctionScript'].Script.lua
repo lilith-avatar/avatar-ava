@@ -59,7 +59,7 @@ function table.nums(t)
         return 0
     end
     local count = 0
-    for k, v in pairs(t) do
+    for _ in pairs(t) do
         count = count + 1
     end
     return count
@@ -106,11 +106,50 @@ end
 -- table.merge(dest, src)
 -- >> dest = {a = 1, b = 2, c = 3, d = 4}
 function table.merge(dest, src)
-    if src and dest and type(src) == 'table' and type(dest) == 'table' then
-        for k, v in pairs(src) do
+    for k, v in pairs(src) do
+        dest[k] = v
+    end
+end
+
+--- 深度将来源表格中所有键及其值复制到目标表格对象中，如果存在同名键，则覆盖其值,如果存在子表,则遍历子表进行复制
+function table.deepMerge(dest, src)
+    for k, v in pairs(src) do
+        if type(v) == 'table' then
+            if dest[k] == nil then
+                dest[k] = {}
+            end
+            table.deepMerge(dest[k], v)
+        else
             dest[k] = v
         end
     end
+end
+
+--- 将来源表格中所有键及其值复制到目标表格对象中，如果存在同名键，则覆盖其值
+-- @param ... 多个表，第一个是目标表格
+-- @return 返回一个新表
+---@author Sharif Ma
+function table.MergeTables(...)
+    local tabs = {...}
+    if not tabs or #tabs == 0 then
+        return {}
+    end
+    local origin = {}
+    for k, v in pairs(tabs[1]) do
+        origin[k] = v
+    end
+    for i = 2, #tabs do
+        if origin then
+            if tabs[i] then
+                for _, v in pairs(tabs[i]) do
+                    table.insert(origin, v)
+                end
+            end
+        else
+            origin = tabs[i]
+        end
+    end
+    return origin
 end
 
 --- 在目标表格的指定位置插入来源表格，如果没有指定位置则连接两个表格
@@ -128,20 +167,18 @@ end
 -- table.insertto(dest, src, 5)
 -- >> dest = {1, 2, 3, nil, 4, 5, 6}
 function table.insertto(dest, src, begin)
-    if src and dest and type(src) == 'table' and type(dest) == 'table' then
-        if begin == nil then
+    if begin == nil then
+        begin = #dest + 1
+    else
+        begin = checkint(begin)
+        if begin <= 0 then
             begin = #dest + 1
-        else
-            begin = checkint(begin)
-            if begin <= 0 then
-                begin = #dest + 1
-            end
         end
+    end
 
-        local len = #src
-        for i = 0, len - 1 do
-            dest[i + begin] = src[i + 1]
-        end
+    local len = #src
+    for i = 0, len - 1 do
+        dest[i + begin] = src[i + 1]
     end
 end
 
@@ -278,6 +315,16 @@ function table.removebyvalue(array, value, removeall)
         i = i + 1
     end
     return c
+end
+
+--- 数组混淆
+function table.shuffle(_tbl)
+    local j
+    for i = #_tbl, 2, -1 do
+        j = math.random(i)
+        _tbl[i], _tbl[j] = _tbl[j], _tbl[i]
+    end
+    return _tbl
 end
 
 --- 对表格中每一个值执行一次指定的函数，并用函数返回值更新表格内容
@@ -528,7 +575,8 @@ function table.dump(data, showMetatable)
     end
     _dump(data, showMetatable, 0)
 
-    print('dump from: \n' .. table.concat(result))
+    -- print('dump: \n' .. table.concat(result))
+    return 'dump: \n' .. table.concat(result)
 end
 
 --- 用指定字符或字符串分割输入字符串，返回包含分割结果的数组
@@ -677,10 +725,38 @@ function math.round(value)
 end
 
 --- [0, 1]区间限定函数
--- @param a number or
+-- @param a number
 -- @return a clamped number
 function math.clamp01(value)
     return math.min(1, math.max(0, value))
+end
+
+---最小数值和最大数值指定返回值的范围
+-- @param a number
+-- @param min threshold
+-- @param max threshold
+-- @return a clamped number
+function math.Clamp(value, min, max)
+    if value < min then
+        return min
+    end
+    if value > max then
+        return max
+    end
+    return value
+end
+
+--- 高斯岁间变量
+function math.GaussRandom()
+    local u = math.random()
+    local v = math.random()
+    local z = math.sqrt(-2 * math.log(u)) * math.cos(2 * math.pi * v)
+    z = (z + 3) / 6
+    z = 2 * z - 1
+    if (math.abs(z) > 1) then
+        return math.GaussRandom()
+    end
+    return z
 end
 
 --- 数据结构 队列
