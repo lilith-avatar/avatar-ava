@@ -8,21 +8,26 @@ local DataModule = {Data = {}}
 --初始化函数,读取动画表
 function DataModule:Init()
     if localPlayer == nil then
-        warn('禁止在服务端使用UI动效模块,Init无效')
         return
     end
-    local InfoTable = world.Global.Csv.UIAnimation
-    if InfoTable == nil then warn('未找到UI动效的配置表,请检查Global/Csv/UIAnimation是否存在') end
+    local csv = world.Global.Csv.UIAnimation
+    local xls = world.Global.Xls.UIAnimationXlsModule
+    if csv then
+        self:InitByCsv(csv)
+    elseif xls and UIAnimationXls then
+        self:InitByXls(UIAnimationXls)
+    else
+        print('[UIAnimation] 没有对应的动画配置表，请检查Global.Csv.UIAnimaiton或Global.Xls.UIAnimationXlsModule')
+    end
+end
+
+function DataModule:InitByCsv(InfoTable)
     local RowNum = InfoTable:GetRowNum()
     for i = 1, RowNum do
         local AnimationName = InfoTable:GetCell('AnimationName', i)
         --如果该数据的动画名为新增,则在数据表中新插入一段空的动画数据
         if self.Data[AnimationName] == nil then
             self.Data[AnimationName] = {}
-            if InfoTable:GetCell('Count', i) == 0 then
-                warn(AnimationName..'动画未配置总帧数,配表错误,请检查配置表'..i..'行')
-                goto Continue
-            end
             self.Data[AnimationName].count = InfoTable:GetCell('Count', i)
         end
 
@@ -36,13 +41,13 @@ function DataModule:Init()
                 if UiNode[v] then
                     UiNode = UiNode[v]
                 else
-                    warn('第'..i..'行节点路径未找到:', v, 'in', UiPath)
-                    goto Continue
+                    print('AnimationName = ', AnimationName, 'The Path NotFind:', v, 'in', UiPath)
+                    return
                 end
             end
         else
-            warn('暂时不支持Local以外的UI节点动画,请检查配置表第'..i..'行数据')
-            goto Continue
+            print('暂时不支持Local以外的UI节点动画')
+            return
         end
 
         --判断初始帧,并执行初始帧逻辑
@@ -75,8 +80,8 @@ function DataModule:Init()
         else
             --配置表初始帧配置校验
             if self.Data[AnimationName][PathStr] == nil then
-                warn(AnimationName,PathStr, '未配置初始帧,配表错误')
-                goto Continue
+                print(AnimationName, '未配置初始帧,配表错误')
+                return
             end
             local tFrame, tSize, tAnchorsX, tAnchorsY, tAngle, tOffset, tAlpha, tTag
             --记录关键帧数据
@@ -122,16 +127,120 @@ function DataModule:Init()
             }
             table.insert(self.Data[AnimationName][PathStr].KeyFrame, OneFrame)
         end
-        ::Continue::
     end
 end
 
-function DataModule:Calculate(_dataName)
-    if self.Data[_dataName] == nil then
-        warn('找不到动画数据'.._dataName)
-        return false
+function DataModule:InitByXls(InfoTable)
+    local RowNum = table.nums(InfoTable)
+    for i = 1, RowNum do
+        local AnimationName = InfoTable[i].AnimationName
+        --如果该数据的动画名为新增,则在数据表中新插入一段空的动画数据
+        if self.Data[AnimationName] == nil then
+            self.Data[AnimationName] = {}
+            self.Data[AnimationName].count = InfoTable[i].Count
+        end
+
+        --解析UI节点路径,获取UI节点
+        local PathStr = InfoTable[i].UINode
+        local UiPath = string.split(InfoTable[i].UINode, '.')
+        local UiNode
+        if UiPath[1] == 'Local' then
+            UiNode = localPlayer
+            for k, v in pairs(UiPath) do
+                if UiNode[v] then
+                    UiNode = UiNode[v]
+                else
+                    print('[UIAnimation] AnimationName = ', AnimationName, 'The Path NotFind:', v, 'in', UiPath)
+                    return
+                end
+            end
+        else
+            print('[UIAnimation] 暂时不支持Local以外的UI节点动画')
+            return
+        end
+
+        --判断初始帧,并执行初始帧逻辑
+        if InfoTable[i].IsInit == true then
+            --记录初始帧
+            self.Data[AnimationName][PathStr] = {}
+            local NowData = self.Data[AnimationName][PathStr]
+            NowData.Obj = UiNode
+            NowData.KeyFrame = {}
+            NowData.Init = {}
+            NowData.PerFrame = {}
+            if InfoTable[i].Size ~= Vector2(0, 0) then
+                NowData.Init.Size = InfoTable[i].Size
+            end
+            if InfoTable[i].AnchorsX ~= Vector2(0, 0) then
+                NowData.Init.AnchorsX = InfoTable[i].AnchorsX
+            end
+            if InfoTable[i].AnchorsY ~= Vector2(0, 0) then
+                NowData.Init.AnchorsY = InfoTable[i].AnchorsY
+            end
+            if InfoTable[i].Angle ~= 0 then
+                NowData.Init.Angle = InfoTable[i].Angle
+            end
+            if InfoTable[i].Offset ~= Vector2(0, 0) then
+                NowData.Init.Offset = InfoTable[i].Offset
+            end
+            if InfoTable[i].Alpha ~= 0 then
+                NowData.Init.Alpha = InfoTable[i].Alpha
+            end
+        else
+            --配置表初始帧配置校验
+            if self.Data[AnimationName][PathStr] == nil then
+                print('[UIAnimation] ', AnimationName, '未配置初始帧,配表错误')
+                return
+            end
+            local tFrame, tSize, tAnchorsX, tAnchorsY, tAngle, tOffset, tAlpha, tTag
+            --记录关键帧数据
+            tType = InfoTable[i].Type
+            if tType == '' then
+                tType = 'Linear'
+            end
+            if InfoTable[i].KeyFrame ~= Vector2(0, 0) then
+                tFrame = InfoTable[i].KeyFrame
+            end
+            if InfoTable[i].Size ~= Vector2(0, 0) then
+                tSize = InfoTable[i].Size
+            end
+            if InfoTable[i].AnchorsX ~= Vector2(0, 0) then
+                tAnchorsX = InfoTable[i].AnchorsX
+            end
+            if InfoTable[i].AnchorsY ~= Vector2(0, 0) then
+                tAnchorsY = InfoTable[i].AnchorsY
+            end
+            if InfoTable[i].Angle ~= 0 then
+                tAngle = InfoTable[i].Angle
+            end
+            if InfoTable[i].Offset ~= Vector2(0, 0) then
+                tOffset = InfoTable[i].Offset
+            end
+            if InfoTable[i].Alpha ~= 0 then
+                tAlpha = InfoTable[i].Alpha
+            end
+            if InfoTable[i].Tag ~= '' then
+                tTag = InfoTable[i].Tag
+            end
+
+            OneFrame = {
+                Frame = tFrame,
+                Size = tSize,
+                AnchorsX = tAnchorsX,
+                AnchorsY = tAnchorsY,
+                Angle = tAngle,
+                Offset = tOffset,
+                Alpha = tAlpha,
+                Tag = tTag,
+                Type = tType
+            }
+            table.insert(self.Data[AnimationName][PathStr].KeyFrame, OneFrame)
+        end
     end
-    for k, v in pairs(self.Data[_dataName]) do
+end
+
+function DataModule:Calculate(DataName)
+    for k, v in pairs(self.Data[DataName]) do
         local NowKeyFrame = 0
         local NextKeyFrame = 0
         if k ~= 'count' then
@@ -355,7 +464,6 @@ function DataModule:Calculate(_dataName)
             end
         end
     end
-    return true
 end
 
 function DataModule:Interpolation(_ParaOne, _TypeOne, _ParaTwo, _TypeTwo, _Count)

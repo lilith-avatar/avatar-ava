@@ -4,7 +4,7 @@
 -- @author Bingyun Chen, Yuancheng Zhang
 -- @see the functions defined by JavaScript syntax
 
-local TimeMgr = {}
+local TimeUtil = {}
 
 -- All registered events
 local eventList = {}
@@ -15,15 +15,13 @@ local activeEvents = {}
 local running = false
 
 -- Set update delta time
-local DELTA_TIME = 1
-
--- Temporary varables
-local now, event, i
+local DELTA_TIME = .05
 
 --- Find all registered events to trigger
 local function CheckEvents()
-    now = os.time()
-    i = 1
+    -- now = os.time()
+    local now = Timer.GetTimeMillisecond()
+    local i, event = 1
     while i <= #eventList do
         event = eventList[i]
         if event.triggerTime <= now then
@@ -42,7 +40,7 @@ end
 
 --- Trigger events
 local function TriggerEvents()
-    i = 1
+    local i = 1
     while i <= #activeEvents do
         event = activeEvents[i]
         invoke(event.func)
@@ -61,18 +59,18 @@ local function Update()
 end
 
 --- Initialization
-function TimeMgr.Init()
-    TimeMgr.Start()
+function TimeUtil.Init()
+    TimeUtil.Start()
 end
 
 --- Run Update()
-function TimeMgr.Start()
+function TimeUtil.Start()
     running = true
     invoke(Update)
 end
 
 --- Stop Update()
-function TimeMgr.Stop()
+function TimeUtil.Stop()
     running = false
 end
 
@@ -82,22 +80,28 @@ end
 -- @param _delayTime
 -- @return timer id
 -- @see https://www.w3schools.com/jsref/met_win_settimeout.asp
-function TimeMgr.SetTimeout(_func, _seconds)
+function TimeUtil.SetTimeout(_func, _seconds)
     if _func == nil then
-        error('TimeMgr.SetTimeout() _func 不能为空')
+        error('TimeUtil.SetTimeout() _func 不能为空')
         return
-    elseif _seconds < 1 then
-        error('TimeMgr.SetTimeout() _seconds 最小时间单位是1s')
+    elseif _seconds < 0 then
+        error('TimeUtil.SetTimeout() 延迟时间需大于等于0')
+        return
+    elseif _seconds == 0 then
+        print('TimeUtil.SetTimeout() 事件立即执行')
+        invoke(_func)
         return
     end
     local id = #eventList + 1
-    local timestamp = _seconds + os.time()
+    -- convert to milliseconds
+    local ms = math.floor(_seconds * 1000)
+    local timestamp = ms + Timer.GetTimeMillisecond()
     table.insert(
         eventList,
         {
             id = id,
             func = _func,
-            delay = _seconds,
+            delay = ms,
             triggerTime = timestamp
         }
     )
@@ -110,22 +114,24 @@ end
 -- @param _delayTime
 -- @return timer id
 -- @see https://www.w3schools.com/jsref/met_win_setinterval.asp
-function TimeMgr.SetInterval(_func, _seconds)
+function TimeUtil.SetInterval(_func, _seconds)
     if _func == nil then
-        error('TimeMgr.SetInterval() _func 不能为空')
+        error('TimeUtil.SetInterval() _func 不能为空')
         return
-    elseif _seconds < 1 then
-        error('TimeMgr.SetInterval() 最小时间单位是1s')
+    elseif _seconds <= 0 then
+        error('TimeUtil.SetInterval() 延迟时间需大于0')
         return
     end
     local id = #eventList + 1
-    local timestamp = _seconds + os.time()
+    -- convert to milliseconds
+    local ms = math.floor(_seconds * 1000)
+    local timestamp = ms + Timer.GetTimeMillisecond()
     table.insert(
         eventList,
         {
             id = id,
             func = _func,
-            delay = _seconds,
+            delay = ms,
             triggerTime = timestamp,
             loop = true
         }
@@ -136,7 +142,7 @@ end
 --- Clear a timer set with the SetTimeout() method
 -- @param _id timmer id
 -- @see https://www.w3schools.com/jsref/met_win_cleartimeout.asp
-function TimeMgr.ClearTimeout(_id)
+function TimeUtil.ClearTimeout(_id)
     for k, e in pairs(eventList) do
         if e.id == _id then
             table.remove(eventList, k)
@@ -147,6 +153,6 @@ end
 
 --- Clear a timer set with the SetInterval() method, used as ClearTimeout()
 -- @see https://www.w3schools.com/jsref/met_win_clearinterval.asp
-TimeMgr.ClearInterval = TimeMgr.ClearTimeout
+TimeUtil.ClearInterval = TimeUtil.ClearTimeout
 
-return TimeMgr
+return TimeUtil
