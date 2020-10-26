@@ -23,10 +23,9 @@ end
 --- 初始化
 function Server:InitServer()
     print('[Server] InitServer()')
+    self:InitRandomSeed()
     self:InitServerCustomEvents()
     self:InitCsvAndXls()
-    self:PreloadCsv()
-    self:PreloadXls()
     self:GenInitAndUpdateList()
     self:RunInitDefault()
     self:InitOtherModules()
@@ -53,18 +52,6 @@ function Server:InitCsvAndXls()
     end
 end
 
---- 预加载所有的CSV表格
-function Server:PreloadCsv()
-    print('[Client] PreloadCsv()')
-    CsvUtil.PreloadCsv(Config.ServerPreload, Csv, Config)
-end
-
---- 预加载所有的Excel Lua Table
-function Server:PreloadXls()
-    print('[Server] PreloadXls()')
-    XlsUtil.PreloadXls(Config.ServerPreload, Xls, Config)
-end
-
 --- 生成需要Init和Update的模块列表
 function Server:GenInitAndUpdateList()
     ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'InitDefault', initDefaultList)
@@ -77,6 +64,11 @@ function Server:RunInitDefault()
     for _, m in ipairs(initDefaultList) do
         m:InitDefault(m)
     end
+end
+
+--- 初始化服务器随机种子
+function Server:InitRandomSeed()
+    math.randomseed(os.time())
 end
 
 --- 初始化包含Init()方法的模块

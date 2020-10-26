@@ -330,14 +330,8 @@ end
 
 --向给定table的指定位置插入数值(tab:被插入表,index:序号)
 function LinkedList:CopyTo(tab, index)
-    if type(tab) ~= 'table' then
-        error('[LinkedList] bad argument "table"')
-        return
-    end
-    if index < 1 then
-        error('[LinkedList] Index out of range')
-        return
-    end
+    assert(type(tab) == 'table', '[LinkedList] bad argument "table"')
+    assert(index >= 1, '[LinkedList] Index out of range')
     local ptrnode = self.First
     if ptrnode == nil then
         return

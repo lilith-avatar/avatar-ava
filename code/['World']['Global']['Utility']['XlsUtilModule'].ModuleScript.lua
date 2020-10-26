@@ -20,7 +20,7 @@ end
 --- 类型解析配置表
 local parser = {
     int = function(_raw)
-        return tonumber(_raw)
+        return math.floor(tonumber(_raw))
     end,
     float = function(_raw)
         return tonumber(_raw)
