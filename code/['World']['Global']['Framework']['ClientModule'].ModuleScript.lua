@@ -23,25 +23,11 @@ end
 --- 初始化
 function Client:InitClient()
     print('[Client] InitClient()')
+    self:InitRandomSeed()
     self:InitClientCustomEvents()
-    self:PreloadCsv()
-    self:PreloadXls()
     self:GenInitAndUpdateList()
     self:RunInitDefault()
-    AnimationMain:Init()
     self:InitOtherModules()
-end
-
---- 预加载所有的CSV表格
-function Client:PreloadCsv()
-    print('[Client] PreloadCsv()')
-    CsvUtil.PreloadCsv(Config.ClientPreload, Csv, Config)
-end
-
---- 预加载所有的Excel Lua Table
-function Client:PreloadXls()
-    print('[Client] PreloadXls()')
-    XlsUtil.PreloadXls(Config.ClientPreload, Xls, Config)
 end
 
 --- 初始化客户端的CustomEvent
@@ -66,6 +52,11 @@ function Client:RunInitDefault()
     for _, m in ipairs(initDefaultList) do
         m:InitDefault(m)
     end
+end
+
+--- 初始化客户端随机种子
+function Client:InitRandomSeed()
+    math.randomseed(os.time())
 end
 
 --- 初始化包含Init()方法的模块

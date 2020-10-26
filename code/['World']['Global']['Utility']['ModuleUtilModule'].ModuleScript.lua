@@ -8,14 +8,25 @@ local ModuleUtil = {}
 --- 加载模块目录
 -- @param _root 模块目录的节点
 function ModuleUtil.LoadModules(_root)
-    if _root == nil then
-        error('[ModuleUtil] Node does NOT exist!')
-    end
-    local tmp, name = _root:GetChildren()
+    assert(_root, '[ModuleUtil] Node does NOT exist!')
+    local tmp = _root:GetChildren()
     for _, v in pairs(tmp) do
         name = (v.Name):gsub('Module', '')
         print('[ModuleUtil] Load: ' .. name)
         _G[name] = require(v)
+    end
+end
+
+--- 加载XLS表格目录
+-- @param _root 模块目录的节点
+function ModuleUtil.LoadXlsModules(_root, _config)
+    assert(_root, '[ModuleUtil] Node does NOT exist!')
+    assert(_config, '[ModuleUtil] Config does NOT exist!')
+    local tmp = _root:GetChildren()
+    for _, v in pairs(tmp) do
+        name = (v.Name):gsub('XlsModule', '')
+        print('[ModuleUtil] Load: ' .. name)
+        _config[name] = require(v)
     end
 end
 
@@ -34,15 +45,9 @@ end
 -- @param @string _fn 方法名 function_name
 -- @param @table _list 存放的table
 function ModuleUtil.GetModuleListWithFunc(_root, _fn, _list)
-    if _root == nil then
-        error('[ModuleUtil] Node does NOT exist!')
-    end
-    if string.isnilorempty(_fn) then
-        error('[ModuleUtil] Function name is nil or empty!')
-    end
-    if _list == nil then
-        error('[ModuleUtil] List is NOT initialized!')
-    end
+    assert(_root, '[ModuleUtil] Node does NOT exist!')
+    assert(not string.isnilorempty(_fn), '[ModuleUtil] Function name is nil or empty!')
+    assert(_list, '[ModuleUtil] List is NOT initialized!')
     local tmp, name = _root:GetChildren()
     for _, v in pairs(tmp) do
         name = (v.Name):gsub('Module', '')
@@ -52,6 +57,7 @@ function ModuleUtil.GetModuleListWithFunc(_root, _fn, _list)
     end
 end
 
+--- 新建一个模块实例（ServerBase or ClientBase）
 function ModuleUtil.New(_name, _baseClass)
     local t = class(_name, _baseClass)
     return t, t:GetSelf()
