@@ -1,3 +1,0 @@
-Type,Int,Boolean,Int,String,String,Float,Boolean,Float,Float
-,ID,IsLoop,Volume,FileName,Detail,Duration,CoverPlay,MaxDistance,MinDistance
-1,test_01,,,,,,,,
