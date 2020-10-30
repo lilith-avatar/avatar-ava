@@ -9,7 +9,6 @@ NetUtil = require(Utility.NetUtilModule)
 CsvUtil = require(Utility.CsvUtilModule)
 XlsUtil = require(Utility.XlsUtilModule)
 EventUtil = require(Utility.EventUtilModule)
-LinkConnects = EventUtil.LinkConnects
 UUID = require(Utility.UuidModule)
 LinkedList = Utility.LinkedListModule
 TimeUtil = require(Utility.TimeUtilModule)

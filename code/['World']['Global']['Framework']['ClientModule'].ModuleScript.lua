@@ -2,36 +2,54 @@
 -- @module Game Manager, Client-side
 -- @copyright Lilith Games, Avatar Team
 -- @author Yuancheng Zhang
-local Client = {
-    isRun = false,
-    dt = 0, -- delta time 每帧时间
-    tt = 0 -- total time 游戏总时间
-}
+local Client = {}
 
 -- Localize global vars
 local CsvUtil, XslUitl, ModuleUtil = CsvUtil, XslUitl, ModuleUtil
+
+-- 已经初始化，正在运行
+local initialized, running = false, false
 
 -- 含有InitDefault(),Init(),Update()的模块列表
 local initDefaultList, initList, updateList = {}, {}, {}
 
 --- 运行客户端
 function Client:Run()
-    self:InitClient()
-    self:StartUpdate()
+    print('[Client] Run()')
+    InitClient()
+    StartUpdate()
+end
+
+--- 停止Update
+function Client:Stop()
+    print('[Client] Stop()')
+    running = false
+    ClientHeartbeat.Stop()
 end
 
 --- 初始化
-function Client:InitClient()
+function InitClient()
+    if initialized then
+        return
+    end
     print('[Client] InitClient()')
-    self:InitRandomSeed()
-    self:InitClientCustomEvents()
-    self:GenInitAndUpdateList()
-    self:RunInitDefault()
-    self:InitOtherModules()
+    InitRandomSeed()
+    InitHeartbeat()
+    InitClientCustomEvents()
+    GenInitAndUpdateList()
+    RunInitDefault()
+    InitOtherModules()
+    initialized = true
+end
+
+--- 初始化心跳包
+function InitHeartbeat()
+    assert(ClientHeartbeat, '[Client][Heartbeat] 找不到ClientHeartbeat,请联系张远程')
+    ClientHeartbeat.Init()
 end
 
 --- 初始化客户端的CustomEvent
-function Client:InitClientCustomEvents()
+function InitClientCustomEvents()
     if localPlayer.C_Event == nil then
         world:CreateObject('FolderObject', 'C_Event', localPlayer)
     end
@@ -41,54 +59,57 @@ function Client:InitClientCustomEvents()
 end
 
 --- 生成需要Init和Update的模块列表
-function Client:GenInitAndUpdateList()
+function GenInitAndUpdateList()
     ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'InitDefault', initDefaultList)
     ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'Init', initList)
     ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'Update', updateList)
 end
 
 --- 执行默认的Init方法
-function Client:RunInitDefault()
+function RunInitDefault()
     for _, m in ipairs(initDefaultList) do
         m:InitDefault(m)
     end
 end
 
 --- 初始化客户端随机种子
-function Client:InitRandomSeed()
+function InitRandomSeed()
     math.randomseed(os.time())
 end
 
 --- 初始化包含Init()方法的模块
-function Client:InitOtherModules()
+function InitOtherModules()
     for _, m in ipairs(initList) do
         m:Init()
     end
 end
 
+--- 开始Update
+function StartUpdate()
+    print('[Client] StartUpdate()')
+    assert(not running, '[Client] StartUpdate() 正在运行')
+
+    running = true
+
+    -- 开启心跳
+    invoke(ClientHeartbeat.Start)
+
+    local dt = 0 -- delta time 每帧时间
+    local tt = 0 -- total time 游戏总时间
+
+    while (running) do
+        dt = wait()
+        tt = tt + dt
+        UpdateClient(dt, tt)
+    end
+end
+
 --- Update函数
 -- @param dt delta time 每帧时间
-function Client:UpdateClient(_dt, _tt)
+function UpdateClient(_dt, _tt)
     for _, m in ipairs(updateList) do
         m:Update(_dt, _tt)
     end
-end
-
-function Client:StartUpdate()
-    assert(not self.isRun, '[Client] StartUpdate() 正在运行')
-
-    self.isRun = true
-
-    while (self.isRun) do
-        self.dt = wait()
-        self.tt = self.tt + self.dt
-        self:UpdateClient(self.dt, self.tt)
-    end
-end
-
-function Client:StopUpdate()
-    print('[Client] StopUpdate()')
-    self.isRun = false
 end
 
 return Client

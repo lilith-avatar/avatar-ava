@@ -12,7 +12,7 @@ end
 function ClientBase:InitDefault(_module)
     -- print(string.format('InitDefault:%s', self.name))
     -- 初始化默认监听事件
-    LinkConnects(localPlayer.C_Event, _module, self)
+    EventUtil.LinkConnects(localPlayer.C_Event, _module, self)
 end
 
 return ClientBase

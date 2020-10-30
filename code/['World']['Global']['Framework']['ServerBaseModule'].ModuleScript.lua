@@ -12,7 +12,7 @@ end
 function ServerBase:InitDefault(_module)
     -- print(string.format('InitDefault:%s', self.name))
     -- 初始化默认监听事件
-    LinkConnects(world.S_Event, _module, self)
+    EventUtil.LinkConnects(world.S_Event, _module, self)
 end
 
 return ServerBase
