@@ -37,6 +37,7 @@ function InitServer()
     InitHeartbeat()
     InitServerCustomEvents()
     InitCsvAndXls()
+    PreloadCsv()
     GenInitAndUpdateList()
     RunInitDefault()
     InitOtherModules()
@@ -68,6 +69,12 @@ function InitCsvAndXls()
     if not world.Global.Xls then
         world:CreateObject('FolderObject', 'Xls', world.Global)
     end
+end
+
+--- 预加载所有的CSV表格
+function PreloadCsv()
+    print('[Server] PreloadCsv()')
+    CsvUtil.PreloadCsv(Config.ServerPreload, Csv, Config)
 end
 
 --- 生成需要Init和Update的模块列表
