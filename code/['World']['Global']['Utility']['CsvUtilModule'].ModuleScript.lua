@@ -199,7 +199,11 @@ end
 
 --- 表格预加载，预加载配置模块：World.Global.Define.ConfigModule
 function CsvUtil.PreloadCsv(_preloadList, _csvRoot, _config)
-    assert(_preloadList and #_preloadList > 0, '[CsvUtil] ConfigModule中没有预加载表格')
+    assert(_preloadList, '[CsvUtil] _preloadList不存在')
+    if #_preloadList == 0 then
+        print('[CsvUtil] ConfigModule中没有预加载表格')
+        return
+    end
     for _, pl in pairs(_preloadList) do
         if not string.isnilorempty(pl.csv) then
             pl.name = string.isnilorempty(pl.name) and pl.csv or pl.name
