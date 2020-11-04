@@ -18,10 +18,11 @@
 
 ## Table of Contents
 
-* [Who is Ava](#who-is-ava?)
-* [Brancher](#branches)
-* [Ava Wiki](#ava-wiki)
-* [Quick Start](#quick-start)
+- [Table of Contents](#table-of-contents)
+- [Who is Ava?](#who-is-ava)
+- [Branches](#branches)
+- [Ava Wiki](#ava-wiki)
+- [Quick Start](#quick-start)
 
 
 
@@ -32,7 +33,6 @@
 * [master](https://github.com/lilith-avatar/avatar-ava) trunk branch for debug after development finish, and documents 
 * [dev](https://github.com/lilith-avatar/avatar-ava/tree/dev) development branch for new feature, debug and new issue
 * [release](https://github.com/lilith-avatar/avatar-ava/tree/release) release new version, can't change until next version release
-* [example](https://github.com/lilith-avatar/avatar-ava/tree/example) release version with test cases and examples
 
 ## Ava Wiki
 * [How to use](https://github.com/lilith-avatar/avatar-ava/wiki/Get-Started)
