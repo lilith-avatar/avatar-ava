@@ -13,7 +13,7 @@ local FrameworkConfig = {
         HeartbeatThreshold1 = 5,
         HeartbeatThreshold2 = 15,
         -- 显示心跳日志
-        ShowHeartbeatLog = true
+        ShowHeartbeatLog = false
     },
     Client = {
         -- 心跳包间隔时间，单位：秒
@@ -25,7 +25,7 @@ local FrameworkConfig = {
         HeartbeatThreshold1 = 5,
         HeartbeatThreshold2 = 15,
         -- 显示心跳日志
-        ShowHeartbeatLog = true
+        ShowHeartbeatLog = false
     }
 }
 

@@ -11,7 +11,7 @@ local FormatArgs
 local valid, ValidateArgs = true
 
 --! 打印事件日志, true:开启打印
-local showLog, PrintEventLog = true
+local showLog, PrintEventLog = false
 
 local FireEnum = {
     SERVER = 1,
