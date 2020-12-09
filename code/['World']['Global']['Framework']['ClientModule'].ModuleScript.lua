@@ -102,7 +102,9 @@ end
 --- 预加载所有的CSV表格
 function PreloadCsv()
     print('[Client] PreloadCsv()')
-    CsvUtil.PreloadCsv(Config.ClientPreload, Csv, Config)
+    if Config.ClientPreload and #Config.ClientPreload > 0 then
+        CsvUtil.PreloadCsv(Config.ClientPreload, Csv, Config)
+    end
 end
 
 --- 初始化包含Init()方法的模块
