@@ -84,18 +84,18 @@ function InitEventsAndListeners()
     world:CreateObject('CustomEvent', 'HeartbeatC2SEvent', world.S_Event)
     world.S_Event.HeartbeatC2SEvent:Connect(HeartbeatC2SEventHandler)
 
-    -- OnAwake（玩家加入前初始化），
-    -- OnPlayerJoin（玩家第一次加入，类似现在的OnPlayerAdded），
-    -- OnPlayerLeave（玩家离开），
-    -- OnPlayerRejoin（玩家离线后重新进入同一个房间），
-    -- OnPlayerDisconnect（未接收到玩家心跳等待重连，在服务器第二个阶段），
-    -- OnPlayerReconnect（玩家断线后重连）。
+    -- OnAwakeEvent（玩家加入前初始化）
+    -- OnPlayerJoinEvent（玩家第一次加入，类似现在的OnPlayerAdded）
+    -- OnPlayerRejoinEvent（玩家离开房间后重新进入同一个房间）
+    -- OnPlayerDisconnectEvent（未接收到玩家心跳等待重连，在服务器第二个阶段）
+    -- OnPlayerReconnectEvent（玩家断线后重连）
+    -- OnPlayerLeaveEvent（玩家彻底离开，退出房间）
     world:CreateObject('CustomEvent', 'OnAwakeEvent', world.S_Event)
     world:CreateObject('CustomEvent', 'OnPlayerJoinEvent', world.S_Event)
-    world:CreateObject('CustomEvent', 'OnPlayerLeaveEvent', world.S_Event)
     -- world:CreateObject('CustomEvent', 'OnPlayerRejoinEvent', world.S_Event)
     world:CreateObject('CustomEvent', 'OnPlayerDisconnectEvent', world.S_Event)
     world:CreateObject('CustomEvent', 'OnPlayerReconnectEvent', world.S_Event)
+    world:CreateObject('CustomEvent', 'OnPlayerLeaveEvent', world.S_Event)
 
     -- 玩家退出，发出OnPlayerLeaveEvent
     world.OnPlayerRemoved:Connect(
@@ -162,15 +162,15 @@ function CheckPlayerStates(_player, _sTimestam)
 
     if cache[_player].state == HeartbeatEnum.CONNECT and diff > HEARTBEAT_THRESHOLD_1 then
         --* 玩家断线 OnPlayerReconnectEvent
-        print('[Heartbeat][Server] OnPlayerDisconnectEvent, 玩家离线,', _player)
+        print('[Heartbeat][Server] OnPlayerDisconnectEvent, 玩家离线, 等待断线重连,', _player)
         NetUtil.Fire_S('OnPlayerDisconnectEvent', _player)
         cache[_player].state = HeartbeatEnum.DISCONNECT
     elseif cache[_player].state == HeartbeatEnum.DISCONNECT and diff > HEARTBEAT_THRESHOLD_2 then
         --* 玩家彻底断线，剔除玩家
         print('[Heartbeat][Server] OnPlayerLeaveEvent, 剔除离线玩家,', _player)
         NetUtil.Fire_S('OnPlayerLeaveEvent', _player)
-        print('[Heartbeat][Server] OnPlayerDisconnectEvent, 发送客户端离线事件,', _player)
-        NetUtil.Fire_C('OnPlayerDisconnectEvent', _player)
+        print('[Heartbeat][Server] OnPlayerLeave, 发送客户端离线事件,', _player)
+        NetUtil.Fire_C('OnPlayerLeaveEvent', _player)
         cache[_player] = nil
     end
 end

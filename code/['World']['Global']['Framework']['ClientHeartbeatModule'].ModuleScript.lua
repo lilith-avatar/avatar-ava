@@ -88,19 +88,19 @@ function InitEventsAndListeners()
     world:CreateObject('CustomEvent', 'HeartbeatS2CEvent', localPlayer.C_Event)
     localPlayer.C_Event.HeartbeatS2CEvent:Connect(HeartbeatS2CEventHandler)
 
-    -- OnPlayerJoin（玩家第一次加入，类似现在的OnPlayerAdded），
-    -- OnPlayerRejoin（玩家离线后重新进入同一个房间），
-    -- OnPlayerWeakNetwork（玩家离线，弱网，转菊花），
-    -- OnPlayerReconnect（玩家断线后重连）
-    -- OnPlayerDisconnect（未接收到服务器心跳，在客户端第二个阶段，彻底离线）。
+    -- OnPlayerJoinEvent（玩家第一次加入，类似现在的OnPlayerAdded）
+    -- OnPlayerRejoinEvent（玩家离线后重新进入同一个房间）
+    -- OnPlayerDisconnectEvent（未接收到服务器心跳，在客户端第二个阶段，玩家离线可重连，弱网，转菊花）
+    -- OnPlayerReconnectEvent（玩家断线后重连）
+    -- OnPlayerLeaveEvent（玩家彻底离开，退出房间）
     world:CreateObject('CustomEvent', 'OnPlayerJoinEvent', localPlayer.C_Event)
     -- world:CreateObject('CustomEvent', 'OnPlayerRejoinEvent', localPlayer.C_Event)
-    world:CreateObject('CustomEvent', 'OnPlayerWeakNetwork', localPlayer.C_Event)
-    world:CreateObject('CustomEvent', 'OnPlayerReconnectEvent', localPlayer.C_Event)
     world:CreateObject('CustomEvent', 'OnPlayerDisconnectEvent', localPlayer.C_Event)
+    world:CreateObject('CustomEvent', 'OnPlayerReconnectEvent', localPlayer.C_Event)
+    world:CreateObject('CustomEvent', 'OnPlayerLeaveEvent', localPlayer.C_Event)
 
-    -- 掉线直接退出
-    localPlayer.C_Event.OnPlayerDisconnectEvent:Connect(QuitGame)
+    -- 掉线直接退出（默认，可选）
+    localPlayer.C_Event.OnPlayerLeaveEvent:Connect(QuitGame)
 end
 
 -- Update心跳
@@ -147,12 +147,13 @@ function CheckPlayerState(_player, _cTimestamp)
     PrintHb(string.format('==========================================> diff = %s, %s', diff * .001, localPlayer))
     if cache.state == HeartbeatEnum.CONNECT and diff > HEARTBEAT_THRESHOLD_1 then
         --* 玩家断线，弱网环境
-        print('[Heartbeat][Client] OnPlayerWeakNetwork, 玩家离线, 弱网环境,', localPlayer)
-        NetUtil.Fire_C('OnPlayerWeakNetwork', localPlayer)
+        print('[Heartbeat][Client] OnPlayerDisconnectEvent, 玩家离线, 弱网环境,', localPlayer)
+        NetUtil.Fire_C('OnPlayerDisconnectEvent', localPlayer)
         cache.state = HeartbeatEnum.DISCONNECT
     elseif cache.state == HeartbeatEnum.DISCONNECT and diff > HEARTBEAT_THRESHOLD_2 then
         --* 玩家断线, 退出游戏
-        QuitGame()
+        -- QuitGame()
+        NetUtil.Fire_C('OnPlayerLeaveEvent', localPlayer)
     end
 end
 

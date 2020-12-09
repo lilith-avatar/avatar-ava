@@ -6,6 +6,7 @@ local Server = {}
 
 -- Localize global vars
 local CsvUtil, ModuleUtil = CsvUtil, ModuleUtil
+local Config = FrameworkConfig.Server
 
 -- 已经初始化，正在运行
 local initialized, running = false, false
@@ -21,7 +22,7 @@ function Server:Run()
 end
 
 --- 停止Update
-function Stop()
+function Server:Stop()
     print('[Server] Stop()')
     running = false
     ServerHeartbeat.Stop()
@@ -37,7 +38,6 @@ function InitServer()
     InitHeartbeat()
     InitServerCustomEvents()
     InitCsvAndXls()
-    PreloadCsv()
     GenInitAndUpdateList()
     RunInitDefault()
     InitOtherModules()
@@ -50,8 +50,23 @@ function InitServerCustomEvents()
     if world.S_Event == nil then
         world:CreateObject('FolderObject', 'S_Event', world)
     end
+
+    -- 将插件中的CustomEvent放入Events.ClientEvents中
+    for _, m in pairs(Config.PluginEvents) do
+        local evts = _G[m].ServerEvents
+        assert(evts, string.format('[Server] %s 中不存在ServerEvents，请检查模块，或从FrameworkConfig删除此配置', m))
+        for __, evt in pairs(evts) do
+            if not table.exists(Events.ServerEvents, evt) then
+                table.insert(Events.ServerEvents, evt)
+            end
+        end
+    end
+
+    -- 生成CustomEvent节点
     for _, evt in pairs(Events.ServerEvents) do
-        world:CreateObject('CustomEvent', evt, world.S_Event)
+        if world.S_Event[evt] == nil then
+            world:CreateObject('CustomEvent', evt, world.S_Event)
+        end
     end
 end
 
@@ -71,17 +86,16 @@ function InitCsvAndXls()
     end
 end
 
---- 预加载所有的CSV表格
-function PreloadCsv()
-    print('[Server] PreloadCsv()')
-    CsvUtil.PreloadCsv(Config.ServerPreload, Csv, Config)
-end
-
 --- 生成需要Init和Update的模块列表
 function GenInitAndUpdateList()
     ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'InitDefault', initDefaultList)
     ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'Init', initList)
     ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'Update', updateList)
+    for _, m in pairs(FrameworkConfig.Server.PluginModules) do
+        ModuleUtil.GetModuleListWithFunc(m, 'InitDefault', initDefaultList)
+        ModuleUtil.GetModuleListWithFunc(m, 'Init', initList)
+        ModuleUtil.GetModuleListWithFunc(m, 'Update', updateList)
+    end
 end
 
 --- 执行默认的Init方法
@@ -111,14 +125,20 @@ function StartUpdate()
     running = true
 
     -- 开启心跳
-    invoke(ServerHeartbeat.Start)
+    if FrameworkConfig.HeartbeatStart then
+        invoke(ServerHeartbeat.Start)
+    end
 
     local dt = 0 -- delta time 每帧时间
     local tt = 0 -- total time 游戏总时间
+    local now = Timer.GetTimeMillisecond --时间函数缓存
+    local prev, curr = now() / 1000, nil -- two timestamps
 
-    while (running) do
-        dt = wait()
+    while (running and wait()) do
+        curr = now() / 1000
+        dt = curr - prev
         tt = tt + dt
+        prev = curr
         UpdateServer(dt, tt)
     end
 end
