@@ -49,7 +49,7 @@ local function TriggerEvents()
 end
 
 --- Update
-local function Update()
+local function StartUpdate()
     while running do
         -- print(os.time())
         CheckEvents()
@@ -66,7 +66,7 @@ end
 --- Run Update()
 function TimeUtil.Start()
     running = true
-    invoke(Update)
+    invoke(StartUpdate)
 end
 
 --- Stop Update()
