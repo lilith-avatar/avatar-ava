@@ -7,13 +7,15 @@ local ModuleUtil = {}
 
 --- 加载模块目录
 -- @param _root 模块目录的节点
-function ModuleUtil.LoadModules(_root)
+-- @param _scope 载入后脚本的作用域
+function ModuleUtil.LoadModules(_root, _scope)
+    _scope = _scope or _G
     assert(_root, '[ModuleUtil] Node does NOT exist!')
     local tmp = _root:GetChildren()
     for _, v in pairs(tmp) do
         name = (v.Name):gsub('Module', '')
-        print('[ModuleUtil] Load: ' .. name)
-        _G[name] = require(v)
+        -- print('[ModuleUtil] Load: ' .. name)
+        _scope[name] = require(v)
     end
 end
 
