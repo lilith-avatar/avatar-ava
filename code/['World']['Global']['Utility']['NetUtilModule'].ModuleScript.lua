@@ -36,6 +36,9 @@ end
 -- @param _player 玩家对象
 -- @param ... 事件参数
 function NetUtil.Fire_C(_eventName, _player, ...)
+	if(_player == nil) then
+		return
+	end
     ValidateArgs(FireEnum.CLIENT, _eventName, _player)
     local args = {...}
     _player.C_Event[_eventName]:Fire(table.unpack(args))
