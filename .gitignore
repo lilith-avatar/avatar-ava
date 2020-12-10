@@ -1,4 +1,5 @@
-smap/AutoSave_*
+*AutoSave_*
+*AutoBackup_*
 xls/*.lua
 xls/*.csv
 csv/*.lua
