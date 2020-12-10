@@ -1,9 +1,8 @@
---- 玩家控制
--- @script Player Controll
--- @copyright Lilith Games, Avatar Team
--- 获取本地玩家
-local player = localPlayer
-
+--- 玩家控制模块
+--- @module Player Controll, client-side
+--- @copyright Lilith Games, Avatar Team
+local PlayerControl, this = ModuleUtil.New('PlayerControl', ClientBase)
+local player
 --声明变量
 local isDead = false
 local forwardDir = Vector3.Forward
@@ -12,17 +11,11 @@ local finalDir = Vector3.Zero
 local horizontal = 0
 local vertical = 0
 
--- 摄像机看向自己
-world.CurrentCamera = localPlayer.Local.Independent.GameCam
-local camera = world.CurrentCamera
-local mode = Camera.CameraMode
-camera.LookAt = player
+-- 相机
+local camera, mode
 
 -- 手机端交互UI
-local gui = localPlayer.Local.ControlGui
-local joystick = gui.Joystick
-local touchScreen = gui.TouchFig
-local jumpButton = gui.JumpBtn
+local gui, joystick, touchScreen, jumpButton
 
 -- PC端交互按键
 local FORWARD_KEY = Enum.KeyCode.W
@@ -36,6 +29,51 @@ local moveForwardAxis = 0
 local moveBackAxis = 0
 local moveLeftAxis = 0
 local moveRightAxis = 0
+
+function PlayerControl:Init()
+    -- 获取本地玩家
+    player = localPlayer
+    self:InitGui()
+    self:InitCamera()
+    self:InitListener()
+end
+
+function PlayerControl:InitListener()
+    -- Main
+    world.OnRenderStepped:Connect(MainControl)
+    -- Player
+    player.OnHealthChange:Connect(HealthCheck)
+    player.OnDead:Connect(PlayerDie)
+    -- GUI
+    touchScreen.OnTouched:Connect(CountTouch)
+    touchScreen.OnPanStay:Connect(CameraMove)
+    touchScreen.OnPinchStay:Connect(CameraZoom)
+    jumpButton.OnDown:Connect(PlayerJump)
+    -- Keyboard
+    Input.OnKeyDown:Connect(
+        function()
+            if Input.GetPressKeyData(JUMP_KEY) == 1 then
+                PlayerJump()
+            end
+        end
+    )
+end
+
+function PlayerControl:InitGui()
+    gui = localPlayer.Local.ControlGui
+    joystick = gui.Joystick
+    touchScreen = gui.TouchFig
+    jumpButton = gui.JumpBtn
+end
+
+function PlayerControl:InitCamera()
+    if not world.CurrentCamera and localPlayer.Local.Independent.GameCam then
+        world.CurrentCamera = localPlayer.Local.Independent.GameCam
+    end
+    camera = world.CurrentCamera
+    mode = Camera.CameraMode
+    camera.LookAt = player
+end
 
 -- 移动方向是否遵循摄像机方向
 function IsFreeMode()
@@ -70,16 +108,16 @@ function GetMoveDir()
 end
 
 -- 移动逻辑
-function PlayerMove(dir)
-    dir.y = 0
+function PlayerMove(_dir)
+    _dir.y = 0
     if player.State == Enum.CharacterState.Died then
-        dir = Vector3.Zero
+        _dir = Vector3.Zero
     end
-    if dir.Magnitude > 0 then
+    if _dir.Magnitude > 0 then
         if IsFreeMode then
-            player:FaceToDir(dir, 4 * math.pi)
+            player:FaceToDir(_dir, 4 * math.pi)
         end
-        player:MoveTowards(Vector2(dir.x, dir.z).Normalized)
+        player:MoveTowards(Vector2(_dir.x, _dir.z).Normalized)
     else
         player:MoveTowards(Vector2.Zero)
     end
@@ -92,14 +130,6 @@ function PlayerJump()
         return
     end
 end
-jumpButton.OnDown:Connect(PlayerJump)
-Input.OnKeyDown:Connect(
-    function()
-        if Input.GetPressKeyData(JUMP_KEY) == 1 then
-            PlayerJump()
-        end
-    end
-)
 
 -- 死亡逻辑
 function PlayerDie()
@@ -108,7 +138,6 @@ function PlayerDie()
     player:Reset()
     isDead = false
 end
-player.OnDead:Connect(PlayerDie)
 
 -- 生命值检测
 function HealthCheck(oldHealth, newHealth)
@@ -116,7 +145,6 @@ function HealthCheck(oldHealth, newHealth)
         player:Die()
     end
 end
-player.OnHealthChange:Connect(HealthCheck)
 
 -- 每个渲染帧处理操控逻辑
 function MainControl()
@@ -125,32 +153,30 @@ function MainControl()
     GetMoveDir()
     PlayerMove(finalDir)
 end
-world.OnRenderStepped:Connect(MainControl)
 
 -- 检测触屏的手指数
 local touchNumber = 0
-function countTouch(container)
+function CountTouch(container)
     touchNumber = #container
 end
-touchScreen.OnTouched:Connect(countTouch)
 
 -- 滑屏转向
-function cameraMove(pos, dis, deltapos, speed)
+function CameraMove(_pos, _dis, _deltapos, _speed)
     if touchNumber == 1 then
         if IsFreeMode() then
-            camera:CameraMove(deltapos)
+            camera:CameraMove(_deltapos)
         else
-            player:RotateAround(player.Position, Vector3.Up, deltapos.x)
-            camera:CameraMove(Vector2(0, deltapos.y))
+            player:RotateAround(player.Position, Vector3.Up, _deltapos.x)
+            camera:CameraMove(Vector2(0, _deltapos.y))
         end
     end
 end
-touchScreen.OnPanStay:Connect(cameraMove)
 
 -- 双指缩放摄像机距离
-function cameraZoom(pos1, pos2, dis, speed)
+function CameraZoom(_pos1, _pos2, _dis, _speed)
     if mode == Enum.CameraMode.Social then
-        camera.Distance = camera.Distance - dis / 50
+        camera.Distance = camera.Distance - _dis / 50
     end
 end
-touchScreen.OnPinchStay:Connect(cameraZoom)
+
+return PlayerControl
