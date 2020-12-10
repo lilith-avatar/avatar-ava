@@ -12,7 +12,7 @@ local FrameworkConfig = {
         --          0s -> threshold_1   : connected
         -- threshold_1 -> threshold_2   : disconnected, but player can reconnect
         -- threshold_2 -> longer        : disconnected, remove player
-        HeartbeatThreshold1 = 9,
+        HeartbeatThreshold1 = 5,
         HeartbeatThreshold2 = 10,
         -- 显示心跳日志
         ShowHeartbeatLog = false,
@@ -28,7 +28,7 @@ local FrameworkConfig = {
         --          0s -> threshold_1   : connected
         -- threshold_1 -> threshold_2   : disconnected, weak network, can reconnect
         -- threshold_2 -> longer        : disconnected, quit server
-        HeartbeatThreshold1 = 9,
+        HeartbeatThreshold1 = 5,
         HeartbeatThreshold2 = 10,
         -- 显示心跳日志
         ShowHeartbeatLog = false,
