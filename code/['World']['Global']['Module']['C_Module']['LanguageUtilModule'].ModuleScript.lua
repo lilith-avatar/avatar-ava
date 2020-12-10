@@ -1,8 +1,7 @@
----  语言包模块：根据游戏内语言设置返回对应的+
--- @module  LanguageUtil, Client-side
--- @copyright Lilith Games, Avatar Team
--- @author Xiexy, Yuancheng Zhang
----@module LanguageUtil
+--- 语言包模块：根据游戏内语言设置返回对应的语言文本
+--- @module  LanguageUtil, Client-side
+--- @copyright Lilith Games, Avatar Team
+--- @author Xiexy, Yuancheng Zhang
 local LanguageUtil, this = ModuleUtil.New('LanguageUtil', ClientBase)
 local lang = Config.GlobalSetting.DefaultLanguage
 local defaultLang = Const.LanguageEnum.CHS
