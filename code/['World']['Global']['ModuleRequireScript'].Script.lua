@@ -24,8 +24,8 @@ ModuleUtil.LoadModules(Framework)
 ModuleUtil.LoadModules(Define)
 ModuleUtil.LoadXlsModules(Xls, Config)
 ModuleUtil.LoadModules(Module.S_Module)
-ModuleUtil.LoadModules(Module.C_Module)
 ModuleUtil.LoadModules(Module.Cls_Module)
+ModuleUtil.LoadModules(Module.C_Module)
 
 -- Plugin Modules
 GuideSystem = require(world.Global.Plugin.FUNC_Guide.GuideSystemModule)
