@@ -15,14 +15,22 @@ GlobalFunc = require(Utility.GlobalFuncModule)
 LinkedList = Utility.LinkedListModule
 ValueChangeUtil = require(Utility.ValueChangeUtilModule)
 TimeUtil = require(Utility.TimeUtilModule)
+
+-- Game Defines
+GAME_ID = 'X0000'
+
+-- Utility Initilization
 TimeUtil.Init()
+CloudLogUtil.Init(GAME_ID)
 
 -- Framework
 ModuleUtil.LoadModules(Framework)
 
--- Globle Defines, Server and Clinet Modules
+-- Globle Defines
 ModuleUtil.LoadModules(Define)
 ModuleUtil.LoadXlsModules(Xls, Config)
+
+-- Server and Clinet Modules
 ModuleUtil.LoadModules(Module.S_Module)
 ModuleUtil.LoadModules(Module.Cls_Module)
 ModuleUtil.LoadModules(Module.C_Module)
