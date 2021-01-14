@@ -83,7 +83,7 @@ end
 --- 初始化事件和绑定Handler
 function InitEventsAndListeners()
     if localPlayer.C_Event == nil then
-        world:CreateObject('FolderObject', 'C_Event', localPlayer)
+        world:CreateObject('FolderObject', 'C_Event', localPlayer.C_Event)
     end
     world:CreateObject('CustomEvent', 'HeartbeatS2CEvent', localPlayer.C_Event)
     localPlayer.C_Event.HeartbeatS2CEvent:Connect(HeartbeatS2CEventHandler)
