@@ -12,13 +12,13 @@ end
 
 ---触发埋点相应的事件调用
 ---@param _key string 埋点的键
-function CloudLogUtil.UploadLog(_key, ...)
+function CloudLogUtil.UploadLog(_key, _table)
     local tableName = CloudLogUtil.gameId .. '_' .. _key
-    local args = { ... }
+    local arg = LuaJsonUtil:encode(_table)
     if localPlayer then
-        TrackService.CloudLogFromClient({ tableName, CloudLogUtil.gameId, table.unpack(args) })
+        TrackService.CloudLogFromClient({ tableName, CloudLogUtil.gameId, arg})
     else
-        TrackService.CloudLogFromServer({ tableName, CloudLogUtil.gameId, table.unpack(args) })
+        TrackService.CloudLogFromServer({ tableName, CloudLogUtil.gameId, arg})
     end
 end
 
