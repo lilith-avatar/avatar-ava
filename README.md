@@ -1,6 +1,6 @@
 <p>
     <h1 style='border-bottom:none'  align='center'>Avatar Ava</h1>
-    <p style='font-size:20px' align='center'>Avatar Ava is a intergated framework that is designed to support the development on Avatar engine.</p>
+    <p style='font-size:20px' align='center'>Avatar Ava is an intergated framework that is designed to support the development on Avatar engine.</p>
 </p>
 
 
