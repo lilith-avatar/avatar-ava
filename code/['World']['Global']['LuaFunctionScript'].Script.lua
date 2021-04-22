@@ -956,3 +956,13 @@ function Stack:PrintElement()
     str = str .. '}'
     print(str)
 end
+
+
+--- uid递增计数器
+function UidCounter()
+    local num = 0
+    return function()
+        num = num + 1
+        return tostring(os.clock())..'-'..tostring(num)
+    end
+end
