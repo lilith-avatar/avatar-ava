@@ -15,9 +15,9 @@ end
 function CloudLogUtil.UploadLog(_key, _table)
     local arg = LuaJsonUtil:encode(_table)
     if localPlayer then
-        TrackService.CloudLogFromClient({ (_key, CloudLogUtil.gameId, arg})
+        TrackService.CloudLogFromClient(_key, CloudLogUtil.gameId, arg)
     else
-        TrackService.CloudLogFromServer({ (_key, CloudLogUtil.gameId, arg})
+        TrackService.CloudLogFromServer(_key, CloudLogUtil.gameId, arg)
     end
 end
 
