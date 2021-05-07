@@ -145,12 +145,15 @@ function CheckPlayerState(_player, _cTimestamp)
     end
     diff = _cTimestamp - cache.cTimestamp
     PrintHb(string.format('==========================================> diff = %s, %s', diff * .001, localPlayer))
-    if cache.state == HeartbeatEnum.CONNECT and diff > HEARTBEAT_THRESHOLD_1 then
+    if diff < HEARTBEAT_THRESHOLD_1 then
+        --* 玩家在线
+        cache.state = HeartbeatEnum.CONNECT
+    elseif cache.state == HeartbeatEnum.CONNECT and diff >= HEARTBEAT_THRESHOLD_1 then
         --* 玩家断线，弱网环境
         print('[Heartbeat][Client] OnPlayerDisconnectEvent, 玩家离线, 弱网环境,', localPlayer)
         NetUtil.Fire_C('OnPlayerDisconnectEvent', localPlayer)
         cache.state = HeartbeatEnum.DISCONNECT
-    elseif cache.state == HeartbeatEnum.DISCONNECT and diff > HEARTBEAT_THRESHOLD_2 then
+    elseif cache.state == HeartbeatEnum.DISCONNECT and diff >= HEARTBEAT_THRESHOLD_2 then
         --* 玩家断线, 退出游戏
         -- QuitGame()
         NetUtil.Fire_C('OnPlayerLeaveEvent', localPlayer)
