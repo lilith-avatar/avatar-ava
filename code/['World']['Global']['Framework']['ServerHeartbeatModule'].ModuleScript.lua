@@ -162,12 +162,12 @@ function CheckPlayerStates(_player, _sTimestam)
     if diff < HEARTBEAT_THRESHOLD_1 then
         --* 玩家在线
         cache[_player].state = HeartbeatEnum.CONNECT
-    elseif cache[_player].state == HeartbeatEnum.CONNECT and diff > HEARTBEAT_THRESHOLD_1 then
+    elseif cache[_player].state == HeartbeatEnum.CONNECT and diff >= HEARTBEAT_THRESHOLD_1 then
         --* 玩家断线 OnPlayerDisconnectEvent
         print('[Heartbeat][Server] OnPlayerDisconnectEvent, 玩家离线, 等待断线重连,', _player)
         NetUtil.Fire_S('OnPlayerDisconnectEvent', _player)
         cache[_player].state = HeartbeatEnum.DISCONNECT
-    elseif cache[_player].state == HeartbeatEnum.DISCONNECT and diff > HEARTBEAT_THRESHOLD_2 then
+    elseif cache[_player].state == HeartbeatEnum.DISCONNECT and diff >= HEARTBEAT_THRESHOLD_2 then
         --* 玩家彻底断线，剔除玩家 OnPlayerLeaveEvent
         print('[Heartbeat][Server] OnPlayerLeaveEvent, 剔除离线玩家,', _player)
         NetUtil.Fire_S('OnPlayerLeaveEvent', _player)
