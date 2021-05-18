@@ -11,23 +11,26 @@ local ModuleUtil = {}
 function ModuleUtil.LoadModules(_root, _scope)
     _scope = _scope or _G
     assert(_root, '[ModuleUtil] Node does NOT exist!')
-    local tmp = _root:GetChildren()
+    local tmp, name = _root:GetChildren()
     for _, v in pairs(tmp) do
-        name = (v.Name):gsub('Module', '')
-        -- print('[ModuleUtil] Load: ' .. name)
-        _scope[name] = require(v)
+        if v.ClassName == 'ModuleScriptObject' then
+            name = (v.Name):gsub('Module', '')
+            print('[ModuleUtil] Load Module: ', name)
+            _scope[name] = require(v)
+        end
     end
 end
 
 --- 加载XLS表格目录
 -- @param _root 模块目录的节点
+-- @param _config 所有Excel生成Lua文件的所在table，不允许是_G
 function ModuleUtil.LoadXlsModules(_root, _config)
     assert(_root, '[ModuleUtil] Node does NOT exist!')
     assert(_config, '[ModuleUtil] Config does NOT exist!')
-    local tmp = _root:GetChildren()
+    local tmp, name = _root:GetChildren()
     for _, v in pairs(tmp) do
         name = (v.Name):gsub('XlsModule', '')
-        print('[ModuleUtil] Load: ' .. name)
+        print('[ModuleUtil] Load XLS: ', name)
         _config[name] = require(v)
     end
 end
