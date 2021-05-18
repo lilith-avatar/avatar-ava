@@ -7,10 +7,10 @@ local PlayerGuiDefault, this = ModuleUtil.New('PlayerGuiDefault', ClientBase)
 local player
 
 -- 姓名板
-local nameGUI
+local nameGui
 
 -- 血条
-local healthGUI, background, healthBar
+local healthGui, background, healthBar
 local RED_BAR = ResourceManager.GetTexture('Internal/Blood_Red')
 local GREEN_BAR = ResourceManager.GetTexture('Internal/Blood_Green')
 local ORANGE_BAR = ResourceManager.GetTexture('Internal/Blood_Orange')
@@ -27,29 +27,29 @@ end
 
 -- 姓名板
 function PlayerGuiDefault:InitNameGui()
-    nameGUI = player.NameGui
-    nameGUI.NameBarTxt.Text = player.Name
+    nameGui = player.NameGui
+    nameGui.NameBarTxt.Text = player.Name
 end
 
 -- 血条
 function PlayerGuiDefault:InitHealthBarGui()
-    healthGUI = player.HealthGui
-    background = healthGUI.BackgroundImg
+    healthGui = player.HealthGui
+    background = healthGui.BackgroundImg
     healthBar = background.HealthBarImg
 end
 
 -- 初始化事件
 function PlayerGuiDefault:InitListener()
     player.OnHealthChange:Connect(HealthChange)
-    world.OnRenderStepped:Connect(MainGUI)
+    world.OnRenderStepped:Connect(MainGui)
 end
 
 -- 姓名板的显示逻辑
 function NameBarLogic()
-    nameGUI.Visible = player.DisplayName
+    nameGui.Visible = player.DisplayName
     if player.DisplayName then
-        local addedHeight = (healthGUI and healthGUI.ActiveSelf) and 1.1 or 1
-        nameGUI.LocalPosition = Vector3(0, addedHeight + player.Avatar.Height, 0)
+        local addedHeight = (healthGui and healthGui.ActiveSelf) and 1.1 or 1
+        nameGui.LocalPosition = Vector3(0, addedHeight + player.Avatar.Height, 0)
     end
 end
 
@@ -73,18 +73,18 @@ end
 function HealthBarLogic(_delta)
     healthBarShowTime = healthBarShowTime - _delta
     if player.HealthDisplayMode == Enum.HealthDisplayMode.Always then
-        healthGUI.Visible = true
+        healthGui.Visible = true
     elseif player.HealthDisplayMode == Enum.HealthDisplayMode.Never then
-        healthGUI.Visible = false
+        healthGui.Visible = false
     elseif player.HealthDisplayMode == Enum.HealthDisplayMode.OnHit then
-        healthGUI.Visible = player.Health ~= player.MaxHealth
+        healthGui.Visible = player.Health ~= player.MaxHealth
     else
-        healthGUI.Visible = healthBarShowTime > 0
+        healthGui.Visible = healthBarShowTime > 0
     end
 end
 
 -- 每个渲染帧更新姓名板和血条的显示逻辑
-function MainGUI(_delta)
+function MainGui(_delta)
     NameBarLogic()
     HealthBarLogic(_delta)
 end
