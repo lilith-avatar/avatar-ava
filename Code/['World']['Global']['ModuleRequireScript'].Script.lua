@@ -2,6 +2,10 @@
 -- @script Module Defines
 -- @copyright Lilith Games, Avatar Team
 
+-- Game Defines
+GAME_ID = 'X0000'
+print('GAME_ID = ', GAME_ID)
+
 -- Utilities
 ModuleUtil = require(Utility.ModuleUtilModule)
 LuaJsonUtil = require(Utility.LuaJsonUtilModule)
@@ -16,16 +20,17 @@ LinkedList = Utility.LinkedListModule
 ValueChangeUtil = require(Utility.ValueChangeUtilModule)
 TimeUtil = require(Utility.TimeUtilModule)
 CloudLogUtil = require(Utility.CloudLogUtilModule)
+ObjPoolUtil = require(Utility.ObjPoolUtilModule)
+SoundUtil = require(Utility.SoundUtilModule)
 
--- Game Defines
-GAME_ID = 'X0000'
-
--- Utility Initilization
+-- Init Utilities
 TimeUtil.Init()
 CloudLogUtil.Init(GAME_ID)
 
 -- Framework
 ModuleUtil.LoadModules(Framework)
+ModuleUtil.LoadModules(Framework.Server)
+ModuleUtil.LoadModules(Framework.Client)
 
 -- Globle Defines
 ModuleUtil.LoadModules(Define)
