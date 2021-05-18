@@ -3,18 +3,18 @@
 --- @copyright Lilith Games, Project Da Vinci(Avatar Team)
 --- @see https://www.projectdavinci.com/
 --- @see https://github.com/endaye/avatar-ava-xls2lua
---- source file: ./xls/Sound.xls
+--- source file: ./Xls/Sound.xls
 
 local SoundXls = {
     test_01 = {
         Type = 1,
         ID = 'test_01',
-        IsLoop = false,
-        Volume = 0,
+        IsLoop = nil,
+        Volume = nil,
         FileName = '',
         Detail = '',
-        Duration = 0,
-        CoverPlay = false
+        Duration = nil,
+        CoverPlay = nil
     }
 }
 

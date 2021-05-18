@@ -3,7 +3,7 @@
 --- @copyright Lilith Games, Project Da Vinci(Avatar Team)
 --- @see https://www.projectdavinci.com/
 --- @see https://github.com/endaye/avatar-ava-xls2lua
---- source file: ./xls/ExampleTable1.xlsx
+--- source file: ./Xls/ExampleTable1.xlsx
 
 local Example1Xls = {
     [1] = {
@@ -32,15 +32,15 @@ local Example1Xls = {
             use_money = 123,
             use_food = 336.2,
             is_init = true,
-            defense = 0,
+            defense = nil,
             args_int_arr = {1, 2, 3},
             args_float_arr = {1, 2.3445, 3},
             args_string_arr = {'你好', '你在哪'},
             args_bool_arr = {true, false},
             args_vect2 = Vector2(0, 4),
             args_vect3 = Vector3(-2, 3, 5),
-            args_euler = EulerDegree(0, 0, 0),
-            args_color = Color(0, 0, 0, 0),
+            args_euler = nil,
+            args_color = nil,
             args_lua = {a = 2, b='234'},
             Des1 = 'Example1_Des1_1_MMM',
             Des2 = 'Example1_Des2_1_MMM'
@@ -58,8 +58,8 @@ local Example1Xls = {
             args_bool_arr = {false, true},
             args_vect2 = Vector2(2, 0.5),
             args_vect3 = Vector3(0.6, 3, -8.4),
-            args_euler = EulerDegree(0, 0, 0),
-            args_color = Color(0, 0, 0, 0),
+            args_euler = nil,
+            args_color = nil,
             args_lua = nil,
             Des1 = 'Example1_Des1_1_ddd',
             Des2 = 'Example1_Des2_1_ddd'
@@ -76,11 +76,11 @@ local Example1Xls = {
             args_int_arr = {2, 3},
             args_float_arr = {200.3, 3, 234.23},
             args_string_arr = {'df', 'ssd', 'dd', 'dd'},
-            args_bool_arr = {},
-            args_vect2 = Vector2.Zero,
-            args_vect3 = Vector3.Zero,
-            args_euler = EulerDegree(0, 0, 0),
-            args_color = Color(0, 0, 0, 0),
+            args_bool_arr = nil,
+            args_vect2 = nil,
+            args_vect3 = nil,
+            args_euler = nil,
+            args_color = nil,
             args_lua = nil,
             Des1 = 'Example1_Des1_2_farm',
             Des2 = 'Example1_Des2_2_farm'
@@ -88,18 +88,18 @@ local Example1Xls = {
         MMM = {
             id = 2,
             name = 'MMM',
-            use_money = 0,
+            use_money = nil,
             use_food = 22.1,
-            is_init = false,
+            is_init = nil,
             defense = 234,
             args_int_arr = {3, 6, 6, 7},
             args_float_arr = {3, 6.3, 6, 7},
             args_string_arr = {'ss', 'd', 'd', 'd'},
             args_bool_arr = {true, true},
-            args_vect2 = Vector2.Zero,
-            args_vect3 = Vector3.Zero,
-            args_euler = EulerDegree(0, 0, 0),
-            args_color = Color(0, 0, 0, 0),
+            args_vect2 = nil,
+            args_vect3 = nil,
+            args_euler = nil,
+            args_color = nil,
             args_lua = "还没有添加检查",
             Des1 = 'Example1_Des1_2_MMM',
             Des2 = 'Example1_Des2_2_MMM'

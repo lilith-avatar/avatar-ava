@@ -3,7 +3,7 @@
 --- @copyright Lilith Games, Project Da Vinci(Avatar Team)
 --- @see https://www.projectdavinci.com/
 --- @see https://github.com/endaye/avatar-ava-xls2lua
---- source file: ./xls/ExampleTable1.xlsx
+--- source file: ./Xls/ExampleTable1.xlsx
 
 local Example2Xls = {
     [1] = {
@@ -24,7 +24,7 @@ local Example2Xls = {
         use_money = 123,
         use_food = 336.2,
         is_init = true,
-        defense = 0,
+        defense = nil,
         args1 = {1, 2, 3},
         args2 = {1, 2.3445, 3},
         args3 = {'你好', '你在哪'},
@@ -52,14 +52,14 @@ local Example2Xls = {
         args1 = {2, 3},
         args2 = {200.3, 3, 234.23},
         args3 = {'df', 'ssd', 'dd', 'dd'},
-        args4 = {}
+        args4 = nil
     },
     [5] = {
         id = 5,
         name = 'house5',
-        use_money = 0,
+        use_money = nil,
         use_food = 22.1,
-        is_init = false,
+        is_init = nil,
         defense = 234,
         args1 = {3, 6, 6, 7},
         args2 = {3, 6.3, 6, 7},
@@ -70,11 +70,11 @@ local Example2Xls = {
         id = 6,
         name = 'horse3',
         use_money = 200,
-        use_food = 0,
+        use_food = nil,
         is_init = false,
         defense = 333,
-        args1 = {},
-        args2 = {},
+        args1 = nil,
+        args2 = nil,
         args3 = {'2e', 'w', 'e', 'we'},
         args4 = {false, false, false, false}
     }

@@ -3,7 +3,7 @@
 --- @copyright Lilith Games, Project Da Vinci(Avatar Team)
 --- @see https://www.projectdavinci.com/
 --- @see https://github.com/endaye/avatar-ava-xls2lua
---- source file: ./xls/LanguagePack.xls
+--- source file: ./Xls/LanguagePack.xls
 
 local LanguagePackXls = {
     Example1_Des1_1_house = {
