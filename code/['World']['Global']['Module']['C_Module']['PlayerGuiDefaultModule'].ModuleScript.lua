@@ -28,8 +28,7 @@ end
 -- 姓名板
 function PlayerGuiDefault:InitNameGui()
     nameGUI = player.NameGui
-    nameGUI.NameBarTxt1.Text = player.Name
-    nameGUI.NameBarTxt2.Text = player.Name
+    nameGUI.NameBarTxt.Text = player.Name
 end
 
 -- 血条
