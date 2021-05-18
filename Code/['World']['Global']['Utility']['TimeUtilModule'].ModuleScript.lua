@@ -20,41 +20,42 @@ local DELTA_TIME = .05
 --- Find all registered events to trigger
 local function CheckEvents()
     -- now = os.time()
-    local now = Timer.GetTimeMillisecond()
-    local i, event = 1
-    while i <= #eventList do
+    local now = Timer.GetTime()
+    local event
+    for i = #eventList, 1, -1 do
         event = eventList[i]
         if event.triggerTime <= now then
             table.insert(activeEvents, event)
             if event.loop then
                 event.triggerTime = event.triggerTime + event.delay
-                i = i + 1
             else
                 table.remove(eventList, i)
             end
-        else
-            i = i + 1
         end
     end
 end
 
 --- Trigger events
 local function TriggerEvents()
-    local i = 1
-    while i <= #activeEvents do
+    local event
+    for i = #activeEvents, 1, -1 do
         event = activeEvents[i]
-        invoke(event.func)
+        invoke(
+            function()
+                event.func()
+            end
+        )
         table.remove(activeEvents, i)
     end
+    assert(#activeEvents == 0, string.format('[TimeUtil] 有未执行的事件%s个', #activeEvents))
 end
 
 --- Update
 local function StartUpdate()
-    while running do
-        -- print(os.time())
+    while running and wait(DELTA_TIME) do
+        -- --print(Timer.GetTime(), os.time())
         CheckEvents()
         TriggerEvents()
-        wait(DELTA_TIME)
     end
 end
 
@@ -65,6 +66,9 @@ end
 
 --- Run Update()
 function TimeUtil.Start()
+    if running then
+        return
+    end
     running = true
     invoke(StartUpdate)
 end
@@ -82,22 +86,21 @@ end
 -- @see https://www.w3schools.com/jsref/met_win_settimeout.asp
 function TimeUtil.SetTimeout(_func, _seconds)
     assert(_func, '[TimeUtil] TimeUtil.SetTimeout() _func 不能为空')
+    assert(type(_func) == 'function', '[TimeUtil] TimeUtil.SetTimeout() _func 类型不是function')
     assert(_seconds >= 0, '[TimeUtil] TimeUtil.SetTimeout() 延迟时间需大于等于0')
     if _seconds == 0 then
-        print('[TimeUtil] TimeUtil.SetTimeout() 事件立即执行')
+        --print('[TimeUtil] TimeUtil.SetTimeout() 事件立即执行')
         invoke(_func)
         return
     end
     local id = #eventList + 1
-    -- convert to milliseconds
-    local ms = math.floor(_seconds * 1000)
-    local timestamp = ms + Timer.GetTimeMillisecond()
+    local timestamp = _seconds + Timer.GetTime()
     table.insert(
         eventList,
         {
             id = id,
             func = _func,
-            delay = ms,
+            delay = _seconds,
             triggerTime = timestamp
         }
     )
@@ -112,17 +115,16 @@ end
 -- @see https://www.w3schools.com/jsref/met_win_setinterval.asp
 function TimeUtil.SetInterval(_func, _seconds)
     assert(_func, '[TimeUtil] TimeUtil.SetInterval() _func 不能为空')
+    assert(type(_func) == 'function', '[TimeUtil] TimeUtil.SetInterval() _func 类型不是function')
     assert(_seconds > 0, '[TimeUtil] TimeUtil.SetInterval() 延迟时间需大于0')
     local id = #eventList + 1
-    -- convert to milliseconds
-    local ms = math.floor(_seconds * 1000)
-    local timestamp = ms + Timer.GetTimeMillisecond()
+    local timestamp = _seconds + Timer.GetTime()
     table.insert(
         eventList,
         {
             id = id,
             func = _func,
-            delay = ms,
+            delay = _seconds,
             triggerTime = timestamp,
             loop = true
         }
