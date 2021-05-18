@@ -907,7 +907,7 @@ end
 
 function Stack:Pop()
     if self:IsEmpty() then
-        --print("Error: the stack is empty")
+        print('Error: the stack is empty')
         return
     end
     local value = self._stack[self._last]

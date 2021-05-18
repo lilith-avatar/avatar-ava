@@ -53,7 +53,7 @@ end
 --- Update
 local function StartUpdate()
     while running and wait(DELTA_TIME) do
-        -- --print(Timer.GetTime(), os.time())
+        -- print(Timer.GetTime(), os.time())
         CheckEvents()
         TriggerEvents()
     end
@@ -89,7 +89,7 @@ function TimeUtil.SetTimeout(_func, _seconds)
     assert(type(_func) == 'function', '[TimeUtil] TimeUtil.SetTimeout() _func 类型不是function')
     assert(_seconds >= 0, '[TimeUtil] TimeUtil.SetTimeout() 延迟时间需大于等于0')
     if _seconds == 0 then
-        --print('[TimeUtil] TimeUtil.SetTimeout() 事件立即执行')
+        print('[TimeUtil] TimeUtil.SetTimeout() 事件立即执行')
         invoke(_func)
         return
     end

@@ -23,7 +23,7 @@ local DebugMode = true
 
 --- 打印日志
 local PrintLog = DebugMode and function(...)
-        --print('[SoundUtil]', ...)
+        print('[SoundUtil]', ...)
     end or function()
     end
 
