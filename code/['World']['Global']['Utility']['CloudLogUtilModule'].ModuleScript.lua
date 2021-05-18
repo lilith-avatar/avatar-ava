@@ -1,7 +1,7 @@
 --- 埋点数据工具
 --- @module CloudLogUtil
 --- @copyright Lilith Games, Avatar Team
---- @author Sharif Ma
+--- @author Sharif Ma, Xinwu Zhang
 local CloudLogUtil = {}
 
 ---埋点工具初始化
