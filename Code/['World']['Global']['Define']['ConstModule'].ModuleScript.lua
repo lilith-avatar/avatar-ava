@@ -6,7 +6,7 @@ local Const = {}
 -- e.g. (need DELETE)
 Const.MAX_PLAYERS = 4
 
---语言枚举
+-- 语言枚举
 Const.LanguageEnum = {
     CHS = 'CHS', -- 简体中文
     CHT = 'CHT', -- 繁体中文
