@@ -10,7 +10,7 @@ end
 
 --- 加载的时候运行的代码
 function ClientBase:InitDefault(_module)
-    -- --print(string.format('[ClientBase][%s] InitDefault()', self.name))
+    -- print(string.format('[ClientBase][%s] InitDefault()', self.name))
     -- 初始化默认监听事件
     EventUtil.LinkConnects(localPlayer.C_Event, _module, self)
 end
@@ -20,7 +20,7 @@ end
 -- FrameworkConfig.DebugMode 框架中的全局debug开关
 function ClientBase:Log(...)
     if self.debug and FrameworkConfig.DebugMode then
-        --print(string.format('[%s]', self.name), ...)
+        print(string.format('[%s]', self.name), ...)
     end
 end
 

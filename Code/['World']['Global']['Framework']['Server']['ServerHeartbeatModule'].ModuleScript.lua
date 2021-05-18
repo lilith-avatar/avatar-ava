@@ -35,7 +35,7 @@ local sTmpTs, cTmpTs  -- 时间戳缓存
 
 --- 打印心跳日志
 local PrintHb = FrameworkConfig.DebugMode and FrameworkConfig.Debug.ShowHeartbeatLog and function(...)
-        --print('[Heartbeat][Server]', ...)
+        print('[Heartbeat][Server]', ...)
     end or function()
     end
 
@@ -43,14 +43,14 @@ local PrintHb = FrameworkConfig.DebugMode and FrameworkConfig.Debug.ShowHeartbea
 
 --- 初始化心跳包
 function ServerHeartbeat.Init()
-    --print('[Heartbeat][Server] Init()')
+    print('[Heartbeat][Server] Init()')
     CheckSetting()
     InitEventsAndListeners()
 end
 
 --- 开始发出心跳
 function ServerHeartbeat.Start()
-    --print('[Heartbeat][Server] Start()')
+    print('[Heartbeat][Server] Start()')
     running = true
     while (running) do
         Update()
@@ -60,7 +60,7 @@ end
 
 --- 停止心跳
 function ServerHeartbeat.Stop()
-    --print('[Heartbeat][Server] Stop()')
+    print('[Heartbeat][Server] Stop()')
     running = false
 end
 
@@ -103,7 +103,7 @@ function InitEventsAndListeners()
             local player = _player
             local uid = player.UserId
             if cache[player] then
-                --print('[Heartbeat][Server] OnPlayerLeaveEvent, 玩家主动离开游戏,', player, uid)
+                print('[Heartbeat][Server] OnPlayerLeaveEvent, 玩家主动离开游戏,', player, uid)
                 NetUtil.Fire_S('OnPlayerLeaveEvent', player, uid)
                 cache[player] = nil
             end
@@ -142,16 +142,15 @@ end
 function CheckPlayerJoin(_player)
     if not cache[_player] then
         --* 玩家新加入 OnPlayerJoinEvent
-        --print('[Heartbeat][Server] OnPlayerJoinEvent, 新玩家加入,', _player)
-        NetUtil.Fire_S('OnPlayerJoinEvent', _player)
-		print('已经广播了')
+        print('[Heartbeat][Server] OnPlayerJoinEvent, 新玩家加入,', _player)
+        NetUtil.Fire_S('OnPlayerJoinEvent', _player, _player.UserId)
         cache[_player] = {
             state = HeartbeatEnum.CONNECT
         }
     elseif cache[_player].state == HeartbeatEnum.DISCONNECT then
         --* 玩家断线重连 OnPlayerReconnectEvent
-        --print('[Heartbeat][Server] OnPlayerReconnectEvent, 玩家断线重连,', _player)
-        NetUtil.Fire_S('OnPlayerReconnectEvent', _player)
+        print('[Heartbeat][Server] OnPlayerReconnectEvent, 玩家断线重连,', _player)
+        NetUtil.Fire_S('OnPlayerReconnectEvent', _player, _player.UserId)
         cache[_player].state = HeartbeatEnum.CONNECT
     end
 end
@@ -168,16 +167,16 @@ function CheckPlayerStates(_player, _sTimestam)
         cache[_player].state = HeartbeatEnum.CONNECT
     elseif cache[_player].state == HeartbeatEnum.CONNECT and diff >= HEARTBEAT_THRESHOLD_1 then
         --* 玩家断线 OnPlayerDisconnectEvent
-        --print('[Heartbeat][Server] OnPlayerDisconnectEvent, 玩家离线, 等待断线重连,', _player, _player.UserId)
-        NetUtil.Fire_S('OnPlayerDisconnectEvent', _player)
+        print('[Heartbeat][Server] OnPlayerDisconnectEvent, 玩家离线, 等待断线重连,', _player, _player.UserId)
+        NetUtil.Fire_S('OnPlayerDisconnectEvent', _player, _player.UserId)
         cache[_player].state = HeartbeatEnum.DISCONNECT
     elseif cache[_player].state == HeartbeatEnum.DISCONNECT and diff >= HEARTBEAT_THRESHOLD_2 then
         --* 玩家彻底断线，剔除玩家
         local player = _player
         local uid = player.UserId
-        --print('[Heartbeat][Server] OnPlayerLeaveEvent, 剔除离线玩家,', player, uid)
+        print('[Heartbeat][Server] OnPlayerLeaveEvent, 剔除离线玩家,', player, uid)
         NetUtil.Fire_S('OnPlayerLeaveEvent', player, uid)
-        --print('[Heartbeat][Server] OnPlayerLeaveEvent, 发送客户端离线事件,', player, uid)
+        print('[Heartbeat][Server] OnPlayerLeaveEvent, 发送客户端离线事件,', player, uid)
         NetUtil.Fire_C('OnPlayerLeaveEvent', player, uid)
         cache[player] = nil
     end

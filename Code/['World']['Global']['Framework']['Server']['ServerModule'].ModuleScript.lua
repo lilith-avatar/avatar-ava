@@ -16,14 +16,14 @@ local initDefaultList, initList, updateList = {}, {}, {}
 
 --- 运行服务器
 function Server:Run()
-    --print('[Server] Run()')
+    print('[Server] Run()')
     InitServer()
     StartUpdate()
 end
 
 --- 停止Update
 function Server:Stop()
-    --print('[Server] Stop()')
+    print('[Server] Stop()')
     running = false
     ServerHeartbeat.Stop()
 end
@@ -33,7 +33,7 @@ function InitServer()
     if initialized then
         return
     end
-    --print('[Server] InitServer()')
+    print('[Server] InitServer()')
     InitRandomSeed()
     InitHeartbeat()
     InitDataSync()
@@ -47,7 +47,7 @@ end
 
 --- 初始化服务器的CustomEvent
 function InitServerCustomEvents()
-    --print('[Server] InitServerCustomEvents()')
+    print('[Server] InitServerCustomEvents()')
     if world.S_Event == nil then
         world:CreateObject('FolderObject', 'S_Event', world)
     end
@@ -132,7 +132,7 @@ end
 
 --- 开始Update
 function StartUpdate()
-    --print('[Server] StartUpdate()')
+    print('[Server] StartUpdate()')
     assert(not running, '[Server] StartUpdate() 正在运行')
 
     running = true

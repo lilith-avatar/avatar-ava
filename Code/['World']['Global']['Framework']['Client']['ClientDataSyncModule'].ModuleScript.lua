@@ -13,7 +13,7 @@ local rawDataPlayer = {}
 
 --- 打印数据同步日志
 local PrintLog = FrameworkConfig.DebugMode and FrameworkConfig.Debug.ShowDataSyncLog and function(...)
-        --print('[DataSync][Client]', ...)
+        print('[DataSync][Client]', ...)
     end or function()
     end
 
@@ -21,7 +21,7 @@ local PrintLog = FrameworkConfig.DebugMode and FrameworkConfig.Debug.ShowDataSyn
 
 --- 数据初始化
 function ClientDataSync.Init()
-    --print('[DataSync][Client] Init()')
+    print('[DataSync][Client] Init()')
     InitEventsAndListeners()
     InitDataDefines()
 end
@@ -63,7 +63,7 @@ end
 
 --- 开始同步
 function ClientDataSync.Start()
-    --print('[DataSync][Client] 客户端数据同步开启')
+    print('[DataSync][Client] 客户端数据同步开启')
     MetaData.ClientSync = true
 end
 

@@ -215,7 +215,7 @@ end
 
 --- 打印数据同步日志
 PrintLog = FrameworkConfig.DebugMode and debugMode and function(...)
-        --print('[MetaData]', ...)
+        print('[MetaData]', ...)
     end or function()
     end
 
@@ -263,12 +263,12 @@ Data.Global.b = {22, 33}
 Data.Global.c = {c1 = {44, 55}, c2 = 66}
 Data.Global.c.c3 = {c4 = 77}
 Data.Global.d = {'88', Vector3(9,9,9)}
---print(table.dump(Data.Global))
---print(table.dump(MetaData.Get(Data.Global)))
+print(table.dump(Data.Global))
+print(table.dump(MetaData.Get(Data.Global)))
 
---print(table.dump(Data.Player))
+print(table.dump(Data.Player))
 
---print(table.dump(Data.Players))
+print(table.dump(Data.Players))
 
---print(table.dump(Data.Players['pid:local_1']))
+print(table.dump(Data.Players['pid:local_1']))
 ]]

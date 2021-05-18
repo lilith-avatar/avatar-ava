@@ -16,14 +16,14 @@ local initDefaultList, initList, updateList = {}, {}, {}
 
 --- 运行客户端
 function Client:Run()
-    --print('[Client] Run()')
+    print('[Client] Run()')
     InitClient()
     StartUpdate()
 end
 
 --- 停止Update
 function Client:Stop()
-    --print('[Client] Stop()')
+    print('[Client] Stop()')
     running = false
     ClientHeartbeat.Stop()
 end
@@ -33,7 +33,7 @@ function InitClient()
     if initialized then
         return
     end
-    --print('[Client] InitClient()')
+    print('[Client] InitClient()')
     InitRandomSeed()
     InitHeartbeat()
     InitDataSync()
@@ -85,14 +85,11 @@ end
 function GenInitAndUpdateList()
     -- TODO: 改成在FrameworkConfig中配置
     -- Init Default
-    ModuleUtil.GetModuleListWithFunc(Module.UI_Module, 'InitDefault', initDefaultList)
     ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'InitDefault', initDefaultList)
     -- Init
     ModuleUtil.GetModuleListWithFunc(Define, 'Init', initList)
-    ModuleUtil.GetModuleListWithFunc(Module.UI_Module, 'Init', initList)
     ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'Init', initList)
     -- Update
-    ModuleUtil.GetModuleListWithFunc(Module.UI_Module, 'Update', updateList)
     ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'Update', updateList)
     -- Plugin
     for _, m in pairs(Config.PluginModules) do
@@ -123,7 +120,7 @@ end
 
 --- 开始Update
 function StartUpdate()
-    --print('[Client] StartUpdate()')
+    print('[Client] StartUpdate()')
     assert(not running, '[Client] StartUpdate() 正在运行')
 
     running = true
