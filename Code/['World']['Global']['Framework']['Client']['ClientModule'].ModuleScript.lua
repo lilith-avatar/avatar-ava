@@ -16,14 +16,14 @@ local initDefaultList, initList, updateList = {}, {}, {}
 
 --- 运行客户端
 function Client:Run()
-    print('[Client] Run()')
+    --print('[Client] Run()')
     InitClient()
     StartUpdate()
 end
 
 --- 停止Update
 function Client:Stop()
-    print('[Client] Stop()')
+    --print('[Client] Stop()')
     running = false
     ClientHeartbeat.Stop()
 end
@@ -33,11 +33,11 @@ function InitClient()
     if initialized then
         return
     end
-    print('[Client] InitClient()')
+    --print('[Client] InitClient()')
     InitRandomSeed()
     InitHeartbeat()
+    InitDataSync()
     InitClientCustomEvents()
-    PreloadCsv()
     GenInitAndUpdateList()
     RunInitDefault()
     InitOtherModules()
@@ -48,6 +48,12 @@ end
 function InitHeartbeat()
     assert(ClientHeartbeat, '[Client][Heartbeat] 找不到ClientHeartbeat,请联系张远程')
     ClientHeartbeat.Init()
+end
+
+--- 初始化数据同步
+function InitDataSync()
+    assert(ClientDataSync, '[Server][DataSync] 找不到ClientDataSync,请联系张远程')
+    ClientDataSync.Init()
 end
 
 --- 初始化客户端的CustomEvent
@@ -77,9 +83,18 @@ end
 
 --- 生成需要Init和Update的模块列表
 function GenInitAndUpdateList()
+    -- TODO: 改成在FrameworkConfig中配置
+    -- Init Default
+    ModuleUtil.GetModuleListWithFunc(Module.UI_Module, 'InitDefault', initDefaultList)
     ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'InitDefault', initDefaultList)
+    -- Init
+    ModuleUtil.GetModuleListWithFunc(Define, 'Init', initList)
+    ModuleUtil.GetModuleListWithFunc(Module.UI_Module, 'Init', initList)
     ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'Init', initList)
+    -- Update
+    ModuleUtil.GetModuleListWithFunc(Module.UI_Module, 'Update', updateList)
     ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'Update', updateList)
+    -- Plugin
     for _, m in pairs(Config.PluginModules) do
         ModuleUtil.GetModuleListWithFunc(m, 'InitDefault', initDefaultList)
         ModuleUtil.GetModuleListWithFunc(m, 'Init', initList)
@@ -99,14 +114,6 @@ function InitRandomSeed()
     math.randomseed(os.time())
 end
 
---- 预加载所有的CSV表格
-function PreloadCsv()
-    print('[Client] PreloadCsv()')
-    if Config.ClientPreload and #Config.ClientPreload > 0 then
-        CsvUtil.PreloadCsv(Config.ClientPreload, Csv, Config)
-    end
-end
-
 --- 初始化包含Init()方法的模块
 function InitOtherModules()
     for _, m in ipairs(initList) do
@@ -116,7 +123,7 @@ end
 
 --- 开始Update
 function StartUpdate()
-    print('[Client] StartUpdate()')
+    --print('[Client] StartUpdate()')
     assert(not running, '[Client] StartUpdate() 正在运行')
 
     running = true
@@ -125,6 +132,9 @@ function StartUpdate()
     if FrameworkConfig.HeartbeatStart then
         invoke(ClientHeartbeat.Start)
     end
+
+    -- 开启数据同步
+    ClientDataSync.Start()
 
     local dt = 0 -- delta time 每帧时间
     local tt = 0 -- total time 游戏总时间

@@ -16,14 +16,14 @@ local initDefaultList, initList, updateList = {}, {}, {}
 
 --- 运行服务器
 function Server:Run()
-    print('[Server] Run()')
+    --print('[Server] Run()')
     InitServer()
     StartUpdate()
 end
 
 --- 停止Update
 function Server:Stop()
-    print('[Server] Stop()')
+    --print('[Server] Stop()')
     running = false
     ServerHeartbeat.Stop()
 end
@@ -33,9 +33,10 @@ function InitServer()
     if initialized then
         return
     end
-    print('[Server] InitServer()')
+    --print('[Server] InitServer()')
     InitRandomSeed()
     InitHeartbeat()
+    InitDataSync()
     InitServerCustomEvents()
     InitCsvAndXls()
     GenInitAndUpdateList()
@@ -46,7 +47,7 @@ end
 
 --- 初始化服务器的CustomEvent
 function InitServerCustomEvents()
-    print('[Server] InitServerCustomEvents()')
+    --print('[Server] InitServerCustomEvents()')
     if world.S_Event == nil then
         world:CreateObject('FolderObject', 'S_Event', world)
     end
@@ -76,6 +77,12 @@ function InitHeartbeat()
     ServerHeartbeat.Init()
 end
 
+--- 初始化数据同步
+function InitDataSync()
+    assert(ServerDataSync, '[Server][DataSync] 找不到ServerDataSync,请联系张远程')
+    ServerDataSync.Init()
+end
+
 --- 生成框架需要的节点
 function InitCsvAndXls()
     if not world.Global.Csv then
@@ -88,9 +95,15 @@ end
 
 --- 生成需要Init和Update的模块列表
 function GenInitAndUpdateList()
+    -- TODO: 改成在FrameworkConfig中配置
+    -- Init Default
     ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'InitDefault', initDefaultList)
+    -- Init
+    ModuleUtil.GetModuleListWithFunc(Define, 'Init', initList)
     ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'Init', initList)
+    -- Update
     ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'Update', updateList)
+    -- Plugin
     for _, m in pairs(FrameworkConfig.Server.PluginModules) do
         ModuleUtil.GetModuleListWithFunc(m, 'InitDefault', initDefaultList)
         ModuleUtil.GetModuleListWithFunc(m, 'Init', initList)
@@ -119,7 +132,7 @@ end
 
 --- 开始Update
 function StartUpdate()
-    print('[Server] StartUpdate()')
+    --print('[Server] StartUpdate()')
     assert(not running, '[Server] StartUpdate() 正在运行')
 
     running = true
@@ -128,6 +141,9 @@ function StartUpdate()
     if FrameworkConfig.HeartbeatStart then
         invoke(ServerHeartbeat.Start)
     end
+
+    -- 开启数据同步
+    ServerDataSync.Start()
 
     local dt = 0 -- delta time 每帧时间
     local tt = 0 -- total time 游戏总时间
@@ -140,7 +156,22 @@ function StartUpdate()
         tt = tt + dt
         prev = curr
         UpdateServer(dt, tt)
+        --[[xpcall(
+            function()
+                --local a = 10 / nil
+               
+            end,
+            function(err)
+                ErrorShow(err)
+                error(err)
+            end
+        )]]
     end
+end
+
+function ErrorShow(err)
+    world.Global.ErrorGUI:SetActive(true)
+    world.Global.ErrorGUI.Error.Text = err
 end
 
 --- Update函数
