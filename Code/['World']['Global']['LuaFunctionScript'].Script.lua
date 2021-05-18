@@ -957,12 +957,12 @@ function Stack:PrintElement()
     print(str)
 end
 
-
 --- uid递增计数器
+--- @author Sid Zhang
 function UidCounter()
     local num = 0
     return function()
         num = num + 1
-        return tostring(os.clock())..'-'..tostring(num)
+        return string.format('%s-%s', os.clock(), num)
     end
 end
