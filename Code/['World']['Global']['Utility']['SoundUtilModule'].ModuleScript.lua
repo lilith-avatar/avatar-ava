@@ -59,6 +59,7 @@ local function Init3DAudioSource(_index)
 end
 
 function SoundUtil.Init(_config)
+    print('[SoundUtil] Init(_config)')
     if clipTable == nil then
         clipTable = {}
         for k, v in pairs(_config) do
