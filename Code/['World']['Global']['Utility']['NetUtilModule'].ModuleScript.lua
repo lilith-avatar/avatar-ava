@@ -36,9 +36,9 @@ end
 -- @param _player 玩家对象
 -- @param ... 事件参数
 function NetUtil.Fire_C(_eventName, _player, ...)
-	if(_player == nil) then
-		return
-	end
+    if _player == nil then
+        return
+    end
     ValidateArgs(FireEnum.CLIENT, _eventName, _player)
     local args = {...}
     _player.C_Event[_eventName]:Fire(table.unpack(args))
@@ -85,6 +85,7 @@ ValidateArgs =
                 _player and _player.ClassName == 'PlayerInstance',
                 string.format('[NetUtil][Fire_C]第2个参数需要是玩家对象, 错误事件: %s', _eventName)
             )
+            assert(_player.C_Event, '[NetUtil][Fire_C]第2个参数需要是玩家对象, 错误事件: %s', _eventName)
             assert(
                 _player.C_Event[_eventName],
                 string.format('[NetUtil][Fire_C] 客户端玩家不存在事件: %s, 玩家: %s', _player.Name, _eventName)
@@ -98,15 +99,17 @@ ValidateArgs =
     end
 
 --- 打印事件日志
-PrintEventLog = showLog and function(_fireEnum, _eventName, _player, _args)
+PrintEventLog =
+    showLog and
+    function(_fireEnum, _eventName, _player, _args)
         if _fireEnum == FireEnum.SERVER then
             --* Fire_S 参数打印
-            print(string.format('[NetUtil][服务器] %s, 参数 = %s, %s', _eventName, #_args, table.dump(_args)))
+            print(string.format('[NetUtil][发出服务器事件] %s, 参数 = %s, %s', _eventName, #_args, table.dump(_args)))
         elseif _fireEnum == FireEnum.CLIENT then
             --* Fire_C 参数打印
             print(
                 string.format(
-                    '[NetUtil][客户端] %s, 玩家=%s, 参数 = %s, %s',
+                    '[NetUtil][发出客户端事件] %s, 玩家=%s, 参数 = %s, %s',
                     _eventName,
                     _player.Name,
                     #_args,
@@ -114,10 +117,11 @@ PrintEventLog = showLog and function(_fireEnum, _eventName, _player, _args)
                 )
             )
         elseif _fireEnum == FireEnum.BROADCAST then
-            --* Broadcase 参数打印
-            print(string.format('[NetUtil][客户端][广播] %s, 参数 = %s, %s', _eventName, #_args, table.dump(_args)))
+            --* Broadcast 参数打印
+            print(string.format('[NetUtil][发出客户端广播事件] %s, 参数 = %s, %s', _eventName, #_args, table.dump(_args)))
         end
-    end or function()
+    end or
+    function()
     end
 
 return NetUtil
