@@ -36,10 +36,10 @@ MetaData.ClientSync = false
 --! 私有方法
 
 --- 新建一个MetaData的proxy，用于数据同步
--- @param _data 真实数据
--- @param _path 当前节点索引路径
--- @param _uid UserId
--- @return proxy 代理table，没有data，元表内包含方法和path
+--- @param _data 真实数据
+--- @param _path 当前节点索引路径
+--- @param _uid UserId
+--- @return proxy 代理table，没有data，元表内包含方法和path
 function NewData(_data, _path, _uid)
     local proxy = {}
     local mt = {
@@ -71,9 +71,9 @@ function NewData(_data, _path, _uid)
 end
 
 --- 获得原始数据
--- @param _data 真实数据的存储位置
--- @param _path 当前节点索引路径
--- @return rawData 纯数据table，不包含元表
+--- @param _data 真实数据的存储位置
+--- @param _path 当前节点索引路径
+--- @return rawData 纯数据table，不包含元表
 function GetData(_data, _path)
     local rawData = {}
     GetDataAux(_data, _path, rawData)
@@ -81,9 +81,9 @@ function GetData(_data, _path)
 end
 
 --- GetData的辅助函数
--- @param _data 真实数据的存储位置
--- @param _path 当前节点索引路径
--- @param _rawData 纯数据table，不包含元表
+--- @param _data 真实数据的存储位置
+--- @param _path 当前节点索引路径
+--- @param _rawData 纯数据table，不包含元表
 function GetDataAux(_data, _path, _rawData)
     local key, i
     local q, elem = Queue:New(), {}
@@ -117,11 +117,11 @@ function GetDataAux(_data, _path, _rawData)
 end
 
 --- 设置原始数据
--- @param _data 真实数据的存储位置
--- @param _path 当前节点索引路径
--- @param _value 传入的数据
--- @param _uid UserId
--- @param _sync true:同步数据
+--- @param _data 真实数据的存储位置
+--- @param _path 当前节点索引路径
+--- @param _value 传入的数据
+--- @param _uid UserId
+--- @param _sync true:同步数据
 function SetData(_data, _path, _value, _uid, _sync)
     --* 数据同步:赋值的时候只要同步一次就可以的，存下newpath和_v，对方收到后赋值即可
     if _sync and (MetaData.ServerSync or MetaData.ClientSync) then
@@ -167,28 +167,32 @@ function SetData(_data, _path, _value, _uid, _sync)
 end
 
 --- 数据同步
--- @param _path 当前节点索引路径
--- @param _value 传入的数据
--- @param _uid UserId
+--- @param _path 当前节点索引路径
+--- @param _value 传入的数据
+--- @param _uid UserId
 function SyncData(_path, _value, _uid)
-    if MetaData.ServerSync and MetaData.ClientSync and localPlayer then
-        -- 服务器/客户端 同虚拟机
+    if MetaData.ServerSync and MetaData.ClientSync and localPlayer and not string.isnilorempty(_uid) then
+        --* 服务器/客户端（同虚拟机）
+        --  Player 玩家数据同步
         local player = world:GetPlayerByUserId(_uid)
         assert(player == localPlayer, string.format('[MetaData] 玩家不存在 uid = %s', _uid))
         PrintLog(string.format('[Server] 发出 player = %s, _path = %s, _value = %s', player, _path, table.dump(_value)))
         NetUtil.Fire_C('DataSyncS2CEvent', player, _path, _value)
         NetUtil.Fire_S('DataSyncC2SEvent', localPlayer, _path, _value)
     elseif localPlayer == nil and string.isnilorempty(_uid) and MetaData.ServerSync then
-        -- 服务器 => 客户端，Global 全局数据
+        --* 服务器 => 客户端（多端），单向同步
+        --  Global 全局数据
         NetUtil.Broadcast('DataSyncS2CEvent', _path, _value)
     elseif localPlayer == nil and MetaData.ServerSync then
-        -- 服务器 => 客户端，Player 玩家数据
+        --* 服务器 => 客户端（多端），单向同步
+        --  Player 玩家数据同步
         local player = world:GetPlayerByUserId(_uid)
         assert(player, string.format('[MetaData] 玩家不存在 uid = %s', _uid))
         PrintLog(string.format('[Server] 发出 player = %s, _path = %s, _value = %s', player, _path, table.dump(_value)))
         NetUtil.Fire_C('DataSyncS2CEvent', player, _path, _value)
-    elseif localPlayer and localPlayer.UserId == _uid and MetaData.ClientSync then
-        -- 客户端 => 服务器
+    elseif localPlayer and MetaData.ClientSync then
+        --* 客户端 => 服务器（多端），单项同步
+        --  Global/Player 两种数据
         PrintLog(
             string.format('[Client] 发出 player = %s, _path = %s, _value = %s', localPlayer, _path, table.dump(_value))
         )
@@ -219,7 +223,7 @@ PrintLog = FrameworkConfig.DebugMode and debugMode and function(...)
     end or function()
     end
 
--- 数据校验
+--- 数据校验
 function Validators(func)
     if not valid then
         return function()
