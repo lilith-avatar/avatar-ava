@@ -1,8 +1,8 @@
 --- 时间管理器模块
--- @module Module Time Manager
--- @copyright Lilith Games, Avatar Team
--- @author Bingyun Chen, Yuancheng Zhang
--- @see the functions defined by JavaScript syntax
+--- @module Module Time Manager
+--- @copyright Lilith Games, Avatar Team
+--- @author Bingyun Chen, Yuancheng Zhang
+--- @see the functions defined by JavaScript syntax
 
 local TimeUtil = {}
 
@@ -76,16 +76,20 @@ function TimeUtil.Start()
 end
 
 --- Stop Update()
-function TimeUtil.Stop()
+--- @param _clear bool clear remain events
+function TimeUtil.Stop(_clear)
     running = false
+    if _clear then
+        eventList = {}
+    end
 end
 
 --- Call a function after a specified number of milliseconds,
--- use ClearTimeout() method to prevent the function from running
--- @param _func execution function to call
--- @param _delayTime
--- @return timer id
--- @see https://www.w3schools.com/jsref/met_win_settimeout.asp
+--- use ClearTimeout() method to prevent the function from running
+--- @param _func execution function to call
+--- @param _delayTime
+--- @return timer id
+--- @see https://www.w3schools.com/jsref/met_win_settimeout.asp
 function TimeUtil.SetTimeout(_func, _seconds)
     assert(_func, '[TimeUtil] TimeUtil.SetTimeout() _func 不能为空')
     assert(type(_func) == 'function', '[TimeUtil] TimeUtil.SetTimeout() _func 类型不是function')
@@ -110,11 +114,11 @@ function TimeUtil.SetTimeout(_func, _seconds)
 end
 
 --- Call a function or evaluates an expression at specified intervals (in milliseconds),
--- the method will continue calling the function until ClearInterval() is called, or the game is over.
--- @param _func execution function to call
--- @param _delayTime
--- @return timer id
--- @see https://www.w3schools.com/jsref/met_win_setinterval.asp
+--- the method will continue calling the function until ClearInterval() is called, or the game is over.
+--- @param _func execution function to call
+--- @param _delayTime
+--- @return timer id
+--- @see https://www.w3schools.com/jsref/met_win_setinterval.asp
 function TimeUtil.SetInterval(_func, _seconds)
     assert(_func, '[TimeUtil] TimeUtil.SetInterval() _func 不能为空')
     assert(type(_func) == 'function', '[TimeUtil] TimeUtil.SetInterval() _func 类型不是function')
@@ -136,8 +140,8 @@ function TimeUtil.SetInterval(_func, _seconds)
 end
 
 --- Clear a timer set with the SetTimeout() method
--- @param _id timmer id
--- @see https://www.w3schools.com/jsref/met_win_cleartimeout.asp
+--- @param _id timmer id
+--- @see https://www.w3schools.com/jsref/met_win_cleartimeout.asp
 function TimeUtil.ClearTimeout(_id)
     for k, e in pairs(eventList) do
         if e.id == _id then
@@ -148,7 +152,7 @@ function TimeUtil.ClearTimeout(_id)
 end
 
 --- Clear a timer set with the SetInterval() method, used as ClearTimeout()
--- @see https://www.w3schools.com/jsref/met_win_clearinterval.asp
+--- @see https://www.w3schools.com/jsref/met_win_clearinterval.asp
 TimeUtil.ClearInterval = TimeUtil.ClearTimeout
 
 return TimeUtil
