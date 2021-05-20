@@ -17,6 +17,8 @@ local running = false
 -- Set update delta time
 local DELTA_TIME = .05
 
+local tid = 0
+
 --- Find all registered events to trigger
 local function CheckEvents()
     -- now = os.time()
@@ -93,18 +95,18 @@ function TimeUtil.SetTimeout(_func, _seconds)
         invoke(_func)
         return
     end
-    local id = #eventList + 1
+    tid = tid + 1
     local timestamp = _seconds + Timer.GetTime()
     table.insert(
         eventList,
         {
-            id = id,
+            id = tid,
             func = _func,
             delay = _seconds,
             triggerTime = timestamp
         }
     )
-    return id
+    return tid
 end
 
 --- Call a function or evaluates an expression at specified intervals (in milliseconds),
@@ -119,17 +121,18 @@ function TimeUtil.SetInterval(_func, _seconds)
     assert(_seconds > 0, '[TimeUtil] TimeUtil.SetInterval() 延迟时间需大于0')
     local id = #eventList + 1
     local timestamp = _seconds + Timer.GetTime()
+    tid = tid + 1
     table.insert(
         eventList,
         {
-            id = id,
+            id = tid,
             func = _func,
             delay = _seconds,
             triggerTime = timestamp,
             loop = true
         }
     )
-    return id
+    return tid
 end
 
 --- Clear a timer set with the SetTimeout() method
