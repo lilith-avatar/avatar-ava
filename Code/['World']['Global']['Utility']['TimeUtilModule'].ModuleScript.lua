@@ -23,15 +23,14 @@ local tid = 0
 local function CheckEvents()
     -- now = os.time()
     local now = Timer.GetTime()
-    local event
-    for i = #eventList, 1, -1 do
-        event = eventList[i]
+    for k, event in pairs(eventList) do
         if event.triggerTime <= now then
+            activeEvents[event.id] = event
             table.insert(activeEvents, event)
             if event.loop then
                 event.triggerTime = event.triggerTime + event.delay
             else
-                table.remove(eventList, i)
+                eventList[k] = nil
             end
         end
     end
@@ -39,17 +38,15 @@ end
 
 --- Trigger events
 local function TriggerEvents()
-    local event
-    for i = #activeEvents, 1, -1 do
-        event = activeEvents[i]
+    for k, event in pairs(activeEvents) do
         invoke(
             function()
                 event.func()
             end
         )
-        table.remove(activeEvents, i)
+        activeEvents[k] = nil
     end
-    assert(#activeEvents == 0, string.format('[TimeUtil] 有未执行的事件%s个', #activeEvents))
+    assert(next(activeEvents) == nil, string.format('[TimeUtil] 有未执行的事件%s个', table.nums(activeEvents)))
 end
 
 --- Update
@@ -99,17 +96,15 @@ function TimeUtil.SetTimeout(_func, _seconds)
         invoke(_func)
         return
     end
-    tid = tid + 1
     local timestamp = _seconds + Timer.GetTime()
-    table.insert(
-        eventList,
-        {
-            id = tid,
-            func = _func,
-            delay = _seconds,
-            triggerTime = timestamp
-        }
-    )
+    tid = tid + 1
+    eventList[tid] = {
+        id = tid,
+        func = _func,
+        delay = _seconds,
+        triggerTime = timestamp
+    }
+
     return tid
 end
 
@@ -123,36 +118,37 @@ function TimeUtil.SetInterval(_func, _seconds)
     assert(_func, '[TimeUtil] TimeUtil.SetInterval() _func 不能为空')
     assert(type(_func) == 'function', '[TimeUtil] TimeUtil.SetInterval() _func 类型不是function')
     assert(_seconds > 0, '[TimeUtil] TimeUtil.SetInterval() 延迟时间需大于0')
-    local id = #eventList + 1
     local timestamp = _seconds + Timer.GetTime()
     tid = tid + 1
-    table.insert(
-        eventList,
-        {
-            id = tid,
-            func = _func,
-            delay = _seconds,
-            triggerTime = timestamp,
-            loop = true
-        }
-    )
+    eventList[tid] = {
+        id = tid,
+        func = _func,
+        delay = _seconds,
+        triggerTime = timestamp,
+        loop = true
+    }
     return tid
 end
 
 --- Clear a timer set with the SetTimeout() method
---- @param _id timmer id
+--- @param _tid timmer id
 --- @see https://www.w3schools.com/jsref/met_win_cleartimeout.asp
-function TimeUtil.ClearTimeout(_id)
-    for k, e in pairs(eventList) do
-        if e.id == _id then
-            table.remove(eventList, k)
-            break
-        end
-    end
+function TimeUtil.ClearTimeout(_tid)
+    eventList[_tid] = nil
 end
 
 --- Clear a timer set with the SetInterval() method, used as ClearTimeout()
 --- @see https://www.w3schools.com/jsref/met_win_clearinterval.asp
 TimeUtil.ClearInterval = TimeUtil.ClearTimeout
 
+--! TEST ONLY blow
+
+-- Get current timer id
+TimeUtil.GetTimerId = function()
+    return tid
+end
+
+--[[
+    print(TimeUtil.GetTimerId())
+]]
 return TimeUtil
