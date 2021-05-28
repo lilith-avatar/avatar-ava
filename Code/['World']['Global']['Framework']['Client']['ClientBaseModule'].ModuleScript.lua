@@ -13,6 +13,7 @@ function ClientBase:InitDefault(_module)
     -- print(string.format('[ClientBase][%s] InitDefault()', self.name))
     -- 初始化默认监听事件
     EventUtil.LinkConnects(localPlayer.C_Event, _module, self)
+    self.fixedUpdateInterval = Const.FixedUpdateInterval
 end
 
 --- Debug模式下打印日志

@@ -12,13 +12,14 @@ local Config = FrameworkConfig.Server
 local initialized, running = false, false
 
 -- 含有InitDefault(),Init(),Update()的模块列表
-local initDefaultList, awakeList, startList, updateList, laterUpdateList = {}, {}, {}, {}, {}
+local initDefaultList, awakeList, startList, updateList, lateUpdateList, fixedUpdateList = {}, {}, {}, {}, {}, {}
 
 --- 运行服务器
 function Server:Run()
     print('[Server] Run()')
     InitServer()
-    StartUpdate()
+    invoke(StartUpdate)
+    invoke(StartFixedUpdate)
 end
 
 --- 停止Update
@@ -106,15 +107,18 @@ function GenInitAndUpdateList()
     ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'Start', startList)
     -- Update
     ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'Update', updateList)
-    -- LaterUpdate
-    ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'LaterUpdate', laterUpdateList)
+    -- LateUpdate
+    ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'LateUpdate', lateUpdateList)
+    -- FixedUpdate
+    ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'FixedUpdate', fixedUpdateList)
     -- Plugin
     for _, m in pairs(FrameworkConfig.Server.PluginModules) do
         ModuleUtil.GetModuleListWithFunc(m, 'InitDefault', initDefaultList)
         ModuleUtil.GetModuleListWithFunc(m, 'Awake', awakeList)
         ModuleUtil.GetModuleListWithFunc(m, 'Start', startList)
         ModuleUtil.GetModuleListWithFunc(m, 'Update', updateList)
-        ModuleUtil.GetModuleListWithFunc(m, 'LaterUpdate', laterUpdateList)
+        ModuleUtil.GetModuleListWithFunc(m, 'LateUpdate', lateUpdateList)
+        ModuleUtil.GetModuleListWithFunc(m, 'FixedUpdate', fixedUpdateList)
     end
 end
 
@@ -166,7 +170,21 @@ function StartUpdate()
         tt = tt + dt
         prev = curr
         UpdateServer(dt, tt)
-        LaterUpdateServer(dt, tt)
+        LateUpdateServer(dt, tt)
+    end
+end
+
+--- 开始FixedUpdate
+function StartFixedUpdate()
+    for _, m in ipairs(fixedUpdateList) do
+        invoke(
+            function()
+                while running do
+                    m:FixedUpdate()
+                    wait(m.fixedUpdateInterval)
+                end
+            end
+        )
     end
 end
 
@@ -183,11 +201,11 @@ function UpdateServer(_dt, _tt)
     end
 end
 
---- LaterUpdate函数
+--- LateUpdate函数
 -- @param dt delta time 每帧时间
-function LaterUpdateServer(_dt, _tt)
-    for _, m in ipairs(updateList) do
-        m:LaterUpdate(_dt, _tt)
+function LateUpdateServer(_dt, _tt)
+    for _, m in ipairs(lateUpdateList) do
+        m:LateUpdate(_dt, _tt)
     end
 end
 

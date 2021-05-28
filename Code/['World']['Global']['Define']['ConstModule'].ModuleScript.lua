@@ -14,4 +14,7 @@ Const.LanguageEnum = {
     JP = 'JP' -- 日文
 }
 
+-- FixedUpdate执行间隔
+Const.FixedUpdateInterval = 1
+
 return Const
