@@ -30,7 +30,7 @@ local moveBackAxis = 0
 local moveLeftAxis = 0
 local moveRightAxis = 0
 
-function PlayerControl:Init()
+function PlayerControl:Awake()
     -- 获取本地玩家
     player = localPlayer
     self:InitGui()

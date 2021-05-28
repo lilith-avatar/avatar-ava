@@ -17,7 +17,7 @@ local ORANGE_BAR = ResourceManager.GetTexture('Internal/Blood_Orange')
 local HIT_LAST_TIME = 2
 local healthBarShowTime = 0
 
-function PlayerGuiDefault:Init()
+function PlayerGuiDefault:Awake()
     -- 获取本地玩家
     player = localPlayer
     self:InitNameGui()
