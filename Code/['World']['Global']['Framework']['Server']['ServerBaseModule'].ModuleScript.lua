@@ -1,7 +1,7 @@
 --- 服务器模块基础类, Server Module Base Class
 -- @module ServerBase, Server-side
 -- @copyright Lilith Games, Avatar Team
--- @author Yuancheng Zhang
+-- @author Yuancheng Zhang, Dead Ratman
 local ServerBase = class('ServerBase')
 
 function ServerBase:GetSelf()

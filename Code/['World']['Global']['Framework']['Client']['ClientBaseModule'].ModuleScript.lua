@@ -1,7 +1,7 @@
 --- 客户端模块基础类, Client Module Base Class
 -- @module ClientBase, Client-side
 -- @copyright Lilith Games, Avatar Team
--- @author Yuancheng Zhang
+-- @author Yuancheng Zhang, Dead Ratman
 local ClientBase = class('ClientBase')
 
 function ClientBase:GetSelf()

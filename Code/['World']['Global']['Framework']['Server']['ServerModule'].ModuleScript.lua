@@ -12,7 +12,7 @@ local Config = FrameworkConfig.Server
 local initialized, running = false, false
 
 -- 含有InitDefault(),Init(),Update()的模块列表
-local initDefaultList, initList, updateList = {}, {}, {}
+local initDefaultList, awakeList, startList, updateList, laterUpdateList = {}, {}, {}, {}, {}
 
 --- 运行服务器
 function Server:Run()
@@ -98,16 +98,23 @@ function GenInitAndUpdateList()
     -- TODO: 改成在FrameworkConfig中配置
     -- Init Default
     ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'InitDefault', initDefaultList)
-    -- Init
-    ModuleUtil.GetModuleListWithFunc(Define, 'Init', initList)
-    ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'Init', initList)
+    -- Awake
+    ModuleUtil.GetModuleListWithFunc(Define, 'Awake', awakeList)
+    ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'Awake', awakeList)
+    -- Start
+    ModuleUtil.GetModuleListWithFunc(Define, 'Start', startList)
+    ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'Start', startList)
     -- Update
     ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'Update', updateList)
+    -- LaterUpdate
+    ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'LaterUpdate', laterUpdateList)
     -- Plugin
     for _, m in pairs(FrameworkConfig.Server.PluginModules) do
         ModuleUtil.GetModuleListWithFunc(m, 'InitDefault', initDefaultList)
-        ModuleUtil.GetModuleListWithFunc(m, 'Init', initList)
+        ModuleUtil.GetModuleListWithFunc(m, 'Awake', awakeList)
+        ModuleUtil.GetModuleListWithFunc(m, 'Start', startList)
         ModuleUtil.GetModuleListWithFunc(m, 'Update', updateList)
+        ModuleUtil.GetModuleListWithFunc(m, 'LaterUpdate', laterUpdateList)
     end
 end
 
@@ -125,8 +132,11 @@ end
 
 --- 初始化包含Init()方法的模块
 function InitOtherModules()
-    for _, m in ipairs(initList) do
-        m:Init()
+    for _, m in ipairs(awakeList) do
+        m:Awake()
+    end
+    for _, m in ipairs(startList) do
+        m:Start()
     end
 end
 
@@ -156,16 +166,7 @@ function StartUpdate()
         tt = tt + dt
         prev = curr
         UpdateServer(dt, tt)
-        --[[xpcall(
-            function()
-                --local a = 10 / nil
-               
-            end,
-            function(err)
-                ErrorShow(err)
-                error(err)
-            end
-        )]]
+        LaterUpdateServer(dt, tt)
     end
 end
 
@@ -179,6 +180,14 @@ end
 function UpdateServer(_dt, _tt)
     for _, m in ipairs(updateList) do
         m:Update(_dt, _tt)
+    end
+end
+
+--- LaterUpdate函数
+-- @param dt delta time 每帧时间
+function LaterUpdateServer(_dt, _tt)
+    for _, m in ipairs(updateList) do
+        m:LaterUpdate(_dt, _tt)
     end
 end
 

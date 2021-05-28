@@ -12,7 +12,7 @@ local Config = FrameworkConfig.Client
 local initialized, running = false, false
 
 -- 含有InitDefault(),Init(),Update()的模块列表
-local initDefaultList, initList, updateList = {}, {}, {}
+local initDefaultList, awakeList, startList, updateList, laterUpdateList = {}, {}, {}, {}, {}
 
 --- 运行客户端
 function Client:Run()
@@ -86,16 +86,23 @@ function GenInitAndUpdateList()
     -- TODO: 改成在FrameworkConfig中配置
     -- Init Default
     ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'InitDefault', initDefaultList)
-    -- Init
-    ModuleUtil.GetModuleListWithFunc(Define, 'Init', initList)
-    ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'Init', initList)
+    -- Awake
+    ModuleUtil.GetModuleListWithFunc(Define, 'Awake', awakeList)
+    ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'Awake', awakeList)
+    -- Start
+    ModuleUtil.GetModuleListWithFunc(Define, 'Start', startList)
+    ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'Start', startList)
     -- Update
     ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'Update', updateList)
+    -- LaterUpdate
+    ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'LaterUpdate', laterUpdateList)
     -- Plugin
     for _, m in pairs(Config.PluginModules) do
         ModuleUtil.GetModuleListWithFunc(m, 'InitDefault', initDefaultList)
-        ModuleUtil.GetModuleListWithFunc(m, 'Init', initList)
+        ModuleUtil.GetModuleListWithFunc(m, 'Awake', awakeList)
+        ModuleUtil.GetModuleListWithFunc(m, 'Start', startList)
         ModuleUtil.GetModuleListWithFunc(m, 'Update', updateList)
+        ModuleUtil.GetModuleListWithFunc(m, 'LaterUpdate', laterUpdateList)
     end
 end
 
@@ -111,10 +118,13 @@ function InitRandomSeed()
     math.randomseed(os.time())
 end
 
---- 初始化包含Init()方法的模块
+--- 初始化包含Awake()和Start()方法的模块
 function InitOtherModules()
-    for _, m in ipairs(initList) do
-        m:Init()
+    for _, m in ipairs(awakeList) do
+        m:Awake()
+    end
+    for _, m in ipairs(startList) do
+        m:Start()
     end
 end
 
@@ -144,6 +154,7 @@ function StartUpdate()
         tt = tt + dt
         prev = curr
         UpdateClient(dt, tt)
+        LaterUpdateClient(dt, tt)
     end
 end
 
@@ -152,6 +163,14 @@ end
 function UpdateClient(_dt, _tt)
     for _, m in ipairs(updateList) do
         m:Update(_dt, _tt)
+    end
+end
+
+--- LaterUpdate函数
+-- @param dt delta time 每帧时间
+function LaterUpdateClient(_dt, _tt)
+    for _, m in ipairs(updateList) do
+        m:LaterUpdate(_dt, _tt)
     end
 end
 
