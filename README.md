@@ -1,10 +1,5 @@
-<p>
-    <h1 style='border-bottom:none'  align='center'>Avatar Ava</h1>
-    <p style='font-size:20px' align='center'>Avatar Ava is an intergated framework that is designed to support the development on Avatar engine.</p>
-</p>
-
-
-<br>
+# Ava Framework
+**Ava框架** 是基于 [Project Davinci 编辑器](https://www.projectdavinci.com) 的一套Lua层内容开发框架。
 
 [![](https://img.shields.io/badge/-DaVinci-MediumPurple)](http://api.projectdavinci.com/)
 [![](https://img.shields.io/badge/project-Ava-ff69b4)](https://github.com/lilith-avatar/avatar-ava/projects/1)
@@ -13,26 +8,21 @@
 [![](https://img.shields.io/github/v/release/lilith-avatar/avatar-ava)](https://github.com/lilith-avatar/avatar-ava/releases)
 [![](https://img.shields.io/badge/smap-eg-LightCoral)](https://github.com/lilith-avatar/avatar-ava/raw/example/Smap/avatar-ava.smap)
 [![](https://img.shields.io/badge/smap-download-success)](https://github.com/lilith-avatar/avatar-ava/raw/release/Smap/avatar-ava.smap)
+
 <br>
 <br>
 
-## Table of Contents
+## 爆炸派对
+![avatar logo en clear 512x512](https://user-images.githubusercontent.com/4829591/120153673-94239000-c221-11eb-9d00-25f5daf7f26f.png)
 
-- [Table of Contents](#table-of-contents)
-- [Who is Ava?](#who-is-ava)
-- [Branches](#branches)
-- [Ava Wiki](#ava-wiki)
-- [Quick Start](#quick-start)
+* :boom: 爆炸派对（[Boom! Party](https://play.google.com/store/apps/details?id=com.boomparty.avatar)）是一款神秘的游戏引擎，以及 [Project Davinci 编辑器](https://www.projectdavinci.com)。
+* :writing_hand: 编程语言是 [Lua v5.3](https://www.lua.org/manual/5.3/)。
+* :fox_face: [Ava框架](https://github.com/lilith-avatar/avatar-ava/releases) 是一款基于 [Project Davinci 编辑器面](https://www.projectdavinci.com) 向开发者使用的开发框架。
 
-
-
-## Who is Ava? 
-![ava logo](https://i.pinimg.com/564x/f1/af/3d/f1af3d3db9c5711dda1d29a585c3bf03.jpg "ava: blessed, beautiful")
-
-## Branches
-* [master](https://github.com/lilith-avatar/avatar-ava) trunk branch for debug after development finish, and documents 
-* [dev](https://github.com/lilith-avatar/avatar-ava/tree/dev) development branch for new feature, debug and new issue
-* [release](https://github.com/lilith-avatar/avatar-ava/tree/release) release new version, can't change until next version release
+## 分支管理
+* :bust_in_silhouette: **主干分支 [main](https://github.com/lilith-avatar/avatar-ava)** trunk branch for debug after development finish, and documents 
+* :busts_in_silhouette: **开发分支 [dev](https://github.com/lilith-avatar/avatar-ava/tree/dev)** development branch for new feature, debug and new issue
+* :speaking_head: **发布分支 [release](https://github.com/lilith-avatar/avatar-ava/tree/release)** release new version, can't change until next version release
 
 ## Ava Wiki
 * [How to use](https://github.com/lilith-avatar/avatar-ava/wiki/Get-Started)
