@@ -4,11 +4,11 @@
 --- @author Xiexy, Yuancheng Zhang
 local LanguageUtil, this = ModuleUtil.New('LanguageUtil', ClientBase)
 local lang = Config.GlobalSetting.DefaultLanguage
-local defaultLang = Const.LanguageEnum.CHS
+local defaultLang = K.LanguageEnum.CHS
 
 --- 设置当前语言
 function LanguageUtil.SetLanguage(_lang)
-    assert(Const.LanguageEnum[_lang], string.format('[LanguageUtil] %s 语言码不存在，请检查ConstModule', _lang))
+    assert(K.LanguageEnum[_lang], string.format('[LanguageUtil] %s 语言码不存在，请检查ConstModule', _lang))
     print(string.format('[LanguageUtil] 更改当前语言：%s => %s', lang, _lang))
     lang = _lang
 end
