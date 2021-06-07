@@ -5,6 +5,9 @@
 -- Game Defines
 GAME_ID = 'X0000'
 print('GAME_ID = ', GAME_ID)
+PluginConfig = {
+	'FUNC_Guide'
+}
 
 -- Utilities
 ModuleUtil = require(Utility.ModuleUtilModule)
@@ -42,4 +45,6 @@ ModuleUtil.LoadModules(Module.Cls_Module)
 ModuleUtil.LoadModules(Module.C_Module)
 
 -- Plugin Modules
-GuideSystem = require(world.Global.Plugin.FUNC_Guide.GuideSystemModule)
+for _, v in pairs(PluginConfig) do
+    ModuleUtil.LoadPlugin(Plugin[v])
+end

@@ -21,6 +21,27 @@ function ModuleUtil.LoadModules(_root, _scope)
     end
 end
 
+
+--- 加载插件模块目录
+-- @author Xinwu Zhang
+-- @param _root 插件文件夹节点
+-- @param _scope 载入后脚本的作用域
+function ModuleUtil.LoadPlugin(_root, _scope)
+    _scope = _scope or _G
+    assert(_root, '[ModuleUtil] Plugin Node does NOT exist!')
+    _scope[_root.Name] = {}
+    local tmp, name = _root:GetChildren()
+    for _, v in pairs(tmp) do
+        for _, j in pairs(v:GetChildren()) do
+            if j.ClassName == 'ModuleScriptObject' then
+                name = (j.Name):gsub('Module', '')
+                print('[ModuleUtil] Load Module: ', _root.Name, name)
+                _scope[_root.Name][name] = require(j)
+            end
+        end
+    end
+end
+
 --- 加载XLS表格目录
 -- @param _root 模块目录的节点
 -- @param _config 所有Excel生成Lua文件的所在table，不允许是_G
