@@ -13,6 +13,7 @@ function ServerBase:InitDefault(_module)
     -- print(string.format('[ServerBase][%s] InitDefault()', self.name))
     -- 初始化默认监听事件
     EventUtil.LinkConnects(world.S_Event, _module, self)
+    self.fixedUpdateInterval = K.FixedUpdateInterval
 end
 
 --- Debug模式下打印日志

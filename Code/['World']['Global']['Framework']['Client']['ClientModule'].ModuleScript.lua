@@ -12,13 +12,20 @@ local Config = FrameworkConfig.Client
 local initialized, running = false, false
 
 -- 含有InitDefault(),Init(),Update()的模块列表
-local initDefaultList, awakeList, startList, updateList, laterUpdateList = {}, {}, {}, {}, {}
+local initDefaultList, awakeList, startList, onPreRenderList, updateList, lateUpdateList, fixedUpdateList = {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
 
 --- 运行客户端
 function Client:Run()
     print('[Client] Run()')
     InitClient()
-    StartUpdate()
+    invoke(StartUpdate)
+    invoke(StartFixedUpdate)
 end
 
 --- 停止Update
@@ -92,17 +99,23 @@ function GenInitAndUpdateList()
     -- Start
     ModuleUtil.GetModuleListWithFunc(Define, 'Start', startList)
     ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'Start', startList)
+    -- OnPreRender
+    ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'OnPreRender', onPreRenderList)
     -- Update
     ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'Update', updateList)
-    -- LaterUpdate
-    ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'LaterUpdate', laterUpdateList)
+    -- LateUpdate
+    ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'LateUpdate', lateUpdateList)
+    -- FixedUpdate
+    ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'FixedUpdate', fixedUpdateList)
     -- Plugin
     for _, m in pairs(Config.PluginModules) do
         ModuleUtil.GetModuleListWithFunc(m, 'InitDefault', initDefaultList)
         ModuleUtil.GetModuleListWithFunc(m, 'Awake', awakeList)
         ModuleUtil.GetModuleListWithFunc(m, 'Start', startList)
+        ModuleUtil.GetModuleListWithFunc(m, 'OnPreRender', onPreRenderList)
         ModuleUtil.GetModuleListWithFunc(m, 'Update', updateList)
-        ModuleUtil.GetModuleListWithFunc(m, 'LaterUpdate', laterUpdateList)
+        ModuleUtil.GetModuleListWithFunc(m, 'LateUpdate', lateUpdateList)
+        ModuleUtil.GetModuleListWithFunc(m, 'FixedUpdate', fixedUpdateList)
     end
 end
 
@@ -154,7 +167,35 @@ function StartUpdate()
         tt = tt + dt
         prev = curr
         UpdateClient(dt, tt)
-        LaterUpdateClient(dt, tt)
+        LateUpdateClient(dt, tt)
+    end
+end
+
+world.OnRenderStepped:Connect(
+    function(dt)
+        OnPreRenderClient(dt)
+    end
+)
+
+--- 开始FixedUpdate
+function StartFixedUpdate()
+    for _, m in ipairs(fixedUpdateList) do
+        invoke(
+            function()
+                while running do
+                    m:FixedUpdate()
+                    wait(m.fixedUpdateInterval)
+                end
+            end
+        )
+    end
+end
+
+--- OnPreRender函数
+-- @param dt delta time 每帧时间
+function OnPreRenderClient(_dt)
+    for _, m in ipairs(onPreRenderList) do
+        m:OnPreRender(_dt)
     end
 end
 
@@ -166,11 +207,11 @@ function UpdateClient(_dt, _tt)
     end
 end
 
---- LaterUpdate函数
+--- LateUpdate函数
 -- @param dt delta time 每帧时间
-function LaterUpdateClient(_dt, _tt)
-    for _, m in ipairs(updateList) do
-        m:LaterUpdate(_dt, _tt)
+function LateUpdateClient(_dt, _tt)
+    for _, m in ipairs(lateUpdateList) do
+        m:LateUpdate(_dt, _tt)
     end
 end
 
