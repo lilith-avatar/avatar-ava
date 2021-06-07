@@ -21,10 +21,6 @@ local FrameworkConfig = {
         -- threshold_2 -> longer        : disconnected, remove player
         HeartbeatThreshold1 = 5,
         HeartbeatThreshold2 = 10,
-        -- 插件中需要使用声明周期的服务器模块目录
-        PluginModules = {},
-        -- 插件中服务器需要生成的CustomEvent, 模块中必须得有ServerEvents
-        PluginEvents = {}
     },
     -- 客户端配置
     Client = {
@@ -36,10 +32,6 @@ local FrameworkConfig = {
         -- threshold_2 -> longer        : disconnected, quit server
         HeartbeatThreshold1 = 5,
         HeartbeatThreshold2 = 10,
-        -- 插件中需要使用声明周期的客户端模块目录
-        PluginModules = {},
-        -- 插件中客户端需要生成的CustomEvent，模块中必须得有ClientEvents
-        PluginEvents = {}
     },
     --! Debug相关
     Debug = {

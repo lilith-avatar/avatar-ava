@@ -54,9 +54,11 @@ function InitServerCustomEvents()
     end
 
     -- 将插件中的CustomEvent放入Events.ClientEvents中
-    for _, m in pairs(Config.PluginEvents) do
-        local evts = _G[m].ServerEvents
-        assert(evts, string.format('[Server] %s 中不存在ServerEvents，请检查模块，或从FrameworkConfig删除此配置', m))
+    for _, m in pairs(PluginConfig) do
+        if not _G[m].Events then
+            return
+        end
+        local evts = _G[m].Events.ServerEvents
         for __, evt in pairs(evts) do
             if not table.exists(Events.ServerEvents, evt) then
                 table.insert(Events.ServerEvents, evt)
@@ -112,13 +114,16 @@ function GenInitAndUpdateList()
     -- FixedUpdate
     ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'FixedUpdate', fixedUpdateList)
     -- Plugin
-    for _, m in pairs(FrameworkConfig.Server.PluginModules) do
-        ModuleUtil.GetModuleListWithFunc(m, 'InitDefault', initDefaultList)
-        ModuleUtil.GetModuleListWithFunc(m, 'Awake', awakeList)
-        ModuleUtil.GetModuleListWithFunc(m, 'Start', startList)
-        ModuleUtil.GetModuleListWithFunc(m, 'Update', updateList)
-        ModuleUtil.GetModuleListWithFunc(m, 'LateUpdate', lateUpdateList)
-        ModuleUtil.GetModuleListWithFunc(m, 'FixedUpdate', fixedUpdateList)
+    for _, m in pairs(PluginConfig) do
+        if not Plugin[m].S_Module then
+            return
+        end
+        ModuleUtil.GetModuleListWithFunc(Plugin[m].S_Module, 'InitDefault', initDefaultList)
+        ModuleUtil.GetModuleListWithFunc(Plugin[m].S_Module, 'Awake', awakeList)
+        ModuleUtil.GetModuleListWithFunc(Plugin[m].S_Module, 'Start', startList)
+        ModuleUtil.GetModuleListWithFunc(Plugin[m].S_Module, 'Update', updateList)
+        ModuleUtil.GetModuleListWithFunc(Plugin[m].S_Module, 'LateUpdate', lateUpdateList)
+        ModuleUtil.GetModuleListWithFunc(Plugin[m].S_Module, 'FixedUpdate', fixedUpdateList)
     end
 end
 
