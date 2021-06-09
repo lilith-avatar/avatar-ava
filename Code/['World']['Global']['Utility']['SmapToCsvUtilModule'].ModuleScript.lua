@@ -4,7 +4,7 @@
 --- @author Changoo Wu
 local SmapToCsvUtil,this = {},nil
 
-function SmapToCsvUtil:Init()
+function SmapToCsvUtil:Output()
 	filePath = "F:/output.csv"
 	file= io.open(filePath,"w")
 	local data
@@ -25,8 +25,8 @@ end
 return SmapToCsvUtil
 
 --- 使用方式：在编辑模式下，用鼠标框选world Hierarchy下节点，复制粘贴以下代码至output命令行运行，即可在函数设定的目录得到记录所选节点属性的csv文件
---- require(world.Global.Utility.SmapToCsvUtilModule):Init()
+--- require(world.Global.Utility.SmapToCsvUtilModule):Output()
 
 --- PS:输出文件需关闭。
 --- PS2：基础包含ID,Name,Position,Rotation,Scale,Stretch属性，按需魔改
---- PS3：魔改后需要Play后Stop再执行，或重启客户端，或直接粘贴函数体。
+--- PS3：魔改后需要Play后Stop再执行，或重启编辑器，或直接粘贴函数体。
