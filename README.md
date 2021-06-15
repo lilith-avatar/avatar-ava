@@ -1,5 +1,5 @@
-# Ava Framework
-**Ava框架** 是基于 [Project Davinci 编辑器](https://www.projectdavinci.com) 的一套Lua层内容开发框架。
+# AvaKit
+**AvaKit** 是基于 [Project Davinci 编辑器](https://www.projectdavinci.com) 的一套Lua层内容开发框架。
 
 [![](https://img.shields.io/badge/-DaVinci-MediumPurple)](http://api.projectdavinci.com/)
 [![](https://img.shields.io/badge/project-Ava-ff69b4)](https://github.com/lilith-avatar/avatar-ava/projects/1)
@@ -16,7 +16,7 @@
 
 * :boom: 爆炸派对（[Boom! Party](https://play.google.com/store/apps/details?id=com.boomparty.avatar)）是一款神秘的游戏引擎，以及 [Project Davinci 编辑器](https://www.projectdavinci.com)。
 * :writing_hand: 编程语言是 [Lua v5.3](https://www.lua.org/manual/5.3/)。
-* :fox_face: [Ava框架](https://github.com/lilith-avatar/avatar-ava/releases) 是一款基于 [Project Davinci 编辑器面](https://www.projectdavinci.com) 向开发者使用的开发框架。
+* :fox_face: [AvaKit](https://github.com/lilith-avatar/avatar-ava/releases) 是一款基于 [Project Davinci 编辑器面](https://www.projectdavinci.com) 向开发者使用的开发框架。
 
 ## 分支管理
 * :bust_in_silhouette: **主干分支 [main](https://github.com/lilith-avatar/avatar-ava)** trunk branch for debug after development finish, and documents 
