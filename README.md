@@ -10,7 +10,6 @@
 [![](https://img.shields.io/badge/smap-download-success)](https://github.com/lilith-avatar/avatar-ava/raw/release/Smap/avatar-ava.smap)
 
 <br>
-<br>
 
 ## 爆炸派对
 ![avatar logo en clear 512x512](https://user-images.githubusercontent.com/4829591/120153673-94239000-c221-11eb-9d00-25f5daf7f26f.png)
