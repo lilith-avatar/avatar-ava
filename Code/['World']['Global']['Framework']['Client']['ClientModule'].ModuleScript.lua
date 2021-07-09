@@ -83,21 +83,21 @@ end
 function GenInitAndUpdateList()
     -- TODO: 改成在FrameworkConfig中配置
     -- Init Default
-    ModuleUtil.GetModuleListWithFunc(world.C_Code.Module, 'InitDefault', initDefaultList, this)
+    ModuleUtil.GetModuleListWithFunc(world.Client.Module, 'InitDefault', initDefaultList, this)
     -- Awake
     ModuleUtil.GetModuleListWithFunc(Define, 'Awake', awakeList)
-    ModuleUtil.GetModuleListWithFunc(world.C_Code.Module, 'Awake', awakeList, this)
+    ModuleUtil.GetModuleListWithFunc(world.Client.Module, 'Awake', awakeList, this)
     -- Start
     ModuleUtil.GetModuleListWithFunc(Define, 'Start', startList)
-    ModuleUtil.GetModuleListWithFunc(world.C_Code.Module, 'Start', startList, this)
+    ModuleUtil.GetModuleListWithFunc(world.Client.Module, 'Start', startList, this)
     -- OnPreRender
-    ModuleUtil.GetModuleListWithFunc(world.C_Code.Module, 'OnPreRender', onPreRenderList, this)
+    ModuleUtil.GetModuleListWithFunc(world.Client.Module, 'OnPreRender', onPreRenderList, this)
     -- Update
-    ModuleUtil.GetModuleListWithFunc(world.C_Code.Module, 'Update', updateList, this)
+    ModuleUtil.GetModuleListWithFunc(world.Client.Module, 'Update', updateList, this)
     -- LateUpdate
-    ModuleUtil.GetModuleListWithFunc(world.C_Code.Module, 'LateUpdate', lateUpdateList, this)
+    ModuleUtil.GetModuleListWithFunc(world.Client.Module, 'LateUpdate', lateUpdateList, this)
     -- FixedUpdate
-    ModuleUtil.GetModuleListWithFunc(world.C_Code.Module, 'FixedUpdate', fixedUpdateList, this)
+    ModuleUtil.GetModuleListWithFunc(world.Client.Module, 'FixedUpdate', fixedUpdateList, this)
 end
 
 --- 执行默认的Init方法

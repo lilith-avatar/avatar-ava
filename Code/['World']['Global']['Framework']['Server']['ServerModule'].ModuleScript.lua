@@ -89,19 +89,19 @@ end
 function GenInitAndUpdateList()
     -- TODO: 改成在FrameworkConfig中配置
     -- Init Default
-    ModuleUtil.GetModuleListWithFunc(world.S_Code.Module, 'InitDefault', initDefaultList, this)
+    ModuleUtil.GetModuleListWithFunc(world.Server.Module, 'InitDefault', initDefaultList, this)
     -- Awake
     ModuleUtil.GetModuleListWithFunc(Define, 'Awake', awakeList)
-    ModuleUtil.GetModuleListWithFunc(world.S_Code.Module, 'Awake', awakeList, this)
+    ModuleUtil.GetModuleListWithFunc(world.Server.Module, 'Awake', awakeList, this)
     -- Start
     ModuleUtil.GetModuleListWithFunc(Define, 'Start', startList)
-    ModuleUtil.GetModuleListWithFunc(world.S_Code.Module, 'Start', startList, this)
+    ModuleUtil.GetModuleListWithFunc(world.Server.Module, 'Start', startList, this)
     -- Update
-    ModuleUtil.GetModuleListWithFunc(world.S_Code.Module, 'Update', updateList, this)
+    ModuleUtil.GetModuleListWithFunc(world.Server.Module, 'Update', updateList, this)
     -- LateUpdate
-    ModuleUtil.GetModuleListWithFunc(world.S_Code.Module, 'LateUpdate', lateUpdateList, this)
+    ModuleUtil.GetModuleListWithFunc(world.Server.Module, 'LateUpdate', lateUpdateList, this)
     -- FixedUpdate
-    ModuleUtil.GetModuleListWithFunc(world.S_Code.Module, 'FixedUpdate', fixedUpdateList, this)
+    ModuleUtil.GetModuleListWithFunc(world.Server.Module, 'FixedUpdate', fixedUpdateList, this)
 end
 
 --- 执行默认的Init方法
