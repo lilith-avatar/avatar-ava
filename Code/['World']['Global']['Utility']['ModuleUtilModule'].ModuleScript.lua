@@ -8,35 +8,19 @@ local ModuleUtil = {}
 --- 加载模块目录
 -- @param _root 模块目录的节点
 -- @param _scope 载入后脚本的作用域
-function ModuleUtil.LoadModules(_root, _scope)
+-- @param _isRec 是否递归寻找子节点文件夹
+function ModuleUtil.LoadModules(_root, _scope, _isRec)
     _scope = _scope or _G
+    _isRec = _isRec or true
     assert(_root, '[ModuleUtil] Node does NOT exist!')
-    local tmp, name = _root:GetChildren()
-    for _, v in pairs(tmp) do
+    local nodes, name = _root:GetChildren()
+    for _, v in pairs(nodes) do
         if v.ClassName == 'ModuleScriptObject' then
             name = (v.Name):gsub('Module', '')
             print('[ModuleUtil] Load Module: ', name)
             _scope[name] = require(v)
-        end
-    end
-end
-
---- 加载插件模块目录
--- @author Xinwu Zhang
--- @param _root 插件文件夹节点
--- @param _scope 载入后脚本的作用域
-function ModuleUtil.LoadPlugin(_root, _scope)
-    _scope = _scope or _G
-    assert(_root, '[ModuleUtil] Plugin Node does NOT exist!')
-    _scope[_root.Name] = {}
-    local tmp, name = _root:GetChildren()
-    for _, v in pairs(tmp) do
-        for _, j in pairs(v:GetChildren()) do
-            if j.ClassName == 'ModuleScriptObject' then
-                name = (j.Name):gsub('Module', '')
-                print('[ModuleUtil] Load Module: ', _root.Name, name)
-                _scope[_root.Name][name] = require(j)
-            end
+        elseif v.ClassName == 'FolderObject' and _isRec then
+            ModuleUtil.LoadModules(v, _scope, _isRec)
         end
     end
 end
@@ -70,18 +54,22 @@ end
 -- @param @string _fn 方法名 function_name
 -- @param @table _list 存放的table
 -- @param _scope 该脚本的作用域
-function ModuleUtil.GetModuleListWithFunc(_root, _fn, _list, _scope)
+-- @param _isRec 是否递归寻找子节点文件夹
+function ModuleUtil.GetModuleListWithFunc(_root, _fn, _list, _scope, _isRec)
     assert(_root, '[ModuleUtil] Node does NOT exist!')
     assert(not string.isnilorempty(_fn), '[ModuleUtil] Function name is nil or empty!')
     assert(_list, '[ModuleUtil] List is NOT initialized!')
     _scope = _scope or _G
-    local tmp, name = _root:GetChildren()
-    for _, v in pairs(tmp) do
-        name = (v.Name):gsub('Module', '')
-        print(name, _fn)
-        print(_scope[name] and 1 or 0)
-        if _scope[name] and _scope[name][_fn] and type(_scope[name][_fn]) == 'function' then
-            table.insert(_list, _scope[name])
+    _isRec = _isRec or true
+    local nodes, name = _root:GetChildren()
+    for _, v in pairs(nodes) do
+        if v.ClassName == 'ModuleScriptObject' then
+            name = (v.Name):gsub('Module', '')
+            if _scope[name] and _scope[name][_fn] and type(_scope[name][_fn]) == 'function' then
+                table.insert(_list, _scope[name])
+            end
+        elseif v.ClassName == 'FolderObject' and _isRec then
+            ModuleUtil.GetModuleListWithFunc(v, _fn, _list, _scope, _isRec)
         end
     end
 end

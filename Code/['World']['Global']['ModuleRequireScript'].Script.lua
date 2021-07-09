@@ -5,9 +5,6 @@
 -- Game Defines
 GAME_ID = 'X0000'
 print('GAME_ID = ', GAME_ID)
-PluginConfig = {
-	'FUNC_Guide'
-}
 
 -- Utilities
 ModuleUtil = require(Utility.ModuleUtilModule)
@@ -38,8 +35,3 @@ ModuleUtil.LoadModules(Framework.Client)
 -- Globle Defines
 ModuleUtil.LoadModules(Define)
 ModuleUtil.LoadXlsModules(Xls, Config)
-
--- Plugin Modules
-for _, v in pairs(PluginConfig) do
-    ModuleUtil.LoadPlugin(Plugin[v])
-end
