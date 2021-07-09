@@ -39,11 +39,6 @@ ModuleUtil.LoadModules(Framework.Client)
 ModuleUtil.LoadModules(Define)
 ModuleUtil.LoadXlsModules(Xls, Config)
 
--- Server and Clinet Modules
-ModuleUtil.LoadModules(Module.S_Module)
-ModuleUtil.LoadModules(Module.Cls_Module)
-ModuleUtil.LoadModules(Module.C_Module)
-
 -- Plugin Modules
 for _, v in pairs(PluginConfig) do
     ModuleUtil.LoadPlugin(Plugin[v])

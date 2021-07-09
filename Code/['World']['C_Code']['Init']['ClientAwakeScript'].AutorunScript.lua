@@ -2,4 +2,6 @@
 -- @script Client Awake Function
 -- @copyright Lilith Games, Avatar Team, Dead Ratman
 -- @author Dead Ratman
-Client:Run()
+_G.C = Client
+ModuleUtil.LoadModules(world.C_Code.Module, C)
+C:Run()

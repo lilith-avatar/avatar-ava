@@ -21,7 +21,6 @@ function ModuleUtil.LoadModules(_root, _scope)
     end
 end
 
-
 --- 加载插件模块目录
 -- @author Xinwu Zhang
 -- @param _root 插件文件夹节点
@@ -70,15 +69,19 @@ end
 -- @param _root 模块目录的节点
 -- @param @string _fn 方法名 function_name
 -- @param @table _list 存放的table
-function ModuleUtil.GetModuleListWithFunc(_root, _fn, _list)
+-- @param _scope 该脚本的作用域
+function ModuleUtil.GetModuleListWithFunc(_root, _fn, _list, _scope)
     assert(_root, '[ModuleUtil] Node does NOT exist!')
     assert(not string.isnilorempty(_fn), '[ModuleUtil] Function name is nil or empty!')
     assert(_list, '[ModuleUtil] List is NOT initialized!')
+    _scope = _scope or _G
     local tmp, name = _root:GetChildren()
     for _, v in pairs(tmp) do
         name = (v.Name):gsub('Module', '')
-        if _G[name] and _G[name][_fn] and type(_G[name][_fn]) == 'function' then
-            table.insert(_list, _G[name])
+        print(name, _fn)
+        print(_scope[name] and 1 or 0)
+        if _scope[name] and _scope[name][_fn] and type(_scope[name][_fn]) == 'function' then
+            table.insert(_list, _scope[name])
         end
     end
 end

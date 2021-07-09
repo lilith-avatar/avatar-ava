@@ -7,6 +7,7 @@ local Server = {}
 -- Localize global vars
 local CsvUtil, ModuleUtil = CsvUtil, ModuleUtil
 local Config = FrameworkConfig.Server
+local this
 
 -- 已经初始化，正在运行
 local initialized, running = false, false
@@ -17,6 +18,7 @@ local initDefaultList, awakeList, startList, updateList, lateUpdateList, fixedUp
 --- 运行服务器
 function Server:Run()
     print('[Server] Run()')
+    this = self
     InitServer()
     invoke(StartUpdate)
     invoke(StartFixedUpdate)
@@ -53,19 +55,6 @@ function InitServerCustomEvents()
         world:CreateObject('FolderObject', 'S_Event', world)
     end
 
-    -- 将插件中的CustomEvent放入Events.ClientEvents中
-    for _, m in pairs(PluginConfig) do
-        if not _G[m].Events then
-            return
-        end
-        local evts = _G[m].Events.ServerEvents
-        for __, evt in pairs(evts) do
-            if not table.exists(Events.ServerEvents, evt) then
-                table.insert(Events.ServerEvents, evt)
-            end
-        end
-    end
-
     -- 生成CustomEvent节点
     for _, evt in pairs(Events.ServerEvents) do
         if world.S_Event[evt] == nil then
@@ -100,31 +89,19 @@ end
 function GenInitAndUpdateList()
     -- TODO: 改成在FrameworkConfig中配置
     -- Init Default
-    ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'InitDefault', initDefaultList)
+    ModuleUtil.GetModuleListWithFunc(world.S_Code.Module, 'InitDefault', initDefaultList, this)
     -- Awake
     ModuleUtil.GetModuleListWithFunc(Define, 'Awake', awakeList)
-    ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'Awake', awakeList)
+    ModuleUtil.GetModuleListWithFunc(world.S_Code.Module, 'Awake', awakeList, this)
     -- Start
     ModuleUtil.GetModuleListWithFunc(Define, 'Start', startList)
-    ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'Start', startList)
+    ModuleUtil.GetModuleListWithFunc(world.S_Code.Module, 'Start', startList, this)
     -- Update
-    ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'Update', updateList)
+    ModuleUtil.GetModuleListWithFunc(world.S_Code.Module, 'Update', updateList, this)
     -- LateUpdate
-    ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'LateUpdate', lateUpdateList)
+    ModuleUtil.GetModuleListWithFunc(world.S_Code.Module, 'LateUpdate', lateUpdateList, this)
     -- FixedUpdate
-    ModuleUtil.GetModuleListWithFunc(Module.S_Module, 'FixedUpdate', fixedUpdateList)
-    -- Plugin
-    for _, m in pairs(PluginConfig) do
-        if not Plugin[m].S_Module then
-            return
-        end
-        ModuleUtil.GetModuleListWithFunc(Plugin[m].S_Module, 'InitDefault', initDefaultList)
-        ModuleUtil.GetModuleListWithFunc(Plugin[m].S_Module, 'Awake', awakeList)
-        ModuleUtil.GetModuleListWithFunc(Plugin[m].S_Module, 'Start', startList)
-        ModuleUtil.GetModuleListWithFunc(Plugin[m].S_Module, 'Update', updateList)
-        ModuleUtil.GetModuleListWithFunc(Plugin[m].S_Module, 'LateUpdate', lateUpdateList)
-        ModuleUtil.GetModuleListWithFunc(Plugin[m].S_Module, 'FixedUpdate', fixedUpdateList)
-    end
+    ModuleUtil.GetModuleListWithFunc(world.S_Code.Module, 'FixedUpdate', fixedUpdateList, this)
 end
 
 --- 执行默认的Init方法
