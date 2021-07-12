@@ -7,6 +7,7 @@ local Client = {}
 -- Localize global vars
 local CsvUtil, XslUitl, ModuleUtil = CsvUtil, XslUitl, ModuleUtil
 local Config = FrameworkConfig.Client
+local this
 
 -- 已经初始化，正在运行
 local initialized, running = false, false
@@ -23,6 +24,7 @@ local initDefaultList, awakeList, startList, onPreRenderList, updateList, lateUp
 --- 运行客户端
 function Client:Run()
     print('[Client] Run()')
+    this = self
     InitClient()
     invoke(StartUpdate)
     invoke(StartFixedUpdate)
@@ -69,19 +71,6 @@ function InitClientCustomEvents()
         world:CreateObject('FolderObject', 'C_Event', localPlayer)
     end
 
-    -- 将插件中的CustomEvent放入Events.ClientEvents中
-    for _, m in pairs(PluginConfig) do
-        if not _G[m].Events then
-            return
-        end
-        local evts = _G[m].Events.ServerEvents
-        for __, evt in pairs(evts) do
-            if not table.exists(Events.ClientEvents, evt) then
-                table.insert(Events.ClientEvents, evt)
-            end
-        end
-    end
-
     -- 生成CustomEvent节点
     for _, evt in pairs(Events.ClientEvents) do
         if localPlayer.C_Event[evt] == nil then
@@ -94,34 +83,21 @@ end
 function GenInitAndUpdateList()
     -- TODO: 改成在FrameworkConfig中配置
     -- Init Default
-    ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'InitDefault', initDefaultList)
+    ModuleUtil.GetModuleListWithFunc(world.Client.Module, 'InitDefault', initDefaultList, this)
     -- Awake
     ModuleUtil.GetModuleListWithFunc(Define, 'Awake', awakeList)
-    ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'Awake', awakeList)
+    ModuleUtil.GetModuleListWithFunc(world.Client.Module, 'Awake', awakeList, this)
     -- Start
     ModuleUtil.GetModuleListWithFunc(Define, 'Start', startList)
-    ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'Start', startList)
+    ModuleUtil.GetModuleListWithFunc(world.Client.Module, 'Start', startList, this)
     -- OnPreRender
-    ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'OnPreRender', onPreRenderList)
+    ModuleUtil.GetModuleListWithFunc(world.Client.Module, 'OnPreRender', onPreRenderList, this)
     -- Update
-    ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'Update', updateList)
+    ModuleUtil.GetModuleListWithFunc(world.Client.Module, 'Update', updateList, this)
     -- LateUpdate
-    ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'LateUpdate', lateUpdateList)
+    ModuleUtil.GetModuleListWithFunc(world.Client.Module, 'LateUpdate', lateUpdateList, this)
     -- FixedUpdate
-    ModuleUtil.GetModuleListWithFunc(Module.C_Module, 'FixedUpdate', fixedUpdateList)
-    -- Plugin
-    for _, m in pairs(PluginConfig) do
-        if not Plugin[m].C_Module then
-            return
-        end
-        ModuleUtil.GetModuleListWithFunc(Plugin[m].C_Module, 'InitDefault', initDefaultList)
-        ModuleUtil.GetModuleListWithFunc(Plugin[m].C_Module, 'Awake', awakeList)
-        ModuleUtil.GetModuleListWithFunc(Plugin[m].C_Module, 'Start', startList)
-        ModuleUtil.GetModuleListWithFunc(Plugin[m].C_Module, 'OnPreRender', onPreRenderList)
-        ModuleUtil.GetModuleListWithFunc(Plugin[m].C_Module, 'Update', updateList)
-        ModuleUtil.GetModuleListWithFunc(Plugin[m].C_Module, 'LateUpdate', lateUpdateList)
-        ModuleUtil.GetModuleListWithFunc(Plugin[m].C_Module, 'FixedUpdate', fixedUpdateList)
-    end
+    ModuleUtil.GetModuleListWithFunc(world.Client.Module, 'FixedUpdate', fixedUpdateList, this)
 end
 
 --- 执行默认的Init方法
