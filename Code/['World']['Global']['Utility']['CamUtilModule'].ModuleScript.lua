@@ -1,8 +1,8 @@
----摄像机工具类
----@module Cam Utility
----@copyright Lilith Games, Avatar Team
----@author Sharif Ma
----@class CamUtil
+--- 摄像机工具类
+--- @module Cam Utility
+--- @copyright Lilith Games, Avatar Team
+--- @author Sharif Ma
+--- @class CamUtil
 local CamUtil = {}
 
 ---将摄像机在水平面上转动到和角色朝向一致的角度

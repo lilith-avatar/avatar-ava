@@ -1,7 +1,7 @@
----控制某个变量随时间变化的协程类
----@module TweenController
----@copyright Lilith Games, Avatar Team
----@author An Dai
+--- 控制某个变量随时间变化的协程类
+--- @module TweenController
+--- @copyright Lilith Games, Avatar Team
+--- @author An Dai
 local TweenController = class('TweenController')
 
 ---_name:类名，_sender：使用它的类，_getTotalTime:获得总时间的方法，_update _callback:回调函数 _isFix：是否在fixupdate中执行， _start: 开始函数

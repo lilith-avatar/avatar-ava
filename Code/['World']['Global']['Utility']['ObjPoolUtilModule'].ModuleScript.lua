@@ -1,7 +1,7 @@
----对象池工具模块
----@class ObjPoolUtil
--- @copyright Lilith Games, Avatar Team
--- @author Yen Yuan
+--- 对象池工具模块
+--- @module ObjPoolUtil
+--- @copyright Lilith Games, Avatar Team
+--- @author Yen Yuan
 local ObjPoolUtil = class('ObjPoolUtil')
 
 ---创建某一个对象的对象池
@@ -25,17 +25,6 @@ function ObjPoolUtil.static.Newpool(_folderName, _objName, _maxCount)
     return realPool
 end
 
----从池中预创建对象到世界下
----@param _position Vector3
-function ObjPoolUtil:PreSpawn(_position)
-    for i = 1, self.maxCount do
-        local realObj = world:CreateInstance(self.obj, self.obj, self.folder, _position)
-        realObj.IsStatic = true
-        table.insert(self.pool, realObj)
-        realObj:SetActive(false)
-    end
-end
-
 ---从池中创建对象到世界下
 ---@param _position Vector3
 ---@param _rotation EulerDegree
@@ -51,8 +40,7 @@ function ObjPoolUtil:Spawn(_position, _rotation)
     else
         realObj = self.pool[1]
         self.pool[1].Position = _position
-        self.pool[1].Rotation = _rotation or EulerDegree(0, 0, 0)
-        self.pool[1].IsStatic = false
+        self.pool[1].Rotation = _rotation
         self.pool[1]:SetActive(true)
         table.remove(self.pool, 1)
         return realObj
@@ -65,12 +53,11 @@ function ObjPoolUtil:Despawn(_obj)
     if _obj == nil then
         error('[ObjPoolUtil] 传入对象为空')
     elseif #self.pool > self.maxCount then
-        print(string.format('[ObjPoolUtil] %s对象池已满，该对象会永久销毁', self.obj))
+        error(string.format('[ObjPoolUtil] %s对象池已满，该对象会永久销毁', self.obj))
         _obj:Destroy()
     else
         table.insert(self.pool, _obj)
         _obj:SetActive(false)
-        self.pool[1].IsStatic = true
     end
 end
 

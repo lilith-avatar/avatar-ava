@@ -1,10 +1,9 @@
 --- C# 双向链表
--- @module C# doubly linked list implemented with lua
--- @copyright Lilith Games, Avatar Team
--- @author Bruce Chen
--- @see https://wiki.lilithgames.com/x/7yRZAg
--- @see https://github.com/BruceCheng1995/LuaLinkedList
-
+--- @module C# doubly linked list implemented with lua
+--- @copyright Lilith Games, Avatar Team
+--- @author Bruce Chen
+--- @see https://wiki.lilithgames.com/x/7yRZAg
+--- @see https://github.com/BruceCheng1995/LuaLinkedList
 local LinkedList = {}
 local LinkedNode = {}
 LinkedNode.__index = LinkedNode

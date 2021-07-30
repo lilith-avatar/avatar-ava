@@ -1,7 +1,7 @@
 --- 埋点数据工具
 --- @module CloudLogUtil
 --- @copyright Lilith Games, Avatar Team
---- @author Sharif Ma, Xinwu Zhang
+--- @author Sharif Ma
 local CloudLogUtil = {}
 
 ---埋点工具初始化
@@ -12,12 +12,13 @@ end
 
 ---触发埋点相应的事件调用
 ---@param _key string 埋点的键
-function CloudLogUtil.UploadLog(_key, _table)
-    local arg = LuaJsonUtil:encode(_table)
+function CloudLogUtil.UploadLog(_key, ...)
+    local tableName = CloudLogUtil.gameId .. '_' .. _key
+    local args = {...}
     if localPlayer then
-        TrackService.CloudLogFromClient({_key, CloudLogUtil.gameId, arg})
+        TrackService.CloudLogFromClient({tableName, CloudLogUtil.gameId, table.unpack(args)})
     else
-        TrackService.CloudLogFromServer({_key, CloudLogUtil.gameId, arg})
+        TrackService.CloudLogFromServer({tableName, CloudLogUtil.gameId, table.unpack(args)})
     end
 end
 

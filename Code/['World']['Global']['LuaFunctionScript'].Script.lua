@@ -1,7 +1,7 @@
 --- 提供一组常用函数，以及对 Lua 标准库的扩展
--- @script Lua function extension libraries
--- @author Lilith Games, Avatar Team
--- @see https://wiki.lilithgames.com/x/tSkMAg
+--- @script Lua function extension libraries
+--- @author Lilith Games, Avatar Team
+--- @see https://wiki.lilithgames.com/x/tSkMAg
 
 --- 检查并尝试转换为数值，如果无法转换则返回 0
 -- @param mixed value 要检查的值
@@ -59,7 +59,7 @@ function table.nums(t)
         return 0
     end
     local count = 0
-    for _ in pairs(t) do
+    for k, v in pairs(t) do
         count = count + 1
     end
     return count
@@ -106,50 +106,11 @@ end
 -- table.merge(dest, src)
 -- >> dest = {a = 1, b = 2, c = 3, d = 4}
 function table.merge(dest, src)
-    for k, v in pairs(src) do
-        dest[k] = v
-    end
-end
-
---- 深度将来源表格中所有键及其值复制到目标表格对象中，如果存在同名键，则覆盖其值,如果存在子表,则遍历子表进行复制
-function table.deepMerge(dest, src)
-    for k, v in pairs(src) do
-        if type(v) == 'table' then
-            if dest[k] == nil then
-                dest[k] = {}
-            end
-            table.deepMerge(dest[k], v)
-        else
+    if src and dest and type(src) == 'table' and type(dest) == 'table' then
+        for k, v in pairs(src) do
             dest[k] = v
         end
     end
-end
-
---- 将来源表格中所有键及其值复制到目标表格对象中，如果存在同名键，则覆盖其值
--- @param ... 多个表，第一个是目标表格
--- @return 返回一个新表
----@author Sharif Ma
-function table.MergeTables(...)
-    local tabs = {...}
-    if not tabs or #tabs == 0 then
-        return {}
-    end
-    local origin = {}
-    for k, v in pairs(tabs[1]) do
-        origin[k] = v
-    end
-    for i = 2, #tabs do
-        if origin then
-            if tabs[i] then
-                for _, v in pairs(tabs[i]) do
-                    table.insert(origin, v)
-                end
-            end
-        else
-            origin = tabs[i]
-        end
-    end
-    return origin
 end
 
 --- 在目标表格的指定位置插入来源表格，如果没有指定位置则连接两个表格
@@ -167,18 +128,20 @@ end
 -- table.insertto(dest, src, 5)
 -- >> dest = {1, 2, 3, nil, 4, 5, 6}
 function table.insertto(dest, src, begin)
-    if begin == nil then
-        begin = #dest + 1
-    else
-        begin = checkint(begin)
-        if begin <= 0 then
+    if src and dest and type(src) == 'table' and type(dest) == 'table' and begin > 0 then
+        if begin == nil then
             begin = #dest + 1
+        else
+            begin = checkint(begin)
+            if begin <= 0 then
+                begin = #dest + 1
+            end
         end
-    end
 
-    local len = #src
-    for i = 0, len - 1 do
-        dest[i + begin] = src[i + 1]
+        local len = #src
+        for i = 0, len - 1 do
+            dest[i + begin] = src[i + 1]
+        end
     end
 end
 
@@ -315,16 +278,6 @@ function table.removebyvalue(array, value, removeall)
         i = i + 1
     end
     return c
-end
-
---- 数组混淆
-function table.shuffle(_tbl)
-    local j
-    for i = #_tbl, 2, -1 do
-        j = math.random(i)
-        _tbl[i], _tbl[j] = _tbl[j], _tbl[i]
-    end
-    return _tbl
 end
 
 --- 对表格中每一个值执行一次指定的函数，并用函数返回值更新表格内容
@@ -575,8 +528,34 @@ function table.dump(data, showMetatable)
     end
     _dump(data, showMetatable, 0)
 
-    -- print('dump: \n' .. table.concat(result))
-    return 'dump: \n' .. table.concat(result)
+    print('dump from: \n' .. table.concat(result))
+end
+
+function table.readRandomValueInTable(Table)
+    local tmpKeyT = {}
+    local n = 1
+    for k in pairs(Table) do
+        tmpKeyT[n] = k
+        n = n + 1
+    end
+    --math.randomseed(os.time())
+    return Table[tmpKeyT[math.random(1, n - 1)]]
+end
+
+---将数组倒序,不改变原数据
+function table.reverse(_table)
+    if type(_table) ~= 'table' then
+        return
+    end
+    local count = #_table
+    if count == 0 then
+        return
+    end
+    local res = {}
+    for i = 1, count do
+        res[i] = _table[count - i + 1]
+    end
+    return res
 end
 
 --- 用指定字符或字符串分割输入字符串，返回包含分割结果的数组
@@ -591,7 +570,7 @@ end
 -- local input = "Hello-+-World-+-Quick"
 -- local res = string.split(input, "-+-")
 -- >> res = {"Hello", "World", "Quick"}
-function string.split(input, delimiter)
+function string.split(input, delimiter, num)
     input = tostring(input)
     delimiter = tostring(delimiter)
     if (delimiter == '') then
@@ -606,6 +585,11 @@ function string.split(input, delimiter)
         pos = sp + 1
     end
     table.insert(arr, string.sub(input, pos))
+    if num then
+        for i, v in pairs(arr) do
+            arr[i] = tonumber(v)
+        end
+    end
     return arr
 end
 
@@ -725,38 +709,10 @@ function math.round(value)
 end
 
 --- [0, 1]区间限定函数
--- @param a number
+-- @param a number or
 -- @return a clamped number
 function math.clamp01(value)
     return math.min(1, math.max(0, value))
-end
-
----最小数值和最大数值指定返回值的范围
--- @param a number
--- @param min threshold
--- @param max threshold
--- @return a clamped number
-function math.Clamp(value, min, max)
-    if value < min then
-        return min
-    end
-    if value > max then
-        return max
-    end
-    return value
-end
-
---- 高斯岁间变量
-function math.GaussRandom()
-    local u = math.random()
-    local v = math.random()
-    local z = math.sqrt(-2 * math.log(u)) * math.cos(2 * math.pi * v)
-    z = (z + 3) / 6
-    z = 2 * z - 1
-    if (math.abs(z) > 1) then
-        return math.GaussRandom()
-    end
-    return z
 end
 
 --- 数据结构 队列
@@ -907,7 +863,7 @@ end
 
 function Stack:Pop()
     if self:IsEmpty() then
-        print('Error: the stack is empty')
+        --print("Error: the stack is empty")
         return
     end
     local value = self._stack[self._last]
@@ -957,12 +913,167 @@ function Stack:PrintElement()
     print(str)
 end
 
---- uid递增计数器
---- @author Sid Zhang
-function UidCounter()
-    local num = 0
-    return function()
-        num = num + 1
-        return string.format('%s-%s', os.clock(), num)
+--- 返回一个方向向量的欧拉角
+function LookRotation(fromDir)
+    local eulerAngles = EulerDegree(0, 0, 0)
+    eulerAngles.x =
+        math.deg(
+        math.acos(
+            math.sqrt(
+                (fromDir.x * fromDir.x + fromDir.z * fromDir.z) /
+                    (fromDir.x * fromDir.x + fromDir.y * fromDir.y + fromDir.z * fromDir.z)
+            )
+        )
+    )
+    if fromDir.y >= 0 then
+        eulerAngles.x = 360 - eulerAngles.x
+    end
+    eulerAngles.y = math.deg(math.atan(fromDir.x / fromDir.z))
+    if eulerAngles.y <= 0 then
+        eulerAngles.y = 180 + eulerAngles.y
+    end
+    if fromDir.x <= 0 then
+        eulerAngles.y = 180 + eulerAngles.y
+    end
+    eulerAngles.z = 0
+    return eulerAngles
+end
+
+--- 在一个起始点和一个终点之间创建一个圆柱体
+---@type fun(_startPos: any, _endPos: any, _name: string)
+---@return any
+function CreateLineBetween2Points(_startPos, _endPos, _name)
+    local pos = _startPos + _endPos
+    pos = pos / 2
+    local dir = _endPos - _startPos
+    local dis = dir.Magnitude
+    local rot = LookRotation(dir)
+    local laser = world:CreateInstance(_name, _name, world, pos, rot)
+    laser.Laser.Size = Vector3(laser.Laser.Size.x, dis, laser.Laser.Size.z)
+    return laser
+end
+
+--- 洗牌算法
+---@param targetTbl table 待打乱的数组
+---@return table 打乱后的数组
+function Shuffle(targetTbl)
+    --- 设置随机数种子
+    math.randomseed(tonumber(tostring(os.time()):reverse():sub(1, 6)))
+    local tblLen = #targetTbl
+    while (tblLen > 0) do
+        local idx = math.random(tblLen)
+        targetTbl[tblLen], targetTbl[idx] = targetTbl[idx], targetTbl[tblLen]
+        tblLen = tblLen - 1
+    end
+    return targetTbl
+end
+
+function Random_X2Y(_x, _y)
+    --- 设置随机数种子
+    --math.randomseed(tonumber(tostring(os.time()):reverse():sub(1, 6)))
+    if _y < _x then
+        _x, _y = _y, _x
+    end
+    return math.random() * (_y - _x) + _x
+end
+
+function pairsByKeys(t, f)
+    local a = {}
+    for n in pairs(t) do
+        table.insert(a, n)
+    end
+    table.sort(a, f)
+    local i = 0 -- iterator variable
+    local iter = function()
+        -- iterator function
+        i = i + 1
+        if a[i] == nil then
+            return nil
+        else
+            return a[i], t[a[i]]
+        end
+    end
+    return iter
+end
+
+function copyAvatar(_origin, _target)
+    _target.Beard = _origin.Beard
+    _target.BodyAccessory = _origin.BodyAccessory
+    _target.BrowsRange = _origin.BrowsRange
+    _target.BrowsSpace = _origin.BrowsSpace
+    _target.ChestArmorAccessory = _origin.ChestArmorAccessory
+    _target.Clothes = _origin.Clothes
+    _target.EnableGroundingIK = _origin.EnableGroundingIK
+    _target.EnableIK = _origin.EnableIK
+    _target.Eyes = _origin.Eyes
+    _target.EyesColor = _origin.EyesColor
+    _target.EyesRange = _origin.EyesRange
+    _target.EyesSpace = _origin.EyesSpace
+    _target.Face = _origin.Face
+    _target.FaceAccessory = _origin.FaceAccessory
+    _target.FaceDecoration = _origin.FaceDecoration
+    _target.FacialExpression = _origin.FacialExpression
+    _target.Gender = _origin.Gender
+    _target.GroundingIKHeight = _origin.GroundingIKHeight
+    _target.Hair = _origin.Hair
+    _target.HairColor = _origin.HairColor
+    _target.Hands = _origin.Hands
+    _target.HandsAccessory = _origin.HandsAccessory
+    _target.Head = _origin.Head
+    _target.HeadAccessory = _origin.HeadAccessory
+    _target.HeadSize = _origin.HeadSize
+    _target.Height = _origin.Height
+    _target.LegsAccessory = _origin.LegsAccessory
+    _target.Mouth = _origin.Mouth
+    _target.MouthRange = _origin.MouthRange
+    _target.NeckAccessory = _origin.NeckAccessory
+    _target.Nose = _origin.Nose
+    _target.NoseRange = _origin.NoseRange
+    _target.Shoes = _origin.Shoes
+    _target.ShoulderArmorAccessory = _origin.ShoulderArmorAccessory
+    _target.ShouldersAccessory = _origin.ShouldersAccessory
+    _target.SkinColor = _origin.SkinColor
+    _target.SpecialAccessory = _origin.SpecialAccessory
+    _target.Trousers = _origin.Trousers
+    _target.UpperArmGuardAccessory = _origin.UpperArmGuardAccessory
+    _target.WaistAccessory = _origin.WaistAccessory
+    _target.Width = _origin.Width
+    _target.WristAccessory = _origin.WristAccessory
+end
+
+---获取所有的玩家,包括真实玩家和机器人
+function FindAllPlayers()
+    local players = world:FindPlayers()
+    local npc = world.Npc and world.Npc:GetChildren() or {}
+    local res = {}
+    for i = 1, #players do
+        res[i] = players[i]
+    end
+    for i = #players + 1, #players + #npc do
+        res[i] = npc[i - #players]
+    end
+    return res
+end
+
+---判断一个物体是不是在staticSpace下面
+function checkStaticSpace(_obj)
+    if not _obj then
+        return false
+    end
+    if _obj.ClassName == 'StaticSpaceFolderObject' then
+        return true
+    else
+        return checkStaticSpace(_obj.Parent)
+    end
+end
+
+---截取字符串指定前N位,后面的用省略号代替
+function splitString(_str, _count)
+    local len = string.len(_str)
+    if len <= _count then
+        return _str
+    else
+        local str = string.sub(_str, 1, _count)
+        return str .. '...'
     end
 end

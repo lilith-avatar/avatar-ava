@@ -1,7 +1,7 @@
 --- 事件绑定工具
--- @module Event Connects Handler
--- @copyright Lilith Games, Avatar Team
--- @author Yuancheng Zhang, Yen Yuan
+--- @module EventUtil Connects Handler
+--- @copyright Lilith Games, Avatar Team
+--- @author Yuancheng Zhang, Yen Yuan
 local EventUtil = {}
 
 --- 检查是否为Json化的字符串
@@ -30,16 +30,11 @@ end
 -- @param _module 模块
 -- @param _this module的self指针,用于闭包
 function EventUtil.LinkConnects(_eventFolder, _module, _this)
-    assert(
-        _eventFolder and _module and _this,
-        string.format('[EventUtil] 参数有空值: %s, %s, %s', _eventFolder, _module, _this)
-    )
     local events = _eventFolder:GetChildren()
     for _, evt in pairs(events) do
         if string.endswith(evt.Name, 'Event') then
             local handler = _module[evt.Name .. 'Handler']
             if handler ~= nil then
-                -- print('[EventUtil]', _eventFolder, _module, evt)
                 evt:Connect(
                     function(...)
                         handler(_this, ArgsAux(...))
