@@ -1,8 +1,8 @@
 --- 读表工具: 将导入成Lua Table，支持单一主键和多主键
---- @module XlsUtil Utility
---- @copyright Lilith Games, Avatar Team
---- @author Yuancheng Zhang
---- @see https://wiki.lilithgames.com/x/RGEMAg
+-- @module XLS Utility
+-- @copyright Lilith Games, Avatar Team
+-- @author Yuancheng Zhang
+-- @see https://wiki.lilithgames.com/x/RGEMAg
 local XlsUtil = {}
 
 --! 打印事件日志, true:开启打印

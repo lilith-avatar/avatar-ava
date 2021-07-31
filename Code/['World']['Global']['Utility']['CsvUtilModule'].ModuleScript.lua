@@ -1,8 +1,8 @@
 --- 读表工具: 将CSV导入成Lua Table，支持单一主键和多主键
---- @module CsvUtil Utility
---- @copyright Lilith Games, Avatar Team
---- @author Yuancheng Zhang
---- @see https://wiki.lilithgames.com/x/RGEMAg
+-- @module CSV Utility
+-- @copyright Lilith Games, Avatar Team
+-- @author Yuancheng Zhang
+-- @see https://wiki.lilithgames.com/x/RGEMAg
 local CsvUtil = {}
 
 --! 打印事件日志, true:开启打印
@@ -199,19 +199,9 @@ end
 
 --- 表格预加载，预加载配置模块：World.Global.Define.ConfigModule
 function CsvUtil.PreloadCsv(_preloadList, _csvRoot, _config)
-	--当参数1的值是false或者nil的时候展示一个错误，否则返回所有的参数值。
-    assert(_preloadList, '[CsvUtil] _preloadList不存在')
-	--如果_preloadList的长度为0，则没有表格需要预加载
-    if #_preloadList == 0 then
-        print('[CsvUtil] ConfigModule中没有预加载表格')
-        return
-    end
-	--遍历读取_preloadList
+    assert(_preloadList and #_preloadList > 0, '[CsvUtil] ConfigModule中没有预加载表格')
     for _, pl in pairs(_preloadList) do
-		--string.isnilorempty() 判断字符串是否为空或者长度为零
-		--位置：LuaFunctionScript
         if not string.isnilorempty(pl.csv) then
-			--如果长度为0，则 pl.name =pl.csv，负责设置为空nil
             pl.name = string.isnilorempty(pl.name) and pl.csv or pl.name
             PrintLog(string.format('[CsvUtil] Load: %s.csv', pl.csv))
             if pl.csv == 'GlobalSetting' and _csvRoot[pl.csv] then

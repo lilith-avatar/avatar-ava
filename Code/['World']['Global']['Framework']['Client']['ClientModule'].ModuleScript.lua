@@ -6,6 +6,7 @@ local Client = {}
 
 -- Localize global vars
 local CsvUtil, XslUitl, ModuleUtil = CsvUtil, XslUitl, ModuleUtil
+-- Config：框架配置的客户端数据
 local Config = FrameworkConfig.Client
 local this
 
@@ -25,8 +26,11 @@ local initDefaultList, awakeList, startList, onPreRenderList, updateList, lateUp
 function Client:Run()
     print('[Client] Run()')
     this = self
+	--初始化客户端
     InitClient()
+	--开启客户端的Update
     invoke(StartUpdate)
+	--开启客户端的FixUpdate
     invoke(StartFixedUpdate)
 end
 
@@ -34,6 +38,8 @@ end
 function Client:Stop()
     print('[Client] Stop()')
     running = false
+	-- 客户端心跳停止
+	-- 位置：ClientHeartbeatModule
     ClientHeartbeat.Stop()
 end
 
@@ -43,12 +49,19 @@ function InitClient()
         return
     end
     print('[Client] InitClient()')
+	--- 初始化客户端随机种子
     InitRandomSeed()
+	--- 初始化心跳包
     InitHeartbeat()
+	--- 初始化数据同步
     InitDataSync()
+	--- 初始化客户端的CustomEvent
     InitClientCustomEvents()
+	--- 生成需要Init和Update的模块列表
     GenInitAndUpdateList()
+	--- 执行默认的Init方法
     RunInitDefault()
+	--- 初始化包含Awake()和Start()方法的模块
     InitOtherModules()
     initialized = true
 end
@@ -56,6 +69,7 @@ end
 --- 初始化心跳包
 function InitHeartbeat()
     assert(ClientHeartbeat, '[Client][Heartbeat] 找不到ClientHeartbeat,请联系张远程')
+	--位置：Framework.Client.ClientHeartbeatModule
     ClientHeartbeat.Init()
 end
 
@@ -67,12 +81,14 @@ end
 
 --- 初始化客户端的CustomEvent
 function InitClientCustomEvents()
+	--如果localPlayer目录下缺少C_Event节点则创建
     if localPlayer.C_Event == nil then
         world:CreateObject('FolderObject', 'C_Event', localPlayer)
     end
 
     -- 生成CustomEvent节点
     for _, evt in pairs(Events.ClientEvents) do
+		--如果localPlayer.C_Event不存在该节点则创建
         if localPlayer.C_Event[evt] == nil then
             world:CreateObject('CustomEvent', evt, localPlayer.C_Event)
         end
@@ -83,6 +99,8 @@ end
 function GenInitAndUpdateList()
     -- TODO: 改成在FrameworkConfig中配置
     -- Init Default
+	--位置 ModuleUtilModule
+	--- 将有包含特定方法的模块筛选出来，并放在一个table中
     ModuleUtil.GetModuleListWithFunc(world.Client.Module, 'InitDefault', initDefaultList, this)
     -- Awake
     ModuleUtil.GetModuleListWithFunc(Define, 'Awake', awakeList)
@@ -139,10 +157,12 @@ function StartUpdate()
 
     local dt = 0 -- delta time 每帧时间
     local tt = 0 -- total time 游戏总时间
+	--GetTimeMillisecond()获取客户端游戏进行的总时间
     local now = Timer.GetTimeMillisecond --时间函数缓存
     local prev, curr = now() / 1000, nil -- two timestamps
 
     while (running and wait()) do
+		--每1秒执行一次Update函数
         curr = now() / 1000
         dt = curr - prev
         tt = tt + dt

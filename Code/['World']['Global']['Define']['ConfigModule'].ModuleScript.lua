@@ -1,6 +1,6 @@
 --- CSV表格的定义，用于CSV表格载入
---- @module Config Defines
---- @copyright Lilith Games, Avatar Team
+-- @module Csv Defines
+-- @copyright Lilith Games, Avatar Team
 local Config = {}
 
 -- 服务器预加载CSV
