@@ -174,8 +174,9 @@ function SyncData(_path, _value, _uid)
     if MetaData.ServerSync and MetaData.ClientSync and localPlayer and not string.isnilorempty(_uid) then
         --* 服务器/客户端（同虚拟机）
         --  Player 玩家数据同步
-        local player = world:GetPlayerByUserId(_uid)
-        assert(player == localPlayer, string.format('[MetaData] 玩家不存在 uid = %s', _uid))
+        local player = localPlayer
+        -- local player = world:GetPlayerByUserId(_uid)
+        -- assert(player == localPlayer, string.format('[MetaData] 玩家不存在 uid = %s', _uid))
         PrintLog(string.format('[Server] 发出 player = %s, _path = %s, _value = %s', player, _path, table.dump(_value)))
         NetUtil.Fire_C('DataSyncS2CEvent', player, _path, _value)
         NetUtil.Fire_S('DataSyncC2SEvent', localPlayer, _path, _value)
