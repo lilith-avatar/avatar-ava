@@ -27,9 +27,23 @@
 
 ## 快速使用
 
- * [下载最新release版本](https://github.com/lilith-avatar/avatar-ava/releases)
- * GitHub克隆仓库: `git clone https://github.com/lilith-avatar/avatar-ava.git`
+AvaKit有多种方法使用，应用与不同的使用需求。
 
+#### 直接从GitHub下载
+
+* 下载最新[release版本](https://github.com/lilith-avatar/avatar-ava/releases)；
+* 下载最新[zip](https://github.com/lilith-avatar/avatar-ava/archive/refs/heads/release.zip)。
+ 
+#### 使用GitHub克隆仓库
+
+* 克隆repo：`git clone https://github.com/lilith-avatar/avatar-ava.git`。
+
+#### 使用Git Submodule功能引用AvaKit代码
+
+* 开一个新的smap，例如`ProjectA.smap`；
+* 开启Lua代码与Resource映射，添加`ProjectA.smap.config`；
+* 添加`AvaKit`为git submodule，执行 `git submodule add --force -b release-avakit https://github.com/lilith-avatar/avatar-ava Smap/Lua/AvaKit`；
+* 在`Smap/Lua`目录中添加`Common`、`Client`、`Server`目录，已经对应的`Manifest.lua`文件。
 
 ## Ava Wiki
 * [如何使用 How to use](https://github.com/lilith-avatar/avatar-ava/wiki/Get-Started)
