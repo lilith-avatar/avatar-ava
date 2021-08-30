@@ -1,0 +1,69 @@
+LocalizeKey,Note,Default,en,zh,hi
+HomeSystem_Intro_Des_1,,欢迎来到家园系统教学流程流程！,Welcome to the tutorial for Home building!,欢迎来到家园系统教学流程流程！,Selamat datang di tutorial pembangunan Rumah!
+HomeSystem_Intro_Des_2,,请沿手示的地方画线，来给你家里建第一面墙,Draw a line as shown to give your Home a wall.,请沿手示的地方画线，来给你家里建第一面墙,Gambar garis seperti yang ditunjukkan untuk menambahkan dinding ke Rumahmu.
+HomeSystem_Intro_Des_3,,真棒！墙建造成功！,Awesome! You’ve built a wall!,真棒！墙建造成功！,Keren! Kamu berhasil membuat dinding!
+HomeSystem_Intro_Des_4,,现在，来试试为你家地板涂上颜色,"Now, try paint the floor.",现在，来试试为你家地板涂上颜色,Sekarang coba cat lantainya.
+HomeSystem_Intro_Des_5,,点击或者滑动为地板涂上颜色!,Tap or swipe to add color to the floor.,点击或者滑动为地板涂上颜色!,Ketuk atau usap untuk menambahkan warna ke lantai.
+HomeSystem_Intro_Des_6,,涂色成功!,Painted!,涂色成功!,Sudah dicat!
+HomeSystem_Intro_Des_7,,现在，让我们到家里面去看一看吧,"Now, let’s check inside your Home!",现在，让我们到家里面去看一看吧,Ayo lihat isi dalam Rumahmu!
+HomeSystem_Intro_Des_8,,试试点击或滑动给墙上色！,Try tapping or swiping to paint the wall!,试试点击或滑动给墙上色！,Coba ketuk atau usap untuk mengecat dinding!
+HomeSystem_Intro_Des_9,,上色成功，现在让我们在家里放点家具吧！,"Nice, now let’s make your Home cozier with some furniture!",上色成功，现在让我们在家里放点家具吧！,"Bagus, ayo buat Rumahmu menjadi lebih nyaman dengan perabot!"
+HomeSystem_Intro_Des_10,,点击放置一个家具！,Tap to build a furniture!,点击放置一个家具！,Ketuk untuk membuat perabot!
+HomeSystem_Intro_Des_15,,点击放一扇门！,Tap to build a door!,点击放一扇门！,Ketuk untuk membuat pintu!
+HomeSystem_Intro_Des_16,,点击放一扇窗！,Tap to build a window!,点击放一扇窗！,Ketuk untuk membuat jendela!
+HomeSystem_Intro_Des_11,,点击确认放置！,Tap to confirm!,点击确认放置！,Ketuk untuk mengonfirmasi!
+HomeSystem_Intro_Des_12,,重要！保存你的家园！,Important! Make sure you save your changes!,重要！保存你的家园！,Penting! Pastikan kamu menyimpan perubahanmu!
+HomeSystem_Intro_Des_13,,恭喜！你的家园已成功保存，是否同步家园数据到线上派对。,Congrats! Your Home has been saved. Sync to party mode?,恭喜！你的家园已成功保存，是否同步家园数据到线上派对。,Selamat! Rumahmu sudah diselamatkan. Sinkronkan dengan mode pesta?
+HomeSystem_Intro_Des_17,,当前家园在线人数: {1},Players online: {1},当前家园在线人数: {1},Pemain online: {1}
+HomeSystem_Intro_Des_14,,恭喜你完成了家园建造的教学流程！,Congrats on completing the tutorial for Home building!,恭喜你完成了家园建造的教学流程！,Selamat karena telah menyelesaikan tutorial pembangunan Rumah!
+HomeSystem_Intro_Des_18,,恭喜！你的家园已成功保存！,Congrats! Your Home has been saved.,恭喜！你的家园已成功保存！,Selamat! Rumahmu sudah diselamatkan.
+HomeSystem_Intro_Des_19,,存档选择,Save Selection,存档选择,Simpan Pilihan
+HomeSystem_Intro_Des_20,,模板选择,Template Selection,模板选择,Pilihan Template
+HomeSystem_Intro_Des_21,,确定要删除此存档吗？,Really delete this save?,确定要删除此存档吗？,Yakin ingin menghapus simpanan ini?
+HomeSystem_Intro_Image_1,,墙壁绘制,Design wall,墙壁绘制,Desain dinding
+HomeSystem_Intro_Image_2,,地板涂色,Paint floor,地板涂色,Cat lantai
+HomeSystem_Intro_Image_3,,墙面涂色,Paint wall,墙面涂色,Cat dinding
+HomeSystem_Intro_Image_4,,家具放置,Place furniture,家具放置,Letakkan perabot
+HomeSystem_Intro_Image_5,,进入观察模式,Enter view mode,进入观察模式,Buka mode lihat
+HomeSystem_Intro_Image_6,,返回,Return,返回,Kembali
+HomeSystem_Intro_Image_7,,建造墙壁,Build wall,建造墙壁,Bangun dinding
+HomeSystem_Intro_Image_8,,删除墙壁,Delete wall,删除墙壁,Hapus dinding
+HomeSystem_Intro_Image_9,,撤销,Undo,撤销,Urungkan
+HomeSystem_Intro_Image_10,,刷子涂色,Paint with brush,刷子涂色,Cat dengan kuas
+HomeSystem_Intro_Image_11,,油漆桶涂色,Paint with bucket,油漆桶涂色,Cat dengan ember
+HomeSystem_Intro_Image_12,,收起背包,Close bag,收起背包,Tutup tas
+HomeSystem_Intro_Image_13,,打开背包,Open bag,打开背包,Buka tas
+HomeSystem_Mode_1,,建墙,Build wall,建墙,Bangun dinding
+HomeSystem_Mode_2,,删墙,Remove wall,删墙,Singkirkan dinding
+HomeSystem_Mode_3,,刷子,Paintbrush,刷子,Kuas cat
+HomeSystem_Mode_4,,油漆桶,Paint bucket,油漆桶,Ember cat
+HomeSystem_Mode_5,,涂墙,Paint wall,涂墙,Cat dinding
+HomeSystem_Mode_6,,放置家具,Build furniture,放置家具,Bangun perabot
+HomeSystem_Mode_7,,观察模式,Overview mode,观察模式,Mode tinjauan
+HomeSystem_Mode_8,,游览模式,Tour mode,游览模式,Mode tur
+HomeSystem_Mode_9,,放置门窗,Build door/window,放置门窗,
+HomeSystem_Modechange_1,,欢迎进入建造模式,Welcome to building mode!,欢迎进入建造模式,Selamat datang di mode bangunan!
+HomeSystem_Modechange_2,,欢迎进入派对模式,Welcome to party mode!,欢迎进入派对模式,Selamat datang di mode pesta!
+HomeSystem_Warn_1,,与原地板颜色相同,Floor color is same as before.,与原地板颜色相同,Warna lantai sama seperti sebelumnya.
+HomeSystem_Warn_2,,与原墙壁颜色相同,Wall color is same as before.,与原墙壁颜色相同,Warna dinding sama seperti sebelumnya.
+HomeSystem_Warn_3,,此处无法放置,Cannot build here.,此处无法放置,Tidak bisa membangun di sini.
+HomeSystem_Warn_4,,房主已对该房间进行了更新，将在${X}秒后同步更新房间。,The owner has updated the room. The room will be synced in {1}s.,房主已对该房间进行了更新，将在{1}秒后同步更新房间。,Pemilik telah memperbarui ruangan. Ruangan akan disinkronisasi dalam {1}dtk.
+HomeSystem_Warn_5,,该交互被其他玩家占用，请稍后重试,"Someone else is using it, try again later",该交互被其他玩家占用，请稍后重试,"Orang lain sedang menggunakannya, coba lagi nanti"
+HomeSystem_Upload_1,,上传,Upload,上传,Unggah
+HomeSystem_Upload_2,,退出,Quit,退出,Keluar
+HomeSystem_Intro_SkipConfirm,,请问是否确认跳过新手教学？,Really skip tutorial?,请问是否确认跳过新手教学？,Yakin lewati tutorial?
+HomeSystem_Intro_FurnitureBag,,家具背包,Furniture Bag,家具背包,Perabot tas
+HomeSystem_BeginnerIntro_1,,欢迎来到REACH家园！,欢迎来到REACH家园！,欢迎来到REACH家园！,欢迎来到REACH家园！
+HomeSystem_BeginnerIntro_2,,这里是我们为创造者准备的一份特殊的礼物！,这里是我们为创造者准备的一份特殊的礼物！,这里是我们为创造者准备的一份特殊的礼物！,这里是我们为创造者准备的一份特殊的礼物！
+HomeSystem_BeginnerIntro_3,,从今以后，这里将成为您的专属小世界！,从今以后，这里将成为您的专属小世界！,从今以后，这里将成为您的专属小世界！,从今以后，这里将成为您的专属小世界！
+HomeSystem_BeginnerIntro_4,,欢迎来到我们为你准备的专属家园。在美好生活开始之前，我们需要你留下对这个小世界的承诺。,欢迎来到我们为你准备的专属家园。在美好生活开始之前，我们需要你留下对这个小世界的承诺。,欢迎来到我们为你准备的专属家园。在美好生活开始之前，我们需要你留下对这个小世界的承诺。,欢迎来到我们为你准备的专属家园。在美好生活开始之前，我们需要你留下对这个小世界的承诺。
+ArchetypesPlayerLocalIntroGuiUploadImgUploadBtnText,,,,,
+ArchetypesPlayerLocalUploadGuiUploadImgButton,,,,,
+ArchetypesPlayerLocalUploadGuiUploadImgButton(0),,,,,
+ArchetypesPlayerLocalControlGuiTouchBtn,,,,,
+ArchetypesPlayerLocalLibrary_WallDecGuiPosFigObserBtn,,,,,
+ArchetypesPlayerLocalFurnitureGuiMovement,,,,,
+ArchetypesUIPrefabsWarnBarText,,Avatar,,,
+ArchetypesPlayerLocalControlGuiSecondTriggerBtn3,,,,,
+ArchetypesPlayerLocalControlGuiFirstTriggerButton,,,,,
+ArchetypesPlayerLocalControlGuiFirstTriggerTrigger,,,,,

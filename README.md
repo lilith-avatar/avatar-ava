@@ -14,24 +14,41 @@
 ## 爆炸派对
 ![avatar logo en clear 512x512](https://user-images.githubusercontent.com/4829591/120153673-94239000-c221-11eb-9d00-25f5daf7f26f.png)
 
-* :boom: 爆炸派对（[Boom! Party](https://play.google.com/store/apps/details?id=com.boomparty.avatar)）是一款神秘的游戏引擎，以及 [Project Davinci 编辑器](https://www.projectdavinci.com)。
-* :writing_hand: 编程语言是 [Lua v5.3](https://www.lua.org/manual/5.3/)。
-* :fox_face: [AvaKit](https://github.com/lilith-avatar/avatar-ava/releases) 是一款基于 [Project Davinci 编辑器面](https://www.projectdavinci.com) 向开发者使用的开发框架。
+* 💥 爆炸派对（[Boom! Party](https://play.google.com/store/apps/details?id=com.boomparty.avatar)）是一款神秘的游戏引擎，以及 [Project Davinci 编辑器](https://www.projectdavinci.com)。
+* ✍️ 编程语言是 [Lua v5.3](https://www.lua.org/manual/5.3/)。
+* 🦊 [AvaKit](https://github.com/lilith-avatar/avatar-ava/releases) 是一款基于 [Project Davinci 编辑器面](https://www.projectdavinci.com) 向开发者使用的开发框架。
+* ❣️ 编辑器版本：`Version:0.14.0.72152`。
 
 ## 分支管理
-* :bust_in_silhouette: **主干分支 [main](https://github.com/lilith-avatar/avatar-ava)** trunk branch for debug after development finish, and documents 
-* :busts_in_silhouette: **开发分支 [dev](https://github.com/lilith-avatar/avatar-ava/tree/dev)** development branch for new feature, debug and new issue
-* :speaking_head: **发布分支 [release](https://github.com/lilith-avatar/avatar-ava/tree/release)** release new version, can't change until next version release
+* 👩‍⚕️ **主干分支 [main](https://github.com/lilith-avatar/avatar-ava)** 用于功能开发后合入、debug、更新文档。
+* 👪 **开发分支 [dev](https://github.com/lilith-avatar/avatar-ava/tree/dev)** `dev-`开头的分支，用于功能开发和debug。
+* 👨‍👩‍👧‍👦 **发布分支 [release](https://github.com/lilith-avatar/avatar-ava/tree/release)** 用于版本发布，只可以从`main`拉取，切必须对应tag标签，不允许直接`push`。
+* 👨‍👩‍👧‍👧 **发布分支 [release-avakit](https://github.com/lilith-avatar/avatar-ava/tree/release-avakit)** 用于`git submodule`，只包含`AvaKit`代码，无其他内容。
+
+## 快速使用
+
+AvaKit有多种方法使用，应用与不同的使用需求。
+
+#### 直接从GitHub下载
+
+* 下载最新[release版本](https://github.com/lilith-avatar/avatar-ava/releases)；
+* 下载最新[zip](https://github.com/lilith-avatar/avatar-ava/archive/refs/heads/release.zip)。
+ 
+#### 使用GitHub克隆仓库
+
+* 克隆repo：`git clone https://github.com/lilith-avatar/avatar-ava.git`。
+
+#### 使用Git Submodule功能引用AvaKit代码
+
+* 开一个新的smap，例如`ProjectA.smap`；
+* 开启Lua代码与Resource映射，添加`ProjectA.smap.config`；
+* 添加`AvaKit`为git submodule，执行 `git submodule add --force -b release-avakit https://github.com/lilith-avatar/avatar-ava Smap/Lua/AvaKit`；
+* 在`Smap/Lua`目录中添加`Common`、`Client`、`Server`目录，已经对应的`Manifest.lua`文件。
 
 ## Ava Wiki
-* [How to use](https://github.com/lilith-avatar/avatar-ava/wiki/Get-Started)
-* [Ava Hierarchy](https://github.com/lilith-avatar/avatar-ava/wiki/Hierarchy)
-* [Reference](https://github.com/lilith-avatar/avatar-ava/wiki/Reference)
-* [Plugins](https://github.com/lilith-avatar/avatar-ava/wiki/Plugins)
+* [如何使用 How to use](https://github.com/lilith-avatar/avatar-ava/wiki/Get-Started)
+* [项目结构 Ava Hierarchy](https://github.com/lilith-avatar/avatar-ava/wiki/Hierarchy)
+* [相关引用 Reference](https://github.com/lilith-avatar/avatar-ava/wiki/Reference)
+* [插件系统 Plugins](https://github.com/lilith-avatar/avatar-ava/wiki/Plugins)
 
-## Quick Start
-Several quick start options are available:
-
- * [Download the latest release](https://github.com/lilith-avatar/avatar-ava/releases)
- * Clone this repo: `git clone https://github.com/lilith-avatar/avatar-ava.git`
 
