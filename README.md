@@ -45,7 +45,7 @@ AvaKit有多种方法使用，应用与不同的使用需求。
 * 添加`AvaKit`为git submodule，执行 `git submodule add --force -b release-avakit https://github.com/lilith-avatar/avatar-ava Smap/Lua/AvaKit`；
 * 在`Smap/Lua`目录中添加`Common`、`Client`、`Server`目录，已经对应的`Manifest.lua`文件。
 
-## Ava Wiki
+## Wiki
 * [如何使用 How to use](https://github.com/lilith-avatar/avatar-ava/wiki/Get-Started)
 * [项目结构 Ava Hierarchy](https://github.com/lilith-avatar/avatar-ava/wiki/Hierarchy)
 * [相关引用 Reference](https://github.com/lilith-avatar/avatar-ava/wiki/Reference)
