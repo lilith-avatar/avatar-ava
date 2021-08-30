@@ -1,18 +1,70 @@
-*AutoSave_*
-*AutoBackup_*
-xls/*.lua
-xls/*.csv
-csv/*.lua
-csv/*.xls
-csv/*.xlsm
-csv/*.xlsx
-code/*.csv
-code/*.xls
-code/*.xlsm
-code/*.xlsx
+# Compiled Lua sources
+luac.out
+
+# luarocks build files
+*.src.rock
+*.zip
+*.tar.gz
+
+# Object files
+*.o
+*.os
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+*.def
+*.exp
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# 策划文档
+Design/*.lua
+Design/*.smap
+
+# smap相关
+Smap/*.lua
+Smap/Code/*.csv
+Smap/Code/*.xls
+Smap/Code/*.xlsm
+Smap/Code/*.xlsx
+Smap/Code/*.txt
+*AutoSave_*.smap
+*AutoBackup_*.smap
+*.smap.config
+
+# 代码相关
+Code/*.txt
+Code/*.csv
+Code/*.xls
+Code/*.xlsm
+Code/*.xlsx
+Code/*.txt
+Code/*.smap
+
+# other
 *.smap.storage
 *.iso
 ~$*
 *.idea/
 *.vscode/
-Smap/avatar-ava-test.smap
