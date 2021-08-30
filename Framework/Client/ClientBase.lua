@@ -15,4 +15,6 @@ function ClientBase:InitDefault(_module)
     Ava.Util.Event.LinkConnects(localPlayer.C_Event, _module, self)
 end
 
+print('tesets')
+
 return ClientBase
