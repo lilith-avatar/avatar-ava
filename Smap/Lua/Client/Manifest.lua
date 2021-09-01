@@ -92,7 +92,10 @@ Manifest.Modules = {
                         }
                     }
                 }
-            }
+            },
+            'FsmMgr',
+            'PlayerAnimMgr',
+            'PlayerActAnimeGui'
         }
     },
     {
@@ -100,12 +103,9 @@ Manifest.Modules = {
         Modules = {
             'PlayerGuiDefault',
             'EmoActionMgr',
-            'FsmMgr',
             'GuiControl',
-            'PlayerAnimMgr',
             'PlayerCam',
-            'PlayerCtrl',
-            'PlayerActAnimeGui'
+            'PlayerCtrl'
         }
     }
 }
