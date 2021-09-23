@@ -100,7 +100,7 @@ function InitEventsAndListeners()
     world:CreateObject('CustomEvent', 'OnPlayerLeaveEvent', localPlayer.C_Event)
 
     -- 掉线直接退出（默认，可选）
-    localPlayer.C_Event.OnPlayerLeaveEvent:Connect(QuitGame)
+    -- localPlayer.C_Event.OnPlayerLeaveEvent:Connect(QuitGame)
 end
 
 --- Update心跳
