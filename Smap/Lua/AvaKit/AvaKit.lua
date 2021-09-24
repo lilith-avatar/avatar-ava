@@ -37,7 +37,18 @@ end
 function InitGlobal()
     _G.Ava = {}
     _G.Data = {}
+    _G.Data.Global = {}
+    _G.Data.Player = {}
+    _G.Data.Players = {}
+end
+
+--- 预初始化Client
+function PreInitClient()
     _G.C = {}
+end
+
+--- 预初始化Server
+function PreInitServer()
     _G.S = {}
 end
 
@@ -86,12 +97,9 @@ function RequireFramework()
     Ava.Framework.Server.Heartbeat = require(PATH_SERVER .. 'ServerHeartbeat')
     Ava.Framework.Server.Main = require(PATH_SERVER .. 'ServerMain')
 
-    --FIXME:
+    --FIXME: 向下兼容
     _G.ClientBase = Ava.Framework.Client.Base
     _G.ServerBase = Ava.Framework.Server.Base
-    _G.Data.Global = {}
-    _G.Data.Player = {}
-    _G.Data.Players = {}
     _G.MetaData = Ava.Framework.MetaData
 end
 
@@ -120,16 +128,16 @@ end
 
 --- 启动客户端
 function AvaKit.StartClient()
+    PreInitClient()
     AvaKit.Start()
-    wait() --间隔1帧
     print('Ava.Framework.Client.Main:Run()')
     Ava.Framework.Client.Main:Run()
 end
 
 --- 启动服务器
 function AvaKit.StartServer()
+    PreInitServer()
     AvaKit.Start()
-    wait() --间隔1帧
     print('Ava.Framework.Server.Main:Run()')
     Ava.Framework.Server.Main:Run()
 end
