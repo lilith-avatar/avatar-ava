@@ -1,7 +1,11 @@
+---出拳交互动画
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
----出拳交互动画
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 local AttackPunch2State = class('AttackPunch2State', PlayerActState)
 
 function AttackPunch2State:initialize(_controller, _stateName)

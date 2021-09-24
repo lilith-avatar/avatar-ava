@@ -1,6 +1,10 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 local ThrowBeginState = class('ThrowBeginState', PlayerActState)
 
 function ThrowBeginState:initialize(_controller, _stateName)
@@ -23,8 +27,7 @@ function ThrowBeginState:OnEnter()
 
     --localPlayer.FollowTarget = self.controller.seatObj
     PlayerAnimMgr:Play(self.stateName, 0, 1, 0.2, 0.2, true, false, 1.5)
-    EmoActionMgr:HideDanceBtn(false)
-    C_TakePhoto:OpenCamBtnCtrl(false)
+    C.Mgr.EmoActionMgr:HideDanceBtn(false)
 end
 
 function ThrowBeginState:OnUpdate(dt)

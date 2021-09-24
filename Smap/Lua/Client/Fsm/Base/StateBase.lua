@@ -2,6 +2,10 @@
 --- @module StateBase
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
+
+-- local cache
+local TransitonBase = C.Fsm.Base.TransitonBase
+
 local StateBase = class('StateBase')
 
 function StateBase:initialize(_controller, _stateName)

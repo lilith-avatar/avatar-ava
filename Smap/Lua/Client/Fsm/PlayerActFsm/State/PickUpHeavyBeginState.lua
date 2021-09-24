@@ -1,6 +1,10 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 ---杠铃交互动画
 ---继承PlayerActState
 local PickUpHeavyBeginState = class('PickUpHeavyBeginState', PlayerActState)

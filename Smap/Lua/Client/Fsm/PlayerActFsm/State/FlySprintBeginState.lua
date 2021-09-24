@@ -1,6 +1,10 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 local FlySprintBeginState = class('FlySprintBeginState', PlayerActState)
 
 function FlySprintBeginState:initialize(_controller, _stateName)

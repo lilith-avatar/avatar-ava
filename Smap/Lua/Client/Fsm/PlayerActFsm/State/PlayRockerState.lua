@@ -1,6 +1,10 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 ---玩摇杆动画
 local PlayRockerState = class('PlayRockerState', PlayerActState)
 

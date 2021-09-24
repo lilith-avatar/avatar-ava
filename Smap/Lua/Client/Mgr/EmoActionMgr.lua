@@ -2,6 +2,10 @@
 --- @module  EmoActionMgr, Client-side
 --- @copyright Lilith Games, Avatar Team
 --- @author KeyHou
+
+-- local cache
+local PlayerActAnimeGui = C.Fsm.PlayerActAnimeGui
+
 local EmoActionMgr, this = ModuleUtil.New('EmoActionMgr', ClientBase)
 
 function EmoActionMgr:Init()

@@ -1,6 +1,10 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 local ThrowEndState = class('ThrowEndState', PlayerActState)
 
 function ThrowEndState:initialize(_controller, _stateName)
@@ -23,8 +27,7 @@ end
 
 function ThrowEndState:OnLeave()
     PlayerActState.OnLeave(self)
-    EmoActionMgr:HideDanceBtn(true)
-    C_TakePhoto:OpenCamBtnCtrl(true)
+    C.Mgr.EmoActionMgr:HideDanceBtn(true)
 end
 
 return ThrowEndState

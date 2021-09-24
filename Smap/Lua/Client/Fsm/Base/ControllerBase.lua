@@ -62,7 +62,7 @@ end
 function ControllerBase:Update(dt)
     if self.curState then
         self:Switch(self.curState:TransUpdate(dt))
-        for k, v in pairs(self.states) do
+        for _, v in pairs(self.states) do
             self:Switch(v:AnyStateCheck())
         end
     end

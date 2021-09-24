@@ -1,11 +1,16 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 local ActEndState = class('ActEndState', PlayerActState)
 
 function ActEndState:initialize(_controller, _stateName)
     PlayerActState.initialize(self, _controller, _stateName)
 end
+
 function ActEndState:InitData()
 end
 
@@ -23,7 +28,7 @@ end
 function ActEndState:OnLeave()
     PlayerActState.OnLeave(self)
     self.transitions = {}
-    EmoActionMgr:ActCallBack()
+    C.Mgr.EmoActionMgr:ActCallBack()
 end
 
 return ActEndState

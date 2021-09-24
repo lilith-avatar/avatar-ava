@@ -17,10 +17,11 @@ Manifest.Modules = {
                 Name = 'Base',
                 Modules = {
                     'ControllerBase',
-                    'StateBase',
-                    'TransitonBase'
+                    'TransitonBase',
+                    'StateBase'
                 }
             },
+            'PlayerAnimMgr',
             {
                 Name = 'PlayerActFsm',
                 Modules = {
@@ -94,7 +95,6 @@ Manifest.Modules = {
                 }
             },
             'FsmMgr',
-            'PlayerAnimMgr',
             'PlayerActAnimeGui'
         }
     },

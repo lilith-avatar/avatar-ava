@@ -1,6 +1,10 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 local FlyBeginState = class('FlyBeginState', PlayerActState)
 
 function FlyBeginState:initialize(_controller, _stateName)
@@ -8,6 +12,7 @@ function FlyBeginState:initialize(_controller, _stateName)
     PlayerAnimMgr:CreateSingleClipNode('anim_man_jumptohover_01', 1, _stateName, 1)
     PlayerAnimMgr:CreateSingleClipNode('anim_woman_jumptohover_01', 1, _stateName, 2)
 end
+
 function FlyBeginState:InitData()
     self:AddTransition('ToFlyIdleState', self.controller.states['FlyIdleState'], 0.4)
 end

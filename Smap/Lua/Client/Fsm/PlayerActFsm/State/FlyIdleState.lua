@@ -1,6 +1,10 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 local FlyIdleState = class('FlyIdleState', PlayerActState)
 
 function FlyIdleState:initialize(_controller, _stateName)
@@ -18,6 +22,7 @@ function FlyIdleState:initialize(_controller, _stateName)
     PlayerAnimMgr:Create1DClipNode(animsM, 'speedY', _stateName, 1)
     PlayerAnimMgr:Create1DClipNode(animsW, 'speedY', _stateName, 2)
 end
+
 function FlyIdleState:InitData()
     self:AddTransition(
         'ToFlyMoveState',

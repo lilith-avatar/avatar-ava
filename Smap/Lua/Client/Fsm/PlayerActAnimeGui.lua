@@ -3,6 +3,9 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local FsmMgr = C.Fsm.FsmMgr
+
 local PlayerActAnimeGui, this = ModuleUtil.New('PlayerActAnimeGui', ClientBase)
 
 local actBtn, childActBtnList
@@ -40,7 +43,7 @@ end
 ---激活子按钮
 function PlayerActAnimeGui:ActiveChildActBtn()
     actAnimTable = {}
-    for k, v in pairs(Xls.ActAnim) do
+    for _, v in pairs(Xls.ActAnim) do
         if v.Mode == FsmMgr.playerActCtrl.actAnimMode then
             table.insert(actAnimTable, v)
         end
