@@ -6,29 +6,14 @@ local Manifest = {}
 Manifest.ROOT_PATH = 'Lua/Common/'
 
 Manifest.Modules = {
-    {
-        Name = 'Define',
-        Modules = {
-            'Const'
-        }
-    },
-    {
-        Name = 'Xls',
-        Modules = {
-            'ActAnim',
-            'Example',
-            'GlobalSetting'
-        }
-    },
-    {
-        Name = 'Util',
-        Modules = {
-            'Uuid',
-            'SoundUtil',
-            'CloudLogUtil',
-            'TimeUtil'
-        }
-    }
+    'Define/Const',
+    'Xls/ActAnim',
+    'Xls/Example',
+    'Xls/GlobalSetting',
+    'Util/Uuid',
+    'Util/SoundUtil',
+    'Util/CloudLogUtil',
+    'Util/TimeUtil'
 }
 
 return Manifest
