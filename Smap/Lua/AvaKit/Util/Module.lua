@@ -64,8 +64,8 @@ function ModuleUtil.LoadManifest(_root, _manifest, _res, _list)
         if _list then
             table.insert(_list, v.rt[v.name])
         end
-        -- FIXME: 暂时为全局变量，向下兼容
-        _G[v.name] = v.rt[v.name]
+        --! 全部模块为全局变量[向下兼容]
+        -- _G[v.name] = v.rt[v.name]
     end
 end
 
