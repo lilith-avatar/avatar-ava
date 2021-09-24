@@ -6,7 +6,7 @@
 -- local cache
 local FsmMgr = C.Fsm.FsmMgr
 
-local PlayerActAnimeGui, this = ModuleUtil.New('PlayerActAnimeGui', ClientBase)
+local PlayerActAnimeGui, this = Ava.Util.Mod.New('PlayerActAnimeGui', ClientBase)
 
 local actBtn, childActBtnList
 local actAnimTable = {}

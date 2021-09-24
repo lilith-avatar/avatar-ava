@@ -2,7 +2,7 @@
 --- @module Player Ctrl Module
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
-local PlayerCtrl, this = ModuleUtil.New('PlayerCtrl', ClientBase)
+local PlayerCtrl, this = Ava.Util.Mod.New('PlayerCtrl', ClientBase)
 
 -- local cache
 local FsmMgr = C.Fsm.FsmMgr

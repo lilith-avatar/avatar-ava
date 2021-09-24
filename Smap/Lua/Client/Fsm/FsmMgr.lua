@@ -7,7 +7,7 @@
 local PlayerActController = C.Fsm.PlayerActFsm.PlayerActController
 local State = C.Fsm.PlayerActFsm.State
 
-local FsmMgr, this = ModuleUtil.New('FsmMgr', ClientBase)
+local FsmMgr, this = Ava.Util.Mod.New('FsmMgr', ClientBase)
 
 --- 初始化
 function FsmMgr:Init()

@@ -72,7 +72,6 @@ function RequireUtils()
     Ava.Util.Time.Init()
 
     --FIXME: 为了向下兼容
-    _G.ModuleUtil = Ava.Util.Mod
     _G.JSON = Ava.Util.LuaJson
     _G.NetUtil = Ava.Util.Net
 end

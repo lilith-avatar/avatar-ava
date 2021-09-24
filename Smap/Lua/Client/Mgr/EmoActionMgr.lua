@@ -6,7 +6,7 @@
 -- local cache
 local PlayerActAnimeGui = C.Fsm.PlayerActAnimeGui
 
-local EmoActionMgr, this = ModuleUtil.New('EmoActionMgr', ClientBase)
+local EmoActionMgr, this = Ava.Util.Mod.New('EmoActionMgr', ClientBase)
 
 function EmoActionMgr:Init()
     print('[C_Module][EmoActionMgr:Init]')

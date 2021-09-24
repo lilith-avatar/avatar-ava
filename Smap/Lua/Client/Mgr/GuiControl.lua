@@ -2,7 +2,7 @@
 --- @module Player GuiControll, client-side
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
-local GuiControl, this = ModuleUtil.New('GuiControl', ClientBase)
+local GuiControl, this = Ava.Util.Mod.New('GuiControl', ClientBase)
 
 -- 手机端交互UI
 local gui
