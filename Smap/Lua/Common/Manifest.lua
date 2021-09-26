@@ -8,7 +8,6 @@ Manifest.ROOT_PATH = 'Lua/Common/'
 Manifest.Modules = {
     'Define/Const',
     'Xls/ActAnim',
-    'Xls/Example',
     'Xls/GlobalSetting',
     'Util/Uuid',
     'Util/SoundUtil',
