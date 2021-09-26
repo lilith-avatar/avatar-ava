@@ -76,7 +76,7 @@ function InitDataGlobal()
     if localPlayer then
         -- 同虚拟机，不同步
         Data.Global = Data.Global or Data.Default.Global
-    else
+    elseif Data.Default.Global ~= {} then
         -- 不同虚拟，同步
         Data.Global = Data.Global or MetaData.New(rawDataGlobal, MetaData.Enum.GLOBAL, nil)
         -- 默认赋值
@@ -94,9 +94,11 @@ function InitDataPlayer(_uid)
     rawDataPlayers[_uid] = {}
     Data.Players[_uid] = MetaData.New(rawDataPlayers[_uid], path, _uid)
 
-    -- 默认赋值
-    for k, v in pairs(Data.Default.Player) do
-        Data.Players[_uid][k] = v
+    if Data.Default.Player ~= {} then
+        -- 默认赋值
+        for k, v in pairs(Data.Default.Player) do
+            Data.Players[_uid][k] = v
+        end
     end
 
     -- 设置uid

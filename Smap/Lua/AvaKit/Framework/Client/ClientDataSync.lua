@@ -48,7 +48,7 @@ function InitDataDefines()
     if Server and Server.Exist then
         -- 同虚拟机，不同步
         Data.Global = Data.Global or Data.Default.Global
-    else
+    elseif Data.Default.Global ~= {} then
         -- 不同虚拟，同步
         Data.Global = Data.Global or MetaData.New(rawDataGlobal, MetaData.Enum.GLOBAL, MetaData.Enum.CLIENT)
         -- 默认赋值
@@ -61,9 +61,11 @@ function InitDataDefines()
     local uid = localPlayer.UserId
     local path = MetaData.Enum.PLAYER .. uid
     Data.Player = Data.Player or MetaData.New(rawDataPlayer, path, uid)
-    -- 默认赋值
-    for k, v in pairs(Data.Default.Player) do
-        Data.Player[k] = v
+    if Data.Default.Player ~= {} then
+        -- 默认赋值
+        for k, v in pairs(Data.Default.Player) do
+            Data.Player[k] = v
+        end
     end
 end
 
