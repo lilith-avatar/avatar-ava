@@ -1,8 +1,13 @@
 --- 框架默认配置
---- @module Framework Global FrameworkConfig
+--- @module AvaKit Framework Default Config
 --- @copyright Lilith Games, Avatar Team
 --- @author Yuancheng Zhang
-local FrameworkConfig = {
+
+--- 编辑器默认的Debug模式配置
+--- @see https://lilithgames.feishu.cn/wiki/wikcnzoiLwWaOiX4MuuezNAhT6e
+Debug.EnableLog('ewi')
+
+local DefaulConfig = {
     --! Debug模式
     DebugMode = true,
     -- 启动心跳
@@ -44,8 +49,4 @@ local FrameworkConfig = {
     }
 }
 
---- 编辑器默认的Debug模式配置
---- @see https://lilithgames.feishu.cn/wiki/wikcnzoiLwWaOiX4MuuezNAhT6e
-Debug.EnableLog('ewi')
-
-return FrameworkConfig
+return DefaulConfig

@@ -35,11 +35,11 @@ end
 
 --- 初始化Global
 function InitGlobal()
-    _G.Ava = {}
+    _G.Ava = Ava or {}
     _G.Data = Data or {}
-    _G.Data.Global = Data.Global or {}
-    _G.Data.Player = Data.Player or {}
-    _G.Data.Players = Data.Players or {}
+    Data.Default = Data.Default or {}
+    Data.Default.Global = Data.Default.Global or {}
+    Data.Default.Player = Data.Default.Global or {}
 end
 
 --- 预初始化Client
@@ -54,7 +54,28 @@ end
 
 --- 引用工具模块
 function RequireConfig()
-    Ava.Config = require(PATH_AVAKIT .. 'Config')
+    local defaultConfig = require(PATH_AVAKIT .. 'Config')
+
+    -- 直接使用框架默认配置
+    if Ava.Config == nil or Ava.Config == {} then
+        Ava.Config = defaultConfig
+        Debug.Log('[AvaKit] 使用默认框架配置')
+        return
+    end
+
+    -- 配置最多支持2层深度
+    for k1, v1 in pairs(defaultConfig) do
+        if type(v1) == 'table' and Ava.Config[k1] then
+            -- for k2, v2 in pairs(v1) do
+            --     Ava.Config[k1][k2] = Ava.Config[k1][k2] or v2
+            --     print(k1, k2, v2)
+            -- end
+        else
+            print(k1, Ava.Config[k1])
+            Ava.Config[k1] = Ava.Config[k1] or v1
+            print(k1, v1)
+        end
+    end
 end
 
 --- 引用工具模块
