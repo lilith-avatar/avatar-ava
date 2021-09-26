@@ -65,17 +65,19 @@ function RequireConfig()
 
     -- 配置最多支持2层深度
     for k1, v1 in pairs(defaultConfig) do
-        if type(v1) == 'table' and Ava.Config[k1] then
-            -- for k2, v2 in pairs(v1) do
-            --     Ava.Config[k1][k2] = Ava.Config[k1][k2] or v2
-            --     print(k1, k2, v2)
-            -- end
-        else
-            print(k1, Ava.Config[k1])
-            Ava.Config[k1] = Ava.Config[k1] or v1
-            print(k1, v1)
+        if type(v1) == 'table' and Ava.Config[k1] ~= nil then
+            for k2, v2 in pairs(v1) do
+                if Ava.Config[k1][k2] == nil then
+                    Ava.Config[k1][k2] = v2
+                end
+            end
+        elseif Ava.Config[k1] == nil then
+            Ava.Config[k1] = v1
         end
     end
+
+    -- 显示配置
+    -- Debug.Log(table.dump(Ava.Config))
 end
 
 --- 引用工具模块
