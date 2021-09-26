@@ -4,7 +4,7 @@
 --- @author Yuancheng Zhang
 local ServerHeartbeat = {}
 
---- Localize global vars
+--- cache global vars
 local Config = Ava.Config
 
 --- 心跳包间隔时间，单位：秒
@@ -36,8 +36,8 @@ local sTmpTs, cTmpTs  -- 时间戳缓存
 --- 打印心跳日志
 --- 这段代码就是先判断Setting.ShowHeartbeatLog这个配置项是否为真
 --- 若为真则PrintHb 为一个打印日志的函数  若为假则为一个空函数
-local PrintHb = Config.DebugMode and Config.Debug.ShowHeartbeatLog and function(...)
-        Debug.Log('[Heartbeat][Server]', ...)
+local PrintHb = Config.DebugMode and Config.Debug.ShowHeartbeatLog and function(_msg)
+        Debug.Log(string.format('[AvaKit][Heartbeat][Server] %s', _msg))
     end or function()
     end
 
@@ -45,7 +45,7 @@ local PrintHb = Config.DebugMode and Config.Debug.ShowHeartbeatLog and function(
 
 --- 初始化心跳包
 function ServerHeartbeat.Init()
-    Debug.Log('[Heartbeat][Server] Init()')
+    Debug.Log('[AvaKit][Heartbeat][Server] Init()')
     --校验心跳参数
     CheckSetting()
     --初始化事件和绑定Handler
@@ -54,7 +54,7 @@ end
 
 --- 开始发出心跳
 function ServerHeartbeat.Start()
-    Debug.Log('[Heartbeat][Server] Start()')
+    Debug.Log('[AvaKit][Heartbeat][Server] Start()')
     running = true
     while (running) do
         Update()
@@ -64,7 +64,7 @@ end
 
 --- 停止心跳
 function ServerHeartbeat.Stop()
-    Debug.Log('[Heartbeat][Server] Stop()')
+    Debug.Log('[AvaKit][Heartbeat][Server] Stop()')
     running = false
 end
 
@@ -72,14 +72,14 @@ end
 
 --- 校验心跳参数
 function CheckSetting()
-    Debug.Assert(HEARTBEAT_DELTA >= 1, '[Heartbeat][Server] HEARTBEAT_DELTA 必须大于1秒')
+    Debug.Assert(HEARTBEAT_DELTA >= 1, '[AvaKit][Heartbeat][Server] HEARTBEAT_DELTA 必须大于1秒')
     Debug.Assert(
         HEARTBEAT_THRESHOLD_1 >= HEARTBEAT_DELTA,
-        '[Heartbeat][Server] HEARTBEAT_THRESHOLD_1 >= HEARTBEAT_DELTA'
+        '[AvaKit][Heartbeat][Server] HEARTBEAT_THRESHOLD_1 >= HEARTBEAT_DELTA'
     )
     Debug.Assert(
         HEARTBEAT_THRESHOLD_2 >= HEARTBEAT_THRESHOLD_1,
-        '[Heartbeat][Server] HEARTBEAT_THRESHOLD_2 >= HEARTBEAT_THRESHOLD_1'
+        '[AvaKit][Heartbeat][Server] HEARTBEAT_THRESHOLD_2 >= HEARTBEAT_THRESHOLD_1'
     )
 end
 
@@ -111,7 +111,7 @@ function InitEventsAndListeners()
             local player = _player
             local uid = player.UserId
             if cache[player] then
-                Debug.Log('[Heartbeat][Server] OnPlayerLeaveEvent, 玩家主动离开游戏,', player, uid)
+                Debug.Log('[AvaKit][Heartbeat][Server] OnPlayerLeaveEvent, 玩家主动离开游戏,', player, uid)
                 Ava.Util.Net.Fire_S('OnPlayerLeaveEvent', player, uid)
                 cache[player] = nil
             end
@@ -126,7 +126,7 @@ function Update()
         if p and not p:IsNull() then
             sTmpTs = Timer.GetTimeMillisecond()
             cTmpTs = v.cTimestamp
-            PrintHb(string.format('=> S = %s, C = %s, %s', sTmpTs, cTmpTs, p))
+            PrintHb(string.format('→→ S = %s, C = %s, %s', sTmpTs, cTmpTs, p))
             CheckPlayerStates(p, sTmpTs)
             Ava.Util.Net.Fire_C('HeartbeatS2CEvent', p, sTmpTs, cTmpTs)
         else
@@ -142,7 +142,7 @@ function HeartbeatC2SEventHandler(_player, _cTimestamp, _sTimestamp)
         return
     end
     --- 打印心跳日志
-    PrintHb(string.format('<= S = %s, C = %s, %s', _sTimestamp, _cTimestamp, _player))
+    PrintHb(string.format('←← S = %s, C = %s, %s', _sTimestamp, _cTimestamp, tostring(_player)))
     --- 收包时，检查玩家是否加入或重连
     CheckPlayerJoin(_player)
     -- 更新指定的玩家客户端的时间数据
@@ -155,14 +155,14 @@ function CheckPlayerJoin(_player)
     --如果cache的_player位置存在空位，则可以加入玩家
     if not cache[_player] then
         --* 玩家新加入 OnPlayerJoinEvent
-        Debug.Log('[Heartbeat][Server] OnPlayerJoinEvent, 新玩家加入,', _player)
+        Debug.Log('[AvaKit][Heartbeat][Server] OnPlayerJoinEvent, 新玩家加入,', _player)
         Ava.Util.Net.Fire_S('OnPlayerJoinEvent', _player, _player.UserId)
         cache[_player] = {
             state = HeartbeatEnum.CONNECT
         }
     elseif cache[_player].state == HeartbeatEnum.DISCONNECT then
         --* 玩家断线重连 OnPlayerReconnectEvent
-        Debug.Log('[Heartbeat][Server] OnPlayerReconnectEvent, 玩家断线重连,', _player)
+        Debug.Log('[AvaKit][Heartbeat][Server] OnPlayerReconnectEvent, 玩家断线重连,', _player)
         Ava.Util.Net.Fire_S('OnPlayerReconnectEvent', _player, _player.UserId)
         cache[_player].state = HeartbeatEnum.CONNECT
     end
@@ -176,23 +176,23 @@ function CheckPlayerStates(_player, _sTimestam)
     end
     -- diff 时间戳插值 = 当前服务端的时间值- 当前玩家客户端保存的服务端时间值
     diff = _sTimestam - cache[_player].sTimestamp
-    PrintHb(string.format('==========================================> diff = %s, %s', diff * .001, _player))
+    PrintHb(string.format('=================================> diff = %s, %s', diff * .001, _player))
     -- 如果 diff < 心跳阈值1
     if diff < HEARTBEAT_THRESHOLD_1 then
         --* 玩家在线
         cache[_player].state = HeartbeatEnum.CONNECT
     elseif cache[_player].state == HeartbeatEnum.CONNECT and diff >= HEARTBEAT_THRESHOLD_1 then
         --* 玩家断线 OnPlayerDisconnectEvent
-        Debug.Log('[Heartbeat][Server] OnPlayerDisconnectEvent, 玩家离线, 等待断线重连,', _player, _player.UserId)
+        Debug.Log('[AvaKit][Heartbeat][Server] OnPlayerDisconnectEvent, 玩家离线, 等待断线重连,', _player, _player.UserId)
         Ava.Util.Net.Fire_S('OnPlayerDisconnectEvent', _player, _player.UserId)
         cache[_player].state = HeartbeatEnum.DISCONNECT
     elseif cache[_player].state == HeartbeatEnum.DISCONNECT and diff >= HEARTBEAT_THRESHOLD_2 then
         --* 玩家彻底断线，剔除玩家
         local player = _player
         local uid = player.UserId
-        Debug.Log('[Heartbeat][Server] OnPlayerLeaveEvent, 剔除离线玩家,', player, uid)
+        Debug.Log('[AvaKit][Heartbeat][Server] OnPlayerLeaveEvent, 剔除离线玩家,', player, uid)
         Ava.Util.Net.Fire_S('OnPlayerLeaveEvent', player, uid)
-        Debug.Log('[Heartbeat][Server] OnPlayerLeaveEvent, 发送客户端离线事件,', player, uid)
+        Debug.Log('[AvaKit][Heartbeat][Server] OnPlayerLeaveEvent, 发送客户端离线事件,', player, uid)
         Ava.Util.Net.Fire_C('OnPlayerLeaveEvent', player, uid)
         -- 将cache的该玩家数据删除
         cache[player] = nil

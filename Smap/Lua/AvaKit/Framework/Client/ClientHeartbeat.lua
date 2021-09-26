@@ -4,6 +4,9 @@
 --- @author Yuancheng Zhang
 local ClientHeartbeat = {}
 
+--- cache global vars
+local Config = Ava.Config
+
 -- 心跳包间隔时间，单位：秒
 local HEARTBEAT_DELTA = Ava.Config.Client.HeartbeatDelta
 
@@ -34,8 +37,8 @@ local diff  -- 时间戳插值
 local sTmpTs, cTmpTs  -- 时间戳缓存
 
 --- 打印心跳日志
-local PrintHb = Ava.DebugMode and Ava.Config.Debug.ShowHeartbeatLog and function(...)
-        Debug.Log('[AvaKit][Heartbeat][Client]', ...)
+local PrintHb = Config.DebugMode and Config.Debug.ShowHeartbeatLog and function(_msg)
+        Debug.Log(string.format('[AvaKit][Heartbeat][Client] %s', _msg))
     end or function()
     end
 
@@ -107,7 +110,7 @@ end
 function Update()
     cTmpTs = Timer.GetTimeMillisecond()
     sTmpTs = cache.sTimestamp
-    PrintHb(string.format('=> C = %s, S = %s, %s', cTmpTs, sTmpTs, localPlayer))
+    PrintHb(string.format('→→ C = %s, S = %s, %s', cTmpTs, sTmpTs, localPlayer))
     CheckPlayerState(p, cTmpTs)
     Ava.Util.Net.Fire_S('HeartbeatC2SEvent', localPlayer, cTmpTs, sTmpTs)
 end
@@ -117,7 +120,7 @@ function HeartbeatS2CEventHandler(_stimestamp, _cTimestamp)
     if not running then
         return
     end
-    PrintHb(string.format('<= C = %s, S = %s, %s', _cTimestamp, _stimestamp, localPlayer))
+    PrintHb(string.format('←← C = %s, S = %s, %s', _cTimestamp, _stimestamp, localPlayer))
     CheckPlayerJoin(_player, _sTimestamp)
     cache.sTimestamp = _stimestamp
     cache.cTimestamp = _cTimestamp
@@ -144,7 +147,7 @@ function CheckPlayerState(_player, _cTimestamp)
         return
     end
     diff = _cTimestamp - cache.cTimestamp
-    PrintHb(string.format('==========================================> diff = %s, %s', diff * .001, localPlayer))
+    PrintHb(string.format('=================================> diff = %s, %s', diff * .001, localPlayer))
     if cache.state == HeartbeatEnum.CONNECT and diff > HEARTBEAT_THRESHOLD_1 then
         --* 玩家断线，弱网环境
         Debug.Log('[AvaKit][Heartbeat][Client] OnPlayerDisconnectEvent, 玩家离线, 弱网环境,', localPlayer)
