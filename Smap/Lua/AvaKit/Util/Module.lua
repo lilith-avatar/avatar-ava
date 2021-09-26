@@ -14,13 +14,13 @@ local LOOP_MAX = 15 -- Manifest最多层级深度
 --- @param _res 资源路径
 --- @param _list 模块清单
 function ModuleUtil.LoadManifest(_root, _manifest, _res, _list)
-    assert(_root, '[AvaKit][ModuleUtil] _root is WRONG')
-    assert(_manifest and _manifest.Modules, '[AvaKit][ModuleUtil] _manifest is WRONG')
-    assert(_res, '[AvaKit][ModuleUtil] _res does NOT exist')
+    Debug.Assert(_root ~= nil, '[AvaKit][ModuleUtil] _root is WRONG')
+    Debug.Assert(_manifest ~= nil and _manifest.Modules ~= nil, '[AvaKit][ModuleUtil] _manifest is WRONG')
+    Debug.Assert(_res ~= nil, '[AvaKit][ModuleUtil] _res does NOT exist')
 
     local pathArr, tmpRoot, tmp
     for _, path in ipairs(_manifest.Modules) do
-        assert(type(path) == 'string', '[AvaKit][ModuleUtil] path is NOT a string')
+        Debug.Assert(type(path) == 'string', '[AvaKit][ModuleUtil] path is NOT a string')
         pathArr = string.split(path, '/')
         tmpRoot = _root
         for k, fn in ipairs(pathArr) do
@@ -42,9 +42,9 @@ end
 --- @param @string _fn 方法名 function_name
 --- @param @table _list 存放的table
 function ModuleUtil.GetModuleListWithFunc(_modules, _fn, _list)
-    assert(_modules, '[ModuleUtil] Node does NOT exist!')
-    assert(not string.isnilorempty(_fn), '[ModuleUtil] Function name is nil or empty!')
-    assert(_list, '[ModuleUtil] List is NOT initialized!')
+    Debug.Assert(_modules ~= nil, '[ModuleUtil] Node does NOT exist!')
+    Debug.Assert(not string.isnilorempty(_fn), '[ModuleUtil] Function name is nil or empty!')
+    Debug.Assert(_list ~= nil, '[ModuleUtil] List is NOT initialized!')
     for _, m in pairs(_modules) do
         if m[_fn] and type(m[_fn]) == 'function' then
             table.insert(_list, m)

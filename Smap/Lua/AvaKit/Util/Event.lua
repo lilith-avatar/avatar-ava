@@ -30,8 +30,8 @@ end
 --- @param _module 模块
 --- @param _this module的self指针,用于闭包
 function EventUtil.LinkConnects(_eventFolder, _module, _this)
-    assert(
-        _eventFolder and _module and _this,
+    Debug.Assert(
+        _eventFolder ~= nil and _module ~= nil and _this ~= nil,
         string.format('[EventUtil] 参数有空值: %s, %s, %s', _eventFolder, _module, _this)
     )
     local events = _eventFolder:GetChildren()

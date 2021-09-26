@@ -72,9 +72,12 @@ end
 
 --- 校验心跳参数
 function CheckSetting()
-    assert(HEARTBEAT_DELTA >= 1, '[Heartbeat][Server] HEARTBEAT_DELTA 必须大于1秒')
-    assert(HEARTBEAT_THRESHOLD_1 >= HEARTBEAT_DELTA, '[Heartbeat][Server] HEARTBEAT_THRESHOLD_1 >= HEARTBEAT_DELTA')
-    assert(
+    Debug.Assert(HEARTBEAT_DELTA >= 1, '[Heartbeat][Server] HEARTBEAT_DELTA 必须大于1秒')
+    Debug.Assert(
+        HEARTBEAT_THRESHOLD_1 >= HEARTBEAT_DELTA,
+        '[Heartbeat][Server] HEARTBEAT_THRESHOLD_1 >= HEARTBEAT_DELTA'
+    )
+    Debug.Assert(
         HEARTBEAT_THRESHOLD_2 >= HEARTBEAT_THRESHOLD_1,
         '[Heartbeat][Server] HEARTBEAT_THRESHOLD_2 >= HEARTBEAT_THRESHOLD_1'
     )

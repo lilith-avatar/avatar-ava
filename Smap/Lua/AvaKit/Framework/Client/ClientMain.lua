@@ -60,7 +60,7 @@ end
 
 --- 初始化心跳包
 function InitHeartbeat()
-    assert(Heartbeat, '[AvaKit][Client][Heartbeat] 找不到Ava.Framework.Client.Heartbeat,请联系endaye')
+    Debug.Assert(Heartbeat ~= nil, '[AvaKit][Client][Heartbeat] 找不到Ava.Framework.Client.Heartbeat,请联系endaye')
     Heartbeat.Init()
 end
 
@@ -69,7 +69,7 @@ function InitDataSync()
     if not Ava.Config.DataSyncStart then
         return
     end
-    assert(DataSync, '[AvaKit][Server][DataSync] 找不到ServerDataSync,请联系endaye')
+    Debug.Assert(DataSync ~= nil, '[AvaKit][Server][DataSync] 找不到ServerDataSync,请联系endaye')
     DataSync.Init()
 end
 
@@ -117,7 +117,7 @@ end
 --- 开始Update
 function StartUpdate()
     Debug.Log('[AvaKit][Client] StartUpdate()')
-    assert(not running, '[AvaKit][Client] StartUpdate() 正在运行')
+    Debug.Assert(not running, '[AvaKit][Client] StartUpdate() 正在运行')
 
     running = true
 

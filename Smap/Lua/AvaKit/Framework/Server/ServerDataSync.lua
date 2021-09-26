@@ -47,12 +47,12 @@ function InitEventsAndListeners()
 
     -- 玩家加入事件
     local onPlayerJoinEvent = world.S_Event.OnPlayerJoinEvent
-    assert(onPlayerJoinEvent, '[AvaKit][DataSync][Server] 不存在 OnPlayerJoinEvent')
+    Debug.Assert(onPlayerJoinEvent ~= nil, '[AvaKit][DataSync][Server] 不存在 OnPlayerJoinEvent')
     onPlayerJoinEvent:Connect(OnPlayerJoinEventHandler)
 
     -- 玩家离开事件
     local onPlayerLeaveEvent = world.S_Event.OnPlayerLeaveEvent
-    assert(onPlayerLeaveEvent, '[AvaKit][DataSync][Server] 不存在 OnPlayerLeaveEvent')
+    Debug.Assert(onPlayerLeaveEvent ~= nil, '[AvaKit][DataSync][Server] 不存在 OnPlayerLeaveEvent')
     onPlayerLeaveEvent:Connect(OnPlayerLeaveEventHandler)
 
     -- 长期存储成功事件
@@ -88,7 +88,7 @@ end
 
 --- 初始化Data.Players中对应玩家数据
 function InitDataPlayer(_uid)
-    assert(not string.isnilorempty(_uid))
+    Debug.Assert(not string.isnilorempty(_uid), string.format('[AvaKit][DataSync][Server] 不存在uid:%s', _uid))
     --* 服务器端创建Data.Player
     local path = MetaData.Enum.PLAYER .. _uid
     rawDataPlayers[_uid] = {}
@@ -118,7 +118,7 @@ end
 --- @param _uid string 玩家ID
 function LoadGameDataAsync(_uid)
     sheet = DataStore:GetSheet('PlayerData')
-    assert(sheet, '[AvaKit][DataSync][Server] DataPlayers的sheet不存在')
+    Debug.Assert(sheet ~= nil, '[AvaKit][DataSync][Server] DataPlayers的sheet不存在')
     sheet:GetValue(
         _uid,
         function(_val, _msg)
@@ -136,7 +136,7 @@ function LoadGameDataAsyncCb(_val, _msg, _uid)
         return
     end
     local player = world:GetPlayerByUserId(_uid)
-    assert(player, string.format('[AvaKit][DataSync][Server] 玩家不存在, uid = %s', _uid))
+    Debug.Assert(player ~= nil, string.format('[AvaKit][DataSync][Server] 玩家不存在, uid = %s', _uid))
     if _msg == 0 then
         Debug.Log('[AvaKit][DataSync][Server] 获取玩家数据成功', player.Name)
         local hasData = _val ~= nil
@@ -145,7 +145,7 @@ function LoadGameDataAsyncCb(_val, _msg, _uid)
             --若以前的数据存在，更新
             -- TODO: 数据兼容的处理
             local data = _val
-            assert(data.uid == _uid, string.format('[AvaKit][DataSync][Server] uid校验不通过, uid = %s', _uid))
+            Debug.Assert(data.uid == _uid, string.format('[AvaKit][DataSync][Server] uid校验不通过, uid = %s', _uid))
             --若已在此服务器的数据总表存在，则更新数据
             for k, v in pairs(data) do
                 Data.Players[_uid][k] = data[k]
@@ -183,12 +183,15 @@ end
 --- @param _delete string 保存成功后是否删除缓存数据
 function SaveGameDataAsync(_uid, _delete)
     sheet = DataStore:GetSheet('PlayerData')
-    assert(sheet, '[AvaKit][DataSync][Server] DataPlayers的sheet不存在')
-    assert(not string.isnilorempty(_uid), '[AvaKit][DataSync][Server] uid不存在或为空')
-    assert(Data.Players[_uid], string.format('[AvaKit][DataSync][Server] Data.Players[_uid]不存在 uid = %s', _uid))
+    Debug.Assert(sheet ~= nil, '[AvaKit][DataSync][Server] DataPlayers的sheet不存在')
+    Debug.Assert(not string.isnilorempty(_uid), '[AvaKit][DataSync][Server] uid不存在或为空')
+    Debug.Assert(
+        Data.Players[_uid] ~= nil,
+        string.format('[AvaKit][DataSync][Server] Data.Players[_uid]不存在 uid = %s', _uid)
+    )
     local newData = MetaData.Get(Data.Players[_uid])
-    assert(newData, string.format('[AvaKit][DataSync][Server] 玩家数据不存在, uid = %s', _uid))
-    assert(newData.uid == _uid, string.format('[AvaKit][DataSync][Server] uid校验不通过, uid = %s', _uid))
+    Debug.Assert(newData ~= nil, string.format('[AvaKit][DataSync][Server] 玩家数据不存在, uid = %s', _uid))
+    Debug.Assert(newData.uid == _uid, string.format('[AvaKit][DataSync][Server] uid校验不通过, uid = %s', _uid))
     sheet:SetValue(
         _uid,
         newData,
@@ -292,7 +295,7 @@ end
 --- 玩家离开事件Handler
 function OnPlayerLeaveEventHandler(_player, _uid)
     Debug.Log('[AvaKit][DataSync][Server] OnPlayerLeaveEventHandler', _player, _uid)
-    assert(not string.isnilorempty(_uid), '[ServerDataSync] OnPlayerLeaveEventHandler() uid不存在')
+    Debug.Assert(not string.isnilorempty(_uid), '[ServerDataSync] OnPlayerLeaveEventHandler() uid不存在')
     --* 保存长期存储：rawDataPlayers[_uid] 保存成功后删掉
     SaveGameDataAsync(_uid, true)
 end

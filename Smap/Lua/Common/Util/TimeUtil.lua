@@ -81,8 +81,8 @@ end
 -- @return timer id
 -- @see https://www.w3schools.com/jsref/met_win_settimeout.asp
 function TimeUtil.SetTimeout(_func, _seconds)
-    assert(_func, '[TimeUtil] TimeUtil.SetTimeout() _func 不能为空')
-    assert(_seconds >= 0, '[TimeUtil] TimeUtil.SetTimeout() 延迟时间需大于等于0')
+    Debug.Assert(_func ~= nil, '[TimeUtil] TimeUtil.SetTimeout() _func 不能为空')
+    Debug.Assert(_seconds >= 0, '[TimeUtil] TimeUtil.SetTimeout() 延迟时间需大于等于0')
     if _seconds == 0 then
         print('[TimeUtil] TimeUtil.SetTimeout() 事件立即执行')
         invoke(_func)
@@ -111,8 +111,8 @@ end
 -- @return timer id
 -- @see https://www.w3schools.com/jsref/met_win_setinterval.asp
 function TimeUtil.SetInterval(_func, _seconds)
-    assert(_func, '[TimeUtil] TimeUtil.SetInterval() _func 不能为空')
-    assert(_seconds > 0, '[TimeUtil] TimeUtil.SetInterval() 延迟时间需大于0')
+    Debug.Assert(_func ~= nil, '[TimeUtil] TimeUtil.SetInterval() _func 不能为空')
+    Debug.Assert(_seconds > 0, '[TimeUtil] TimeUtil.SetInterval() 延迟时间需大于0')
     local id = #eventList + 1
     -- convert to milliseconds
     local ms = math.floor(_seconds * 1000)

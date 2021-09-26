@@ -176,7 +176,7 @@ function SyncData(_path, _value, _uid)
         --  Player 玩家数据同步
         local player = localPlayer
         -- local player = world:GetPlayerByUserId(_uid)
-        -- assert(player == localPlayer, string.format('[MetaData] 玩家不存在 uid = %s', _uid))
+        -- Debug.Assert(player == localPlayer, string.format('[MetaData] 玩家不存在 uid = %s', _uid))
         PrintLog(
             string.format('[AvaKit][Server] 发出 player = %s, _path = %s, _value = %s', player, _path, table.dump(_value))
         )
@@ -190,7 +190,7 @@ function SyncData(_path, _value, _uid)
         --* 服务器 => 客户端（多端），单向同步
         --  Player 玩家数据同步
         local player = world:GetPlayerByUserId(_uid)
-        assert(player, string.format('[AvaKit][MetaData] 玩家不存在 uid = %s', _uid))
+        Debug.Assert(player ~= nil, string.format('[AvaKit][MetaData] 玩家不存在 uid = %s', _uid))
         PrintLog(
             string.format('[AvaKit][Server] 发出 player = %s, _path = %s, _value = %s', player, _path, table.dump(_value))
         )
@@ -221,7 +221,7 @@ MetaData.Set = SetData
 ---从proxy中生成一个纯数据表格
 MetaData.Get = function(_proxy)
     local mt = getmetatable(_proxy)
-    assert(mt, string.format('[AvaKit][MetaData] metatable为空，proxy = %s', table.dump(_proxy)))
+    Debug.Assert(mt ~= nil, string.format('[AvaKit][MetaData] metatable为空，proxy = %s', table.dump(_proxy)))
     return GetData(mt._data, mt._path)
 end
 
@@ -242,8 +242,8 @@ function Validators(func)
 
     if func == SetData then
         return function(_data, _path, _value, _uid, _sync)
-            assert(
-                _data,
+            Debug.Assert(
+                _data ~= nil,
                 string.format(
                     '[AvaKit][MetaData] data为空 data = %s, path = %s, uid = %s, sync = %s, value = %s',
                     _data,
@@ -253,7 +253,7 @@ function Validators(func)
                     table.dump(_value)
                 )
             )
-            assert(
+            Debug.Assert(
                 not string.isnilorempty(_path),
                 string.format(
                     '[AvaKit][MetaData] path为空 data = %s, path = %s, uid = %s, sync = %s, value = %s',

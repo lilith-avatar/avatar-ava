@@ -69,12 +69,12 @@ end
 
 --- 校验心跳参数
 function CheckConfig()
-    assert(HEARTBEAT_DELTA >= 1, '[AvaKit][Heartbeat][Client] HEARTBEAT_DELTA 必须大于1秒')
-    assert(
+    Debug.Assert(HEARTBEAT_DELTA >= 1, '[AvaKit][Heartbeat][Client] HEARTBEAT_DELTA 必须大于1秒')
+    Debug.Assert(
         HEARTBEAT_THRESHOLD_1 >= HEARTBEAT_DELTA,
         '[AvaKit][Heartbeat][Client] HEARTBEAT_THRESHOLD_1 >= HEARTBEAT_DELTA'
     )
-    assert(
+    Debug.Assert(
         HEARTBEAT_THRESHOLD_2 >= HEARTBEAT_THRESHOLD_1,
         '[AvaKit][Heartbeat][Client] HEARTBEAT_THRESHOLD_2 >= HEARTBEAT_THRESHOLD_1'
     )

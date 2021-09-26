@@ -60,23 +60,23 @@ ValidateArgs =
     function(_fireEnum, _eventName, _player)
         if _fireEnum == FireEnum.SERVER then
             --! Fire_S 检查参数
-            assert(not string.isnilorempty(_eventName), '[Net][Fire_S] 事件名为空')
-            assert(world.S_Event[_eventName], string.format('[Net][Fire_S] 服务器不存在事件: %s', _eventName))
+            Debug.Assert(not string.isnilorempty(_eventName), '[Net][Fire_S] 事件名为空')
+            Debug.Assert(world.S_Event[_eventName] ~= nil, string.format('[Net][Fire_S] 服务器不存在事件: %s', _eventName))
         elseif _fireEnum == FireEnum.CLIENT then
             --! Fire_C 检查参数
-            assert(not string.isnilorempty(_eventName), '[Net] 事件名为空')
-            assert(
-                _player and _player.ClassName == 'PlayerInstance',
+            Debug.Assert(not string.isnilorempty(_eventName), '[Net] 事件名为空')
+            Debug.Assert(
+                _player ~= nil and _player.ClassName == 'PlayerInstance',
                 string.format('[Net][Fire_C]第2个参数需要是玩家对象, 错误事件: %s', _eventName)
             )
-            assert(_player.C_Event, '[Net][Fire_C]第2个参数需要是玩家对象, 错误事件: %s', _eventName)
-            assert(
-                _player.C_Event[_eventName],
+            Debug.Assert(_player.C_Event ~= nil, '[Net][Fire_C]第2个参数需要是玩家对象, 错误事件: %s', _eventName)
+            Debug.Assert(
+                _player.C_Event[_eventName] ~= nil,
                 string.format('[Net][Fire_C] 客户端玩家不存在事件: %s, 玩家: %s', _player.Name, _eventName)
             )
         elseif _fireEnum == FireEnum.BROADCAST then
             --! Broadcase 检查参数
-            assert(not string.isnilorempty(_eventName), '[Net][Broadcast] 事件名为空')
+            Debug.Assert(not string.isnilorempty(_eventName), '[Net][Broadcast] 事件名为空')
         end
     end or
     function()

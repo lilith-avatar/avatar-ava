@@ -79,7 +79,7 @@ function InitHeartbeat()
     if not Ava.Config.HeartbeatStart then
         return
     end
-    assert(Heartbeat, '[AvaKit][Server][Heartbeat] 找不到ServerHeartbeat,请联系endaye')
+    Debug.Assert(Heartbeat ~= nil, '[AvaKit][Server][Heartbeat] 找不到ServerHeartbeat,请联系endaye')
     Heartbeat.Init()
 end
 
@@ -88,7 +88,7 @@ function InitDataSync()
     if not Ava.Config.DataSyncStart then
         return
     end
-    assert(DataSync, '[AvaKit][Server][DataSync] 找不到ServerDataSync,请联系endaye')
+    Debug.Assert(DataSync ~= nil, '[AvaKit][Server][DataSync] 找不到ServerDataSync,请联系endaye')
     DataSync.Init()
 end
 
@@ -122,7 +122,7 @@ end
 --- 开始Update
 function StartUpdate()
     Debug.Log('[Server] StartUpdate()')
-    assert(not running, '[AvaKit][Server] StartUpdate() 正在运行')
+    Debug.Assert(not running, '[AvaKit][Server] StartUpdate() 正在运行')
 
     running = true
 
