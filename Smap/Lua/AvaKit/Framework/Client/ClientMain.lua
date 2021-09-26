@@ -20,14 +20,14 @@ local initDefaultList, initList, updateList = {}, {}, {}
 
 --- 运行客户端
 function Client:Run()
-    print('[AvaKit][Client] Run()')
+    Debug.Log('[AvaKit][Client] Run()')
     InitClient()
     StartUpdate()
 end
 
 --- 停止Update
 function Client:Stop()
-    print('[AvaKit][Client] Stop()')
+    Debug.Log('[AvaKit][Client] Stop()')
     running = false
     Heartbeat.Stop()
 end
@@ -39,7 +39,7 @@ function InitClient()
     if initialized then
         return
     end
-    print('[AvaKit][Client] InitClient()')
+    Debug.Log('[AvaKit][Client] InitClient()')
     RequireClientModules()
     InitRandomSeed()
     InitHeartbeat()
@@ -53,7 +53,7 @@ end
 
 --- 加载客户端模块
 function RequireClientModules()
-    print('[AvaKit][Client] RequireClientModules()')
+    Debug.Log('[AvaKit][Client] RequireClientModules()')
     _G.C.Events = Ava.Manifest.Client.Events
     Ava.Util.Mod.LoadManifest(_G.C, Ava.Manifest.Client, Ava.Manifest.Client.ROOT_PATH, list)
 end
@@ -89,7 +89,7 @@ end
 
 --- 生成需要Init和Update的模块列表
 function GenInitAndUpdateList()
-    -- print(table.dump(list))
+    -- Debug.Log(table.dump(list))
     Ava.Util.Mod.GetModuleListWithFunc(list, 'InitDefault', initDefaultList)
     Ava.Util.Mod.GetModuleListWithFunc(list, 'Init', initList)
     Ava.Util.Mod.GetModuleListWithFunc(list, 'Update', updateList)
@@ -116,7 +116,7 @@ end
 
 --- 开始Update
 function StartUpdate()
-    print('[AvaKit][Client] StartUpdate()')
+    Debug.Log('[AvaKit][Client] StartUpdate()')
     assert(not running, '[AvaKit][Client] StartUpdate() 正在运行')
 
     running = true

@@ -37,7 +37,7 @@ local sTmpTs, cTmpTs  -- 时间戳缓存
 --- 这段代码就是先判断Setting.ShowHeartbeatLog这个配置项是否为真
 --- 若为真则PrintHb 为一个打印日志的函数  若为假则为一个空函数
 local PrintHb = Config.DebugMode and Config.Debug.ShowHeartbeatLog and function(...)
-        print('[Heartbeat][Server]', ...)
+        Debug.Log('[Heartbeat][Server]', ...)
     end or function()
     end
 
@@ -45,7 +45,7 @@ local PrintHb = Config.DebugMode and Config.Debug.ShowHeartbeatLog and function(
 
 --- 初始化心跳包
 function ServerHeartbeat.Init()
-    print('[Heartbeat][Server] Init()')
+    Debug.Log('[Heartbeat][Server] Init()')
     --校验心跳参数
     CheckSetting()
     --初始化事件和绑定Handler
@@ -54,7 +54,7 @@ end
 
 --- 开始发出心跳
 function ServerHeartbeat.Start()
-    print('[Heartbeat][Server] Start()')
+    Debug.Log('[Heartbeat][Server] Start()')
     running = true
     while (running) do
         Update()
@@ -64,7 +64,7 @@ end
 
 --- 停止心跳
 function ServerHeartbeat.Stop()
-    print('[Heartbeat][Server] Stop()')
+    Debug.Log('[Heartbeat][Server] Stop()')
     running = false
 end
 
@@ -108,7 +108,7 @@ function InitEventsAndListeners()
             local player = _player
             local uid = player.UserId
             if cache[player] then
-                print('[Heartbeat][Server] OnPlayerLeaveEvent, 玩家主动离开游戏,', player, uid)
+                Debug.Log('[Heartbeat][Server] OnPlayerLeaveEvent, 玩家主动离开游戏,', player, uid)
                 Ava.Util.Net.Fire_S('OnPlayerLeaveEvent', player, uid)
                 cache[player] = nil
             end
@@ -152,14 +152,14 @@ function CheckPlayerJoin(_player)
     --如果cache的_player位置存在空位，则可以加入玩家
     if not cache[_player] then
         --* 玩家新加入 OnPlayerJoinEvent
-        print('[Heartbeat][Server] OnPlayerJoinEvent, 新玩家加入,', _player)
+        Debug.Log('[Heartbeat][Server] OnPlayerJoinEvent, 新玩家加入,', _player)
         Ava.Util.Net.Fire_S('OnPlayerJoinEvent', _player, _player.UserId)
         cache[_player] = {
             state = HeartbeatEnum.CONNECT
         }
     elseif cache[_player].state == HeartbeatEnum.DISCONNECT then
         --* 玩家断线重连 OnPlayerReconnectEvent
-        print('[Heartbeat][Server] OnPlayerReconnectEvent, 玩家断线重连,', _player)
+        Debug.Log('[Heartbeat][Server] OnPlayerReconnectEvent, 玩家断线重连,', _player)
         Ava.Util.Net.Fire_S('OnPlayerReconnectEvent', _player, _player.UserId)
         cache[_player].state = HeartbeatEnum.CONNECT
     end
@@ -180,16 +180,16 @@ function CheckPlayerStates(_player, _sTimestam)
         cache[_player].state = HeartbeatEnum.CONNECT
     elseif cache[_player].state == HeartbeatEnum.CONNECT and diff >= HEARTBEAT_THRESHOLD_1 then
         --* 玩家断线 OnPlayerDisconnectEvent
-        print('[Heartbeat][Server] OnPlayerDisconnectEvent, 玩家离线, 等待断线重连,', _player, _player.UserId)
+        Debug.Log('[Heartbeat][Server] OnPlayerDisconnectEvent, 玩家离线, 等待断线重连,', _player, _player.UserId)
         Ava.Util.Net.Fire_S('OnPlayerDisconnectEvent', _player, _player.UserId)
         cache[_player].state = HeartbeatEnum.DISCONNECT
     elseif cache[_player].state == HeartbeatEnum.DISCONNECT and diff >= HEARTBEAT_THRESHOLD_2 then
         --* 玩家彻底断线，剔除玩家
         local player = _player
         local uid = player.UserId
-        print('[Heartbeat][Server] OnPlayerLeaveEvent, 剔除离线玩家,', player, uid)
+        Debug.Log('[Heartbeat][Server] OnPlayerLeaveEvent, 剔除离线玩家,', player, uid)
         Ava.Util.Net.Fire_S('OnPlayerLeaveEvent', player, uid)
-        print('[Heartbeat][Server] OnPlayerLeaveEvent, 发送客户端离线事件,', player, uid)
+        Debug.Log('[Heartbeat][Server] OnPlayerLeaveEvent, 发送客户端离线事件,', player, uid)
         Ava.Util.Net.Fire_C('OnPlayerLeaveEvent', player, uid)
         -- 将cache的该玩家数据删除
         cache[player] = nil

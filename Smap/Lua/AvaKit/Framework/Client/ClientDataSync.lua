@@ -13,7 +13,7 @@ local rawDataPlayer = {}
 
 --- 打印数据同步日志
 local PrintLog = Config.DebugMode and Config.Debug.ShowDataSyncLog and function(...)
-        print('[AvaKit][DataSync][Client]', ...)
+        Debug.Log('[AvaKit][DataSync][Client]', ...)
     end or function()
     end
 
@@ -21,7 +21,7 @@ local PrintLog = Config.DebugMode and Config.Debug.ShowDataSyncLog and function(
 
 --- 数据初始化
 function ClientDataSync.Init()
-    print('[AvaKit][DataSync][Client] Init()')
+    Debug.Log('[AvaKit][DataSync][Client] Init()')
     InitEventsAndListeners()
     InitDataDefines()
 end
@@ -69,7 +69,7 @@ end
 
 --- 开始同步
 function ClientDataSync.Start()
-    print('[AvaKit][DataSync][Client] 客户端数据同步开启')
+    Debug.Log('[AvaKit][DataSync][Client] 客户端数据同步开启')
     MetaData.ClientSync = true
 end
 

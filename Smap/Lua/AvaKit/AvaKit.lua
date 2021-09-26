@@ -120,7 +120,7 @@ function AvaKit.Start()
     if started then
         return
     end
-    print('[AvaKit] Start()')
+    Debug.Log('[AvaKit] Start()')
     InitLuaExt()
     InitAvaKit()
 end
@@ -129,7 +129,7 @@ end
 function AvaKit.StartClient()
     PreInitClient()
     AvaKit.Start()
-    print('Ava.Framework.Client.Main:Run()')
+    Debug.Log('Ava.Framework.Client.Main:Run()')
     Ava.Framework.Client.Main:Run()
 end
 
@@ -137,7 +137,7 @@ end
 function AvaKit.StartServer()
     PreInitServer()
     AvaKit.Start()
-    print('Ava.Framework.Server.Main:Run()')
+    Debug.Log('Ava.Framework.Server.Main:Run()')
     Ava.Framework.Server.Main:Run()
 end
 

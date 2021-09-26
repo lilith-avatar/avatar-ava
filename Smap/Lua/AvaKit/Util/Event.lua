@@ -39,7 +39,7 @@ function EventUtil.LinkConnects(_eventFolder, _module, _this)
         if string.endswith(evt.Name, 'Event') then
             local handler = _module[evt.Name .. 'Handler']
             if handler ~= nil then
-                -- print('[EventUtil]', _eventFolder, _module, evt)
+                -- Debug.Log('[EventUtil]', _eventFolder, _module, evt)
                 evt:Connect(
                     function(...)
                         handler(_this, ArgsAux(...))

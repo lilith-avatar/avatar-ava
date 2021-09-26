@@ -21,7 +21,7 @@ local sheet
 
 --- 打印数据同步日志
 local PrintLog = Config.DebugMode and Config.Debug.ShowDataSyncLog and function(...)
-        print('[AvaKit][DataSync][Server]', ...)
+        Debug.Log('[AvaKit][DataSync][Server]', ...)
     end or function()
     end
 
@@ -29,7 +29,7 @@ local PrintLog = Config.DebugMode and Config.Debug.ShowDataSyncLog and function(
 
 --- 数据初始化
 function ServerDataSync.Init()
-    print('[AvaKit][DataSync][Server] Init()')
+    Debug.Log('[AvaKit][DataSync][Server] Init()')
     InitEventsAndListeners()
     InitDefines()
     sheet = DataStore:GetSheet('PlayerData')
@@ -105,7 +105,7 @@ end
 
 --- 开始同步
 function ServerDataSync.Start()
-    print('[AvaKit][DataSync][Server] 服务器数据同步开启')
+    Debug.Log('[AvaKit][DataSync][Server] 服务器数据同步开启')
     MetaData.ServerSync = true
 
     -- 启动定时器
@@ -137,11 +137,11 @@ function LoadGameDataAsyncCb(_val, _msg, _uid)
     end
     local player = world:GetPlayerByUserId(_uid)
     assert(player, string.format('[AvaKit][DataSync][Server] 玩家不存在, uid = %s', _uid))
-    if _msg == 0 or _msg == 101 then
-        print('[AvaKit][DataSync][Server] 获取玩家数据成功', player.Name)
+    if _msg == 0 then
+        Debug.Log('[AvaKit][DataSync][Server] 获取玩家数据成功', player.Name)
         local hasData = _val ~= nil
         if hasData then
-            print('[AvaKit][DataSync][Server] 玩家数据，存在', player.Name)
+            Debug.Log('[AvaKit][DataSync][Server] 玩家数据，存在', player.Name)
             --若以前的数据存在，更新
             -- TODO: 数据兼容的处理
             local data = _val
@@ -152,13 +152,13 @@ function LoadGameDataAsyncCb(_val, _msg, _uid)
             end
         else
             -- 不存在数据，用之前生成的默认数据
-            print('[AvaKit][DataSync][Server] 玩家数据，不存在', player.Name)
+            Debug.Log('[AvaKit][DataSync][Server] 玩家数据，不存在', player.Name)
         end
         Ava.Util.Net.Fire_S('LoadPlayerDataSuccessEvent', player, hasData)
         Ava.Util.Net.Fire_C('LoadPlayerDataSuccessEvent', player, hasData)
         return
     end
-    print(
+    Debug.LogWarning(
         string.format(
             '[AvaKit][DataSync][Server] 获取玩家数据失败，%s秒后重试, uid = %s, player = %s, msg = %s',
             RELOAD_TIME,
@@ -205,9 +205,9 @@ end
 function SaveGameDataAsyncCb(_val, _msg, _uid, _delete)
     -- 保存成功
     if _msg == 0 then
-        print('[AvaKit][DataSync][Server] 保存玩家数据，成功', _uid)
+        Debug.Log('[AvaKit][DataSync][Server] 保存玩家数据，成功', _uid)
         if _delete == true then
-            print('[AvaKit][DataSync][Server] 删除服务器玩家数据', _uid)
+            Debug.Log('[AvaKit][DataSync][Server] 删除服务器玩家数据', _uid)
             rawDataPlayers[_uid] = nil
             --* 删除玩家端数据
             Data.Players[_uid] = nil
@@ -216,7 +216,9 @@ function SaveGameDataAsyncCb(_val, _msg, _uid, _delete)
     end
 
     -- 保存失败
-    print(string.format('[AvaKit][DataSync][Server] 保存玩家数据失败，%s秒后重试, uid = %s, msg = %s', RELOAD_TIME, _uid, _msg))
+    Debug.LogWarning(
+        string.format('[AvaKit][DataSync][Server] 保存玩家数据失败，%s秒后重试, uid = %s, msg = %s', RELOAD_TIME, _uid, _msg)
+    )
     --若失败，则1秒后重新再读取一次
     invoke(
         function()
@@ -229,10 +231,10 @@ end
 --- 存储全部玩家数据
 function SaveAllGameDataAsync()
     if not MetaData.ServerSync then
-        print('[AvaKit][DataSync][Server] ServerSync未开始')
+        Debug.Log('[AvaKit][DataSync][Server] ServerSync未开始')
         return
     end
-    print('[AvaKit][DataSync][Server] 尝试保存全部玩家数据……')
+    Debug.Log('[AvaKit][DataSync][Server] 尝试保存全部玩家数据……')
     for uid, data in pairs(Data.Players) do
         if not string.isnilorempty(uid) and data then
             SaveGameDataAsync(uid, false)
@@ -274,7 +276,7 @@ end
 
 --- 新玩家加入事件Handler
 function OnPlayerJoinEventHandler(_player, _uid)
-    print('[AvaKit][DataSync][Server] OnPlayerJoinEventHandler', _player, _player.UserId, _uid)
+    Debug.Log('[AvaKit][DataSync][Server] OnPlayerJoinEventHandler', _player, _player.UserId, _uid)
 
     --* 向客户端同步Data.Global
     if localPlayer == nil then
@@ -289,7 +291,7 @@ end
 
 --- 玩家离开事件Handler
 function OnPlayerLeaveEventHandler(_player, _uid)
-    print('[AvaKit][DataSync][Server] OnPlayerLeaveEventHandler', _player, _uid)
+    Debug.Log('[AvaKit][DataSync][Server] OnPlayerLeaveEventHandler', _player, _uid)
     assert(not string.isnilorempty(_uid), '[ServerDataSync] OnPlayerLeaveEventHandler() uid不存在')
     --* 保存长期存储：rawDataPlayers[_uid] 保存成功后删掉
     SaveGameDataAsync(_uid, true)

@@ -83,13 +83,15 @@ ValidateArgs =
     end
 
 --- 打印事件日志
-PrintEventLog = showLog and function(_fireEnum, _eventName, _player, _args)
+PrintEventLog =
+    showLog and
+    function(_fireEnum, _eventName, _player, _args)
         if _fireEnum == FireEnum.SERVER then
             --* Fire_S 参数打印
-            print(string.format('[Net][发出服务器事件] %s, 参数 = %s, %s', _eventName, #_args, table.dump(_args)))
+            Debug.Log(string.format('[Net][发出服务器事件] %s, 参数 = %s, %s', _eventName, #_args, table.dump(_args)))
         elseif _fireEnum == FireEnum.CLIENT then
             --* Fire_C 参数打印
-            print(
+            Debug.Log(
                 string.format(
                     '[Net][发出客户端事件] %s, 玩家=%s, 参数 = %s, %s',
                     _eventName,
@@ -100,9 +102,10 @@ PrintEventLog = showLog and function(_fireEnum, _eventName, _player, _args)
             )
         elseif _fireEnum == FireEnum.BROADCAST then
             --* Broadcast 参数打印
-            print(string.format('[Net][发出客户端广播事件] %s, 参数 = %s, %s', _eventName, #_args, table.dump(_args)))
+            Debug.Log(string.format('[Net][发出客户端广播事件] %s, 参数 = %s, %s', _eventName, #_args, table.dump(_args)))
         end
-    end or function()
+    end or
+    function()
     end
 
 return Net
