@@ -67,13 +67,13 @@ end
 --- 如果存在子表,则遍历子表进行复制
 --- @param dest 目标表格
 --- @param src 被合入的表格
-table.deepMerge = function(dest, src)
+table.deepmerge = function(dest, src)
     for k, v in pairs(src) do
         if type(v) == 'table' then
             if dest[k] == nil then
                 dest[k] = {}
             end
-            table.deepMerge(dest[k], v)
+            table.deepmerge(dest[k], v)
         else
             dest[k] = v
         end
@@ -84,7 +84,7 @@ end
 --- @param ... 多个表，第一个是目标表格
 --- @return 返回一个新表
 --- @author Sharif Ma
-table.MergeTables = function(...)
+table.mergetables = function(...)
     local tabs = {...}
     if not tabs or #tabs == 0 then
         return {}
@@ -135,6 +135,18 @@ table.insertto = function(dest, src, begin)
     for i = 0, len - 1 do
         dest[i + begin] = src[i + 1]
     end
+end
+
+--- 在表格中插入一个新值
+--- @param array table
+--- @param new element
+table.insertonce = function(t, elem)
+    for _, v in ipairs(t) do
+        if v == elem then
+            return
+        end
+    end
+    table.insert(t, elem)
 end
 
 --- 从表格中查找指定值，返回其索引，如果没找到返回 false
@@ -201,9 +213,9 @@ end
 --- @return @table array table
 --- @usage example
 ---      local array = {"a", "b", "c", "d"}
----      print(table.subArray(array, 2, 2))
+---      print(table.subarray(array, 2, 2))
 ---      >> {"b", "c"}
-table.subArray = function(array, startIndex, length)
+table.subarray = function(array, startIndex, length)
     if array ~= nil then
         local count = table.nums(array)
         local tempArray = array
@@ -224,11 +236,11 @@ end
 --- @param table array table
 --- @param @number start index
 --- @return @table array table
-table.subArrayByStartIndex = function(array, startIndex)
+table.subarraybystartindex = function(array, startIndex)
     if array ~= nil then
         local count = table.nums(array)
         local length = count - startIndex + 1
-        return table.subArray(array, startIndex, length)
+        return table.subarray(array, startIndex, length)
     end
     return array
 end
@@ -276,13 +288,13 @@ end
 --- @param array 数组table
 --- @return 混淆后的同一数组table
 --- @author Yuancheng Zhang
-table.shuffle = function(_tbl)
+table.shuffle = function(t)
     local j
-    for i = #_tbl, 2, -1 do
+    for i = #t, 2, -1 do
         j = math.random(i)
-        _tbl[i], _tbl[j] = _tbl[j], _tbl[i]
+        t[i], t[j] = t[j], t[i]
     end
-    return _tbl
+    return t
 end
 
 --- 对表格中每一个值执行一次指定的函数，并用函数返回值更新表格内容
@@ -357,7 +369,7 @@ end
 --- @param array table
 --- @param match function, return T/F
 --- @return all elements matched, default is {}
-table.findAll = function(array, matchFunc)
+table.findall = function(array, matchFunc)
     local ret, idx = {}, 1
     for i = 1, #array do
         if matchFunc(array[i]) then
@@ -372,24 +384,12 @@ end
 --- @param array table
 --- @param match function, return T/F
 --- @param walk function
-table.findAllAndWalk = function(array, matchFunc, walkFunc)
+table.findallandwalk = function(array, matchFunc, walkFunc)
     for i = 1, #array do
         if matchFunc(array[i]) then
             walkFunc(array[i])
         end
     end
-end
-
---- 在表格中插入一个新值
---- @param array table
---- @param new element
-table.insert_once = function(T, elem)
-    for _, v in ipairs(T) do
-        if v == elem then
-            return
-        end
-    end
-    table.insert(T, elem)
 end
 
 --- 遍历表格，确保其中的值唯一
@@ -447,7 +447,7 @@ end
 --- table 浅度复制(不处理metatable)
 --- @param table
 --- @return a net table with same data
-function table.shallowcopy(orig)
+table.shallowcopy = function(orig)
     local orig_type = type(orig)
     local copy
     if orig_type == 'table' then
@@ -494,7 +494,7 @@ table.dump = function(data, showMetatable)
             table.insert(result, '{\n')
             --Metatable
             if showMetatable then
-                for i = 1, count do
+                for _ = 1, count do
                     table.insert(result, tab)
                 end
                 local mt = getmetatable(data)
@@ -504,7 +504,7 @@ table.dump = function(data, showMetatable)
             end
             --Key
             for key, value in pairs(data) do
-                for i = 1, count do
+                for _ = 1, count do
                     table.insert(result, tab)
                 end
                 if type(key) == 'string' then
@@ -538,24 +538,37 @@ table.dump = function(data, showMetatable)
     return 'dump: \n' .. table.concat(result)
 end
 
---- 两个表是否相同(元素数量，值相同)
---- @param _tableA table
---- @param _tableB table
---- @author xuyue
-table.equal = function(_tableA, _tableB)
-    for k, v in pairs(_tableA) do
-        if _tableB[k] == nil then --元素数量不匹配
+--- 比较两个table是否完全一样
+--- Deep Comparison of Two Values
+--- @see https://web.archive.org/web/20131225070434/http://snippets.luacode.org/snippets/Deep_Comparison_of_Two_Values_3
+--- @param t1 第一个table
+--- @param t2 第二个table
+--- @param ignore_mt 是否忽略元表
+function deepcompare(t1, t2, ignore_mt)
+    local ty1 = type(t1)
+    local ty2 = type(t2)
+    if ty1 ~= ty2 then
+        return false
+    end
+    -- non-table types can be directly compared
+    if ty1 ~= 'table' and ty2 ~= 'table' then
+        return t1 == t2
+    end
+    -- as well as tables which have the metamethod __eq
+    local mt = getmetatable(t1)
+    if not ignore_mt and mt and mt.__eq then
+        return t1 == t2
+    end
+    for k1, v1 in pairs(t1) do
+        local v2 = t2[k1]
+        if v2 == nil or not deepcompare(v1, v2) then
             return false
         end
-
-        if type(v) ~= 'table' then
-            if v ~= _tableB[k] then
-                return false
-            end
-        else
-            if not table.equal(v, _tableB[k]) then
-                return false
-            end
+    end
+    for k2, v2 in pairs(t2) do
+        local v1 = t1[k2]
+        if v1 == nil or not deepcompare(v1, v2) then
+            return false
         end
     end
     return true
