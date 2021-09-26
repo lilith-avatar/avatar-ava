@@ -36,7 +36,7 @@ local sTmpTs, cTmpTs  -- 时间戳缓存
 --- 打印心跳日志
 --- 这段代码就是先判断Setting.ShowHeartbeatLog这个配置项是否为真
 --- 若为真则PrintHb 为一个打印日志的函数  若为假则为一个空函数
-local PrintHb = Config.DebugMode and Config.Debug.ShowHeartbeatLog and function(_msg)
+local PrintHb = Config.Debug.On and Config.Debug.ShowHeartbeatLog and function(_msg)
         Debug.Log(string.format('[AvaKit][Heartbeat][Server] %s', _msg))
     end or function()
     end

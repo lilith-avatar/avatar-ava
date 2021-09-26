@@ -20,7 +20,7 @@ local RELOAD_TIME = 1
 local sheet
 
 --- 打印数据同步日志
-local PrintLog = Config.DebugMode and Config.Debug.ShowDataSyncLog and function(...)
+local PrintLog = Config.Debug.On and Config.Debug.ShowDataSyncLog and function(...)
         Debug.Log('[AvaKit][DataSync][Server]', ...)
     end or function()
     end

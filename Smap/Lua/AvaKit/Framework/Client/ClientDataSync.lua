@@ -12,7 +12,7 @@ local rawDataGlobal = {}
 local rawDataPlayer = {}
 
 --- 打印数据同步日志
-local PrintLog = Config.DebugMode and Config.Debug.ShowDataSyncLog and function(...)
+local PrintLog = Config.Debug.On and Config.Debug.ShowDataSyncLog and function(...)
         Debug.Log('[AvaKit][DataSync][Client]', ...)
     end or function()
     end

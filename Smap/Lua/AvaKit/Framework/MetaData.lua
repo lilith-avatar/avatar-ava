@@ -228,7 +228,7 @@ end
 --! 辅助方法
 
 ---打印数据同步日志
-PrintLog = Config.DebugMode and debugMode and function(...)
+PrintLog = Config.Debug.On and debugMode and function(...)
         Debug.Log('[AvaKit][MetaData]', ...)
     end or function()
     end

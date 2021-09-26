@@ -37,7 +37,7 @@ local diff  -- 时间戳插值
 local sTmpTs, cTmpTs  -- 时间戳缓存
 
 --- 打印心跳日志
-local PrintHb = Config.DebugMode and Config.Debug.ShowHeartbeatLog and function(_msg)
+local PrintHb = Config.Debug.On and Config.Debug.ShowHeartbeatLog and function(_msg)
         Debug.Log(string.format('[AvaKit][Heartbeat][Client] %s', _msg))
     end or function()
     end
