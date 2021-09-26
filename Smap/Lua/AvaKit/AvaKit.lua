@@ -36,10 +36,10 @@ end
 --- 初始化Global
 function InitGlobal()
     _G.Ava = {}
-    _G.Data = {}
-    _G.Data.Global = {}
-    _G.Data.Player = {}
-    _G.Data.Players = {}
+    _G.Data = Data or {}
+    _G.Data.Global = Data.Global or {}
+    _G.Data.Player = Data.Player or {}
+    _G.Data.Players = Data.Players or {}
 end
 
 --- 预初始化Client
