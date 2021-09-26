@@ -11,8 +11,7 @@ Manifest.Modules = {
     'Xls/GlobalSetting',
     'Util/Uuid',
     'Util/SoundUtil',
-    'Util/CloudLogUtil',
-    'Util/TimeUtil'
+    'Util/CloudLogUtil'
 }
 
 return Manifest

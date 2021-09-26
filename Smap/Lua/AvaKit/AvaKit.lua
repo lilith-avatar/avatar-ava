@@ -74,6 +74,7 @@ function RequireUtils()
     --FIXME: 为了向下兼容
     _G.JSON = Ava.Util.LuaJson
     _G.NetUtil = Ava.Util.Net
+    _G.TimeUtil = Ava.Util.Time
 end
 
 --- 引用框架
