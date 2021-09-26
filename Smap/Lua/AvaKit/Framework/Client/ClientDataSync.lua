@@ -45,7 +45,7 @@ end
 --- 校验数据定义
 function InitDataDefines()
     --* 客户端全局数据
-    if Server.Exist then
+    if Server and Server.Exist then
         -- 同虚拟机，不同步
         Data.Global = Data.Global or Data.Default.Global
     else
