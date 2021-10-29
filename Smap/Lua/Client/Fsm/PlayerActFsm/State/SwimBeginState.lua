@@ -1,6 +1,10 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 local SwimBeginState = class('SwimBeginState', PlayerActState)
 
 function SwimBeginState:initialize(_controller, _stateName)
@@ -35,7 +39,7 @@ function SwimBeginState:OnEnter()
         localPlayer:SetSwimming(true)
         localPlayer.RotationRate = EulerDegree(0, 240, 0)
     end
-    EmoActionMgr:HideDanceBtn(false)
+    C.Mgr.EmoActionMgr:HideDanceBtn(false)
     --PlayerAnimMgr:Play(self.stateName, 0, 1, 0.2, 0.2, true, false, 1)
 end
 

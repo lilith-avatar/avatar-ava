@@ -1,7 +1,7 @@
 --- 玩家默认UI
 --- @module Player Default GUI
 --- @copyright Lilith Games, Avatar Team
-local PlayerGuiDefault, this = ModuleUtil.New('PlayerGuiDefault', ClientBase)
+local PlayerGuiDefault, this = Ava.Util.Mod.New('PlayerGuiDefault', ClientBase)
 
 -- 获取本地玩家
 local player

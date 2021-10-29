@@ -84,7 +84,7 @@ string.ucfirst = function(input)
     return string.upper(string.sub(input, 1, 1)) .. string.sub(input, 2)
 end
 
-string.firstToUpper = function(str)
+string.firsttoupper = function(str)
     return (str:gsub('^%l', string.upper))
 end
 

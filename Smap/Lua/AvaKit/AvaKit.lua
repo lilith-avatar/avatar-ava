@@ -35,15 +35,49 @@ end
 
 --- 初始化Global
 function InitGlobal()
-    _G.Ava = {}
-    _G.Data = {}
+    _G.Ava = Ava or {}
+    _G.Data = Data or {}
+    Data.Default = Data.Default or {}
+    Data.Default.Global = Data.Default.Global or {}
+    Data.Default.Player = Data.Default.Global or {}
+end
+
+--- 预初始化Client
+function PreInitClient()
     _G.C = {}
+end
+
+--- 预初始化Server
+function PreInitServer()
     _G.S = {}
 end
 
 --- 引用工具模块
 function RequireConfig()
-    Ava.Config = require(PATH_AVAKIT .. 'Config')
+    local defaultConfig = require(PATH_AVAKIT .. 'Config')
+
+    -- 直接使用框架默认配置
+    if Ava.Config == nil or Ava.Config == {} then
+        Ava.Config = defaultConfig
+        Debug.Log('[AvaKit] 使用默认框架配置')
+        return
+    end
+
+    -- 配置最多支持2层深度
+    for k1, v1 in pairs(defaultConfig) do
+        if type(v1) == 'table' and Ava.Config[k1] ~= nil then
+            for k2, v2 in pairs(v1) do
+                if Ava.Config[k1][k2] == nil then
+                    Ava.Config[k1][k2] = v2
+                end
+            end
+        elseif Ava.Config[k1] == nil then
+            Ava.Config[k1] = v1
+        end
+    end
+
+    -- 显示配置
+    -- Debug.Log(table.dump(Ava.Config))
 end
 
 --- 引用工具模块
@@ -61,9 +95,9 @@ function RequireUtils()
     Ava.Util.Time.Init()
 
     --FIXME: 为了向下兼容
-    _G.ModuleUtil = Ava.Util.Mod
     _G.JSON = Ava.Util.LuaJson
     _G.NetUtil = Ava.Util.Net
+    _G.TimeUtil = Ava.Util.Time
 end
 
 --- 引用框架
@@ -86,12 +120,9 @@ function RequireFramework()
     Ava.Framework.Server.Heartbeat = require(PATH_SERVER .. 'ServerHeartbeat')
     Ava.Framework.Server.Main = require(PATH_SERVER .. 'ServerMain')
 
-    --FIXME:
+    --FIXME: 向下兼容
     _G.ClientBase = Ava.Framework.Client.Base
     _G.ServerBase = Ava.Framework.Server.Base
-    _G.Data.Global = {}
-    _G.Data.Player = {}
-    _G.Data.Players = {}
     _G.MetaData = Ava.Framework.MetaData
 end
 
@@ -113,24 +144,24 @@ function AvaKit.Start()
     if started then
         return
     end
-    print('[AvaKit] Start()')
+    Debug.Log('[AvaKit] Start()')
     InitLuaExt()
     InitAvaKit()
 end
 
 --- 启动客户端
 function AvaKit.StartClient()
+    PreInitClient()
     AvaKit.Start()
-    wait() --间隔1帧
-    print('Ava.Framework.Client.Main:Run()')
+    Debug.Log('Ava.Framework.Client.Main:Run()')
     Ava.Framework.Client.Main:Run()
 end
 
 --- 启动服务器
 function AvaKit.StartServer()
+    PreInitServer()
     AvaKit.Start()
-    wait() --间隔1帧
-    print('Ava.Framework.Server.Main:Run()')
+    Debug.Log('Ava.Framework.Server.Main:Run()')
     Ava.Framework.Server.Main:Run()
 end
 

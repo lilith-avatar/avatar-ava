@@ -12,8 +12,8 @@ local rawDataGlobal = {}
 local rawDataPlayer = {}
 
 --- 打印数据同步日志
-local PrintLog = Config.DebugMode and Config.Debug.ShowDataSyncLog and function(...)
-        print('[AvaKit][DataSync][Client]', ...)
+local PrintLog = Config.Debug.On and Config.Debug.ShowDataSyncLog and function(...)
+        Debug.Log('[AvaKit][DataSync][Client]', ...)
     end or function()
     end
 
@@ -21,7 +21,7 @@ local PrintLog = Config.DebugMode and Config.Debug.ShowDataSyncLog and function(
 
 --- 数据初始化
 function ClientDataSync.Init()
-    print('[AvaKit][DataSync][Client] Init()')
+    Debug.Log('[AvaKit][DataSync][Client] Init()')
     InitEventsAndListeners()
     InitDataDefines()
 end
@@ -45,10 +45,10 @@ end
 --- 校验数据定义
 function InitDataDefines()
     --* 客户端全局数据
-    if Server.Exist then
+    if Server and Server.Exist then
         -- 同虚拟机，不同步
         Data.Global = Data.Global or Data.Default.Global
-    else
+    elseif Data.Default.Global ~= {} then
         -- 不同虚拟，同步
         Data.Global = Data.Global or MetaData.New(rawDataGlobal, MetaData.Enum.GLOBAL, MetaData.Enum.CLIENT)
         -- 默认赋值
@@ -61,15 +61,17 @@ function InitDataDefines()
     local uid = localPlayer.UserId
     local path = MetaData.Enum.PLAYER .. uid
     Data.Player = Data.Player or MetaData.New(rawDataPlayer, path, uid)
-    -- 默认赋值
-    for k, v in pairs(Data.Default.Player) do
-        Data.Player[k] = v
+    if Data.Default.Player ~= {} then
+        -- 默认赋值
+        for k, v in pairs(Data.Default.Player) do
+            Data.Player[k] = v
+        end
     end
 end
 
 --- 开始同步
 function ClientDataSync.Start()
-    print('[AvaKit][DataSync][Client] 客户端数据同步开启')
+    Debug.Log('[AvaKit][DataSync][Client] 客户端数据同步开启')
     MetaData.ClientSync = true
 end
 

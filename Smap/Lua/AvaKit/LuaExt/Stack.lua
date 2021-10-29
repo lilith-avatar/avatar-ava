@@ -40,8 +40,7 @@ end
 
 function Stack:Pop()
     if self:IsEmpty() then
-        --print("Error: the stack is empty")
-        return
+        Debug.LogError('Error: the stack is empty')
     end
     local value = self._stack[self._last]
     self._stack[self._last] = nil
@@ -87,7 +86,7 @@ function Stack:PrintElement()
         str = str .. tostring(self._stack[i]) .. ','
     end
     str = str .. '}'
-    print(str)
+    Debug.Log(str)
 end
 
 return Stack

@@ -7,19 +7,7 @@
 --- source file: ./xls/Example.xlsx
 
 local GlobalSettingXls = {
-    DefaultLanguage = "CHS",
-    TileWith = 1.0,
-    FoundationHeight = 0.0,
-    LevelHeight = 4.0,
-    DefaultInnerRowCol = Vector2(23, 24),
-    DefaultOutterRowCol = Vector2(30, 30),
-    InstanceFramingThreshold = 20.0,
-    DestoryFramingThreshold = 50.0,
-    RoofOffset = Vector3(0.5, 0, 0),
-    CurentDataVer = 0.8,
-    AutoSaveThreshold = 60.0,
-    Party2EditorOffset = {0,0,-1000},
-    SlotNum = 3.0
+    DefaultLanguage = 'CHS'
 }
 
 return GlobalSettingXls

@@ -1,6 +1,10 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 local SwimmingStartState = class('SwimmingStartState', PlayerActState)
 
 function SwimmingStartState:initialize(_controller, _stateName)

@@ -1,11 +1,16 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 local ActBeginState = class('ActBeginState', PlayerActState)
 
 function ActBeginState:initialize(_controller, _stateName)
     PlayerActState.initialize(self, _controller, _stateName)
 end
+
 function ActBeginState:InitData()
     self:AddAnyState(
         'ToActBeginState',

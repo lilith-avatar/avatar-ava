@@ -2,7 +2,11 @@
 --- @module  EmoActionMgr, Client-side
 --- @copyright Lilith Games, Avatar Team
 --- @author KeyHou
-local EmoActionMgr, this = ModuleUtil.New('EmoActionMgr', ClientBase)
+
+-- local cache
+local PlayerActAnimeGui = C.Fsm.PlayerActAnimeGui
+
+local EmoActionMgr, this = Ava.Util.Mod.New('EmoActionMgr', ClientBase)
 
 function EmoActionMgr:Init()
     print('[C_Module][EmoActionMgr:Init]')

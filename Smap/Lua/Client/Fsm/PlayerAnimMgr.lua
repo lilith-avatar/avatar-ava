@@ -2,7 +2,7 @@
 --- @module PlayerAnim Mgr, client-side
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
-local PlayerAnimMgr, this = ModuleUtil.New('PlayerAnimMgr', ClientBase)
+local PlayerAnimMgr, this = Ava.Util.Mod.New('PlayerAnimMgr', ClientBase)
 local clipNodes = {
     [0] = {},
     [1] = {},

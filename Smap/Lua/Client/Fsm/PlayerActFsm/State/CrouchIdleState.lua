@@ -1,6 +1,10 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 local CrouchIdleState = class('CrouchIdleState', PlayerActState)
 
 function CrouchIdleState:initialize(_controller, _stateName)

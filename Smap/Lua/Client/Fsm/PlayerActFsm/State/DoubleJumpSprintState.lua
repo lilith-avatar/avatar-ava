@@ -1,6 +1,10 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 local DoubleJumpSprintState = class('DoubleJumpSprintState', PlayerActState)
 
 function DoubleJumpSprintState:initialize(_controller, _stateName)

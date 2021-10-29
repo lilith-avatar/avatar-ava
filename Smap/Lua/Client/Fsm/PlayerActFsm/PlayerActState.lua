@@ -2,6 +2,10 @@
 --- @class  PlayerActState
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
+
+-- local cache
+local StateBase = C.Fsm.Base.StateBase
+
 local PlayerActState = class('PlayerActState', StateBase)
 
 --水体
@@ -41,8 +45,8 @@ end
 function PlayerActState:Swim()
     --- 移动监测以及潜水设置
     --* 此处取消潜水
-    --local lvY = self:MoveMonitor() and math.clamp((PlayerCam.playerGameCam.Forward.y + 0.2), -1, 1) or 0
-    local lvY = self:MoveMonitor() and math.clamp((PlayerCam.playerGameCam.Forward.y + 0.2), 0, 0) or 0
+    --local lvY = self:MoveMonitor() and math.clamp((C.Mgr.PlayerCam.playerGameCam.Forward.y + 0.2), -1, 1) or 0
+    local lvY = self:MoveMonitor() and math.clamp((C.Mgr.PlayerCam.playerGameCam.Forward.y + 0.2), 0, 0) or 0
 
     if self:IsWaterSuface(1.1) and lvY > 0 then
         lvY = -3 * localPlayer.Velocity.y
@@ -78,7 +82,7 @@ end
 
 --- 飞行，每帧调用
 function PlayerActState:Fly()
-    local lvY = self:MoveMonitor() and math.clamp((PlayerCam.playerGameCam.Forward.y + 0.2), -1, 1) or 0
+    local lvY = self:MoveMonitor() and math.clamp((C.Mgr.PlayerCam.playerGameCam.Forward.y + 0.2), -1, 1) or 0
     local dir = Vector3(C.Mgr.PlayerCtrl.finalDir.Normalized.x, lvY, C.Mgr.PlayerCtrl.finalDir.Normalized.z)
     if C.Mgr.PlayerCtrl.isSprint then
         localPlayer:AddMovementInput(dir, 1)
@@ -203,7 +207,7 @@ function PlayerActState:CamUpdate()
         changeSpeed = -50
     end
     changeSpeed = changeSpeed / 100
-    --PlayerCam:CameraFOVZoom(changeSpeed, maxFov)
+    --C.Mgr.PlayerCam:CameraFOVZoom(changeSpeed, maxFov)
 end
 
 --- 跳跃时的空中控制

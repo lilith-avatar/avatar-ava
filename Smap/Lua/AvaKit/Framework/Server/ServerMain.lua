@@ -22,7 +22,7 @@ Server.Exist = false
 
 --- 运行服务器
 function Server:Run()
-    print('[AvaKit][Server] Run()')
+    Debug.Log('[AvaKit][Server] Run()')
     InitServer()
     invoke(StartUpdate)
     Server.Exist = true
@@ -30,7 +30,7 @@ end
 
 --- 停止Update
 function Server:Stop()
-    print('[AvaKit][Server] Stop()')
+    Debug.Log('[AvaKit][Server] Stop()')
     running = false
     Heartbeat.Stop()
 end
@@ -42,7 +42,7 @@ function InitServer()
     if initialized then
         return
     end
-    print('[AvaKit][Server] InitServer()')
+    Debug.Log('[AvaKit][Server] InitServer()')
     RequireServerModules()
     InitRandomSeed()
     InitHeartbeat()
@@ -55,14 +55,14 @@ function InitServer()
 end
 
 function RequireServerModules()
-    print('[AvaKit][Server] RequireServerModules()')
+    Debug.Log('[AvaKit][Server] RequireServerModules()')
     _G.S.Events = Ava.Manifest.Server.Events
     Ava.Util.Mod.LoadManifest(_G.S, Ava.Manifest.Server, Ava.Manifest.Server.ROOT_PATH, list)
 end
 
 --- 初始化服务器的CustomEvent
 function InitServerCustomEvents()
-    print('[AvaKit][Server] InitServerCustomEvents()')
+    Debug.Log('[AvaKit][Server] InitServerCustomEvents()')
     if world.S_Event == nil then
         world:CreateObject('FolderObject', 'S_Event', world)
     end
@@ -79,7 +79,7 @@ function InitHeartbeat()
     if not Ava.Config.HeartbeatStart then
         return
     end
-    assert(Heartbeat, '[AvaKit][Server][Heartbeat] 找不到ServerHeartbeat,请联系endaye')
+    Debug.Assert(Heartbeat ~= nil, '[AvaKit][Server][Heartbeat] 找不到ServerHeartbeat,请联系endaye')
     Heartbeat.Init()
 end
 
@@ -88,7 +88,7 @@ function InitDataSync()
     if not Ava.Config.DataSyncStart then
         return
     end
-    assert(DataSync, '[AvaKit][Server][DataSync] 找不到ServerDataSync,请联系endaye')
+    Debug.Assert(DataSync ~= nil, '[AvaKit][Server][DataSync] 找不到ServerDataSync,请联系endaye')
     DataSync.Init()
 end
 
@@ -121,8 +121,8 @@ end
 
 --- 开始Update
 function StartUpdate()
-    print('[Server] StartUpdate()')
-    assert(not running, '[AvaKit][Server] StartUpdate() 正在运行')
+    Debug.Log('[Server] StartUpdate()')
+    Debug.Assert(not running, '[AvaKit][Server] StartUpdate() 正在运行')
 
     running = true
 

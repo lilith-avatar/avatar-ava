@@ -17,7 +17,7 @@ function SoundUtil:PlaySound(_ID, _SoundSourceObj)
     local Info, _Duration
     _SoundSourceObj = _SoundSourceObj or world.CurrentCamera
     Info = self.Table_Sound[_ID]
-    assert(Info, '[SoundUtil] 表中不存在该ID的音效')
+    Debug.Assert(Info ~= nil, '[SoundUtil] 表中不存在该ID的音效')
     _Duration = Info.Duration
     local sameSoundPlayingNum = 0
     for k, v in pairs(self.SoundPlaying) do

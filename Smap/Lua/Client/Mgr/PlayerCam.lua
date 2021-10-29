@@ -2,7 +2,7 @@
 --- @module Player Cam Module
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
-local PlayerCam, this = ModuleUtil.New('PlayerCam', ClientBase)
+local PlayerCam, this = Ava.Util.Mod.New('PlayerCam', ClientBase)
 
 --- 初始化
 function PlayerCam:Init()

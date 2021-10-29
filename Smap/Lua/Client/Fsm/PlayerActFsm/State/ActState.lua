@@ -1,12 +1,17 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 local ActState = class('ActState', PlayerActState)
 
 function ActState:initialize(_controller, _stateName)
     PlayerActState.initialize(self, _controller, _stateName)
     PlayerAnimMgr:CreateSingleClipNode('anim_human_sit_loop', 1, _stateName)
 end
+
 function ActState:InitData()
 end
 

@@ -10,7 +10,7 @@ end
 
 --- 加载的时候运行的代码
 function ClientBase:InitDefault(_module)
-    -- print(string.format('[ClientBase][%s] InitDefault()', self.name))
+    -- Debug.Log(string.format('[ClientBase][%s] InitDefault()', self.name))
     -- 初始化默认监听事件
     Ava.Util.Event.LinkConnects(localPlayer.C_Event, _module, self)
 end

@@ -1,6 +1,10 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 local SwimIdleState = class('SwimIdleState', PlayerActState)
 
 local check = nil
@@ -41,7 +45,7 @@ function SwimIdleState:OnEnter()
     localPlayer:StopMovementImmediately()
 
     --- 屏蔽舞蹈动作
-    EmoActionMgr:HideDanceBtn(false)
+    C.Mgr.EmoActionMgr:HideDanceBtn(false)
     PlayerAnimMgr:Play(self.stateName, 0, 1, 0.2, 0.2, true, true, 1)
 end
 

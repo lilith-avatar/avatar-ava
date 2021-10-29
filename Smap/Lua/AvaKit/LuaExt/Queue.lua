@@ -49,8 +49,7 @@ end
 
 function Queue:Dequeue()
     if self:IsEmpty() then
-        print('Error: the queue is empty')
-        return
+        Debug.LogError('Error: the queue is empty')
     end
     self._size = self._size - 1
     self._first = self._first + 1
@@ -72,7 +71,7 @@ end
 
 function Queue:PrintElement()
     if self._size == 0 then
-        print('{}')
+        Debug.Log('{}')
     else
         local f = self._first + 1
         local l = self._last
@@ -89,14 +88,13 @@ function Queue:PrintElement()
             end
         end
         str = str .. ',' .. tostring(self._queue[l]) .. '}'
-        print(str)
+        Debug.Log(str)
     end
 end
 
 function Queue:GetValue(index)
     if self:IsEmpty() or index == nil or index == 0 then
-        print('Error: Get Value Failure!')
-        return
+        Debug.LogError('Error: Get Value Failure!')
     end
     if index > 0 then
         return self._queue[self._first + index]

@@ -1,6 +1,10 @@
 --- @copyright Lilith Games, Avatar Team
 --- @author Dead Ratman
 
+-- local cache
+local PlayerActState = C.Fsm.PlayerActFsm.PlayerActState
+local PlayerAnimMgr = C.Fsm.PlayerAnimMgr
+
 local SwimEndState = class('SwimEndState', PlayerActState)
 
 local check = nil
@@ -50,7 +54,7 @@ end
 function SwimEndState:OnLeave()
     PlayerActState.OnLeave(self)
     localPlayer:SetSwimming(false)
-    EmoActionMgr:HideDanceBtn(true)
+    C.Mgr.EmoActionMgr:HideDanceBtn(true)
     --[[
     if check then
         print('swimEnd......................................')

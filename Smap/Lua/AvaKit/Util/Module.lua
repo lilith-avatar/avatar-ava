@@ -14,58 +14,26 @@ local LOOP_MAX = 15 -- Manifest最多层级深度
 --- @param _res 资源路径
 --- @param _list 模块清单
 function ModuleUtil.LoadManifest(_root, _manifest, _res, _list)
-    assert(_root, '[AvaKit][ModuleUtil] _root is WRONG')
-    assert(_manifest and _manifest.Modules, '[AvaKit][ModuleUtil] _manifest is WRONG')
-    assert(_res, '[AvaKit][ModuleUtil] _res does NOT exist')
+    Debug.Assert(_root ~= nil, '[AvaKit][ModuleUtil] _root is WRONG')
+    Debug.Assert(_manifest ~= nil and _manifest.Modules ~= nil, '[AvaKit][ModuleUtil] _manifest is WRONG')
+    Debug.Assert(_res ~= nil, '[AvaKit][ModuleUtil] _res does NOT exist')
 
-    -- 读取Manifest，并生成一个require array
-    local node, subNode, mod = {rt = _root, man = _manifest, res = _res}
-    local arr = {node}
-    local deep, done = LOOP_MAX, false
-    while not done and deep > 0 do
-        deep = deep - 1
-        done = true
-        for i = 1, #arr do
-            node = arr[i]
-            if node.man ~= nil and node.man.Modules ~= nil then
-                done = false
-                table.remove(arr, i)
-                local cnt = 0
-                for j = 1, #node.man.Modules do
-                    mod = node.man.Modules[j] -- Manifest.Modules.XXXX
-                    if type(mod) == 'table' and mod.Modules ~= nil then
-                        -- print(node, node.rt, mod.Name)
-                        node.rt[mod.Name] = node.rt[mod.Name] or {}
-                        subNode = {
-                            rt = node.rt[mod.Name],
-                            man = mod,
-                            res = string.format('%s%s/', node.res, mod.Name)
-                        }
-                        cnt = cnt + 1
-                        table.insert(arr, i + cnt - 1, subNode)
-                    elseif type(mod) == 'string' then
-                        subNode = {
-                            rt = node.rt,
-                            name = mod,
-                            res = node.res .. mod
-                        }
-                        cnt = cnt + 1
-                        table.insert(arr, i + cnt - 1, subNode)
-                    end
+    local pathArr, tmpRoot, tmp
+    for _, path in ipairs(_manifest.Modules) do
+        Debug.Assert(type(path) == 'string', '[AvaKit][ModuleUtil] path is NOT a string')
+        pathArr = string.split(path, '/')
+        tmpRoot = _root
+        for k, fn in ipairs(pathArr) do
+            if k < #pathArr then
+                tmpRoot[fn] = tmpRoot[fn] or {}
+                tmpRoot = tmpRoot[fn]
+            else
+                tmpRoot[fn] = require(_res .. path)
+                if _list then
+                    table.insert(_list, tmpRoot[fn])
                 end
             end
         end
-    end
-
-    -- Require Module脚本
-    for k, v in ipairs(arr) do
-        --print(string.format('[AvaKit][Load][%02d] %s, %s', k, v.name, v.res))
-        v.rt[v.name] = require(v.res)
-        if _list then
-            table.insert(_list, v.rt[v.name])
-        end
-        -- FIXME: 暂时为全局变量，向下兼容
-        _G[v.name] = v.rt[v.name]
     end
 end
 
@@ -74,9 +42,9 @@ end
 --- @param @string _fn 方法名 function_name
 --- @param @table _list 存放的table
 function ModuleUtil.GetModuleListWithFunc(_modules, _fn, _list)
-    assert(_modules, '[ModuleUtil] Node does NOT exist!')
-    assert(not string.isnilorempty(_fn), '[ModuleUtil] Function name is nil or empty!')
-    assert(_list, '[ModuleUtil] List is NOT initialized!')
+    Debug.Assert(_modules ~= nil, '[ModuleUtil] Node does NOT exist!')
+    Debug.Assert(not string.isnilorempty(_fn), '[ModuleUtil] Function name is nil or empty!')
+    Debug.Assert(_list ~= nil, '[ModuleUtil] List is NOT initialized!')
     for _, m in pairs(_modules) do
         if m[_fn] and type(m[_fn]) == 'function' then
             table.insert(_list, m)
