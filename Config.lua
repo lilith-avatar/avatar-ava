@@ -8,7 +8,8 @@ local FrameworkConfig = {
     -- 启动心跳
     HeartbeatStart = true,
     -- 启动数据同步
-    DataSyncStart = false,
+    DataSyncStart = true,
+    -- DataSyncStart = false,
     -- 长期存储：玩家数据定时保存时间间隔（秒）
     DatabaseAutoSaveTime = 30,
     -- 长期存储：重新读取游戏数据时间间隔（秒）

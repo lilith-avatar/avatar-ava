@@ -36,7 +36,7 @@ end
 --- 初始化Global
 function InitGlobal()
     _G.Ava = {}
-    _G.Data = {}
+    _G.Data = _G.Data or {}
     _G.C = {}
     _G.S = {}
 end
