@@ -78,7 +78,8 @@ function InitDataGlobal()
         Data.Global = Data.Global or Data.Default.Global
     else
         -- 不同虚拟，同步
-        Data.Global = Data.Global or MetaData.New(rawDataGlobal, MetaData.Enum.GLOBAL, nil)
+        -- Data.Global = Data.Global or MetaData.New(rawDataGlobal, MetaData.Enum.GLOBAL, nil)
+        Data.Global = MetaData.New(rawDataGlobal, MetaData.Enum.GLOBAL, nil)
         -- 默认赋值
         for k, v in pairs(Data.Default.Global) do
             Data.Global[k] = v

@@ -71,6 +71,7 @@ function InitDataSync()
     end
     assert(DataSync, '[AvaKit][Server][DataSync] 找不到ServerDataSync,请联系endaye')
     DataSync.Init()
+    DataSync.Start()
 end
 
 --- 初始化客户端的CustomEvent

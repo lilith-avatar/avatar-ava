@@ -45,12 +45,13 @@ end
 --- 校验数据定义
 function InitDataDefines()
     --* 客户端全局数据
-    if Server.Exist then
+    if Ava.Manifest.Server.Exist then
         -- 同虚拟机，不同步
         Data.Global = Data.Global or Data.Default.Global
     else
         -- 不同虚拟，同步
-        Data.Global = Data.Global or MetaData.New(rawDataGlobal, MetaData.Enum.GLOBAL, MetaData.Enum.CLIENT)
+        -- Data.Global = Data.Global or MetaData.New(rawDataGlobal, MetaData.Enum.GLOBAL, MetaData.Enum.CLIENT)
+        Data.Global = MetaData.New(rawDataGlobal, MetaData.Enum.GLOBAL, MetaData.Enum.CLIENT)
         -- 默认赋值
         for k, v in pairs(Data.Default.Global) do
             Data.Global[k] = v
@@ -60,7 +61,8 @@ function InitDataDefines()
     --* 客户端玩家数据
     local uid = localPlayer.UserId
     local path = MetaData.Enum.PLAYER .. uid
-    Data.Player = Data.Player or MetaData.New(rawDataPlayer, path, uid)
+    -- Data.Player = Data.Player or MetaData.New(rawDataPlayer, path, uid)
+    Data.Player = MetaData.New(rawDataPlayer, path, uid)
     -- 默认赋值
     for k, v in pairs(Data.Default.Player) do
         Data.Player[k] = v
