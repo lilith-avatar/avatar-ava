@@ -67,7 +67,6 @@ function NewData(_data, _path, _uid)
         end,
         __len = function(_t)
             local mt = getmetatable(_t)
-            print('Godot __len ???????????', _t, mt._data, mt._path)
             -- print(table.dump(mt._data))
             local target = mt._data[mt._path]
             local cnt = 1
