@@ -41,7 +41,7 @@ local FrameworkConfig = {
         -- 显示心跳日志
         ShowHeartbeatLog = false,
         -- 显示数据同步日志
-        ShowDataSyncLog = false
+        ShowDataSyncLog = true
     }
 }
 

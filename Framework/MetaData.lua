@@ -64,6 +64,18 @@ function NewData(_data, _path, _uid)
             -- 得到rd(raw data)，从rd中进行遍历
             local rd = GetData(_data, _path)
             return next, rd, nil
+        end,
+        __len = function(_t)
+            local mt = getmetatable(_t)
+            print('Godot __len ???????????', _t, mt._data, mt._path)
+            -- print(table.dump(mt._data))
+            local target = mt._data[mt._path]
+            local cnt = 1
+            while target[cnt] do
+                cnt = cnt + 1
+            end
+            return cnt - 1
+
         end
     }
     setmetatable(proxy, mt)
