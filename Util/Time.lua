@@ -26,7 +26,6 @@ local function CheckEvents()
     for k, event in pairs(eventList) do
         if event.triggerTime <= now then
             activeEvents[event.id] = event
-            table.insert(activeEvents, event)
             if event.loop then
                 event.triggerTime = event.triggerTime + event.delay
             else
@@ -43,9 +42,9 @@ local function TriggerEvents()
             function()
                 event.func()
             end
-        )
-        activeEvents[k] = nil
+        )        
     end
+    activeEvents = {}
     assert(next(activeEvents) == nil, string.format('[TimeUtil] 有未执行的事件%s个', table.nums(activeEvents)))
 end
 
