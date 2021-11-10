@@ -42,7 +42,7 @@ local function TriggerEvents()
             function()
                 event.func()
             end
-        )        
+        )
     end
     activeEvents = {}
     assert(next(activeEvents) == nil, string.format('[TimeUtil] 有未执行的事件%s个', table.nums(activeEvents)))
