@@ -742,7 +742,7 @@ local function object_or_array(self, T, etc)
         -- An empty table, or a numeric-only array
         --
         if #number_keys > 0 then
-            return nil, maximum_number_key -- an array
+            return nil, maximum_number_key,nil,number_keys -- an array
         elseif tostring(T) == 'JSON array' then
             return nil
         elseif tostring(T) == 'JSON object' then
@@ -861,14 +861,14 @@ function encode_value(self, value, parents, etc, options, indent)
 
         local result_value
 
-        local object_keys, maximum_number_key, map = object_or_array(self, T, etc)
+        local object_keys, maximum_number_key, map, number_keys = object_or_array(self, T, etc)
         if maximum_number_key then
             --
             -- An array...
             --
             local ITEMS = {}
-            for i = 1, maximum_number_key do
-                table.insert(ITEMS, encode_value(self, T[i], parents, etc, options, indent))
+            for _, number_key in ipairs(number_keys) do
+                table.insert(ITEMS, encode_value(self, T[number_key], parents, etc, options, indent))
             end
 
             if options.pretty then
