@@ -53,6 +53,7 @@ function RequireUtils()
     -- Require Utils
     Ava.Util.Mod = require(PATH_UTIL .. 'Module')
     Ava.Util.LuaJson = require(PATH_UTIL .. 'LuaJson')
+    Ava.Util.LuaJson2 = require(PATH_UTIL .. 'LuaJson2')
     Ava.Util.Net = require(PATH_UTIL .. 'Net')
     Ava.Util.Event = require(PATH_UTIL .. 'Event')
     Ava.Util.Time = require(PATH_UTIL .. 'Time')
@@ -63,6 +64,7 @@ function RequireUtils()
     --FIXME: 为了向下兼容
     _G.ModuleUtil = Ava.Util.Mod
     _G.JSON = Ava.Util.LuaJson
+    _G.JSON2 = Ava.Util.LuaJson2
     _G.NetUtil = Ava.Util.Net
 end
 
