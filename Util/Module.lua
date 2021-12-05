@@ -59,7 +59,7 @@ function ModuleUtil.LoadManifest(_root, _manifest, _res, _list)
 
     -- Require Module脚本
     for k, v in ipairs(arr) do
-        --print(string.format('[AvaKit][Load][%02d] %s, %s', k, v.name, v.res))
+        -- print(string.format('[AvaKit][Load][%02d] %s, %s', k, v.name, v.res))
         v.rt[v.name] = require(v.res)
         if _list then
             table.insert(_list, v.rt[v.name])

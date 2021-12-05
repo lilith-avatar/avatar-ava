@@ -261,6 +261,10 @@ function DataSyncC2SEventHandler(_player, _path, _value)
     elseif string.startswith(_path, MetaData.Enum.PLAYER .. uid) then
         --* Data.Players
         MetaData.Set(rawDataPlayers[uid], _path, _value, uid, false)
+        -- 同虚拟机的情况下立刻存储数据
+        if localPlayer ~= nil then
+            SaveGameDataAsync(uid, false)
+        end
     else
         error(
             string.format(
