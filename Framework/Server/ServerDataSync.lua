@@ -89,6 +89,7 @@ end
 
 --- 初始化Data.Players中对应玩家数据
 function InitDataPlayer(_uid)
+    print('[AvaKit][DataSync][Server] InitDataPlayer() _uid:'.._uid)
     assert(not string.isnilorempty(_uid))
     --* 服务器端创建Data.Player
     local path = MetaData.Enum.PLAYER .. _uid
@@ -189,7 +190,6 @@ function SaveGameDataAsync(_uid, _delete)
     assert(Data.Players[_uid], string.format('[AvaKit][DataSync][Server] Data.Players[_uid]不存在 uid = %s', _uid))
     local newData = MetaData.Get(Data.Players[_uid])
     assert(newData, string.format('[AvaKit][DataSync][Server] 玩家数据不存在, uid = %s', _uid))
-    assert(newData.uid == _uid, string.format('[AvaKit][DataSync][Server] uid校验不通过, uid = %s', _uid))
     sheet:SetValue(
         _uid,
         newData,
@@ -255,7 +255,7 @@ function DataSyncC2SEventHandler(_player, _path, _value)
 
     if string.startswith(_path, MetaData.Enum.GLOBAL) then
         --* Data.Global：收到客户端改变数据的时候需要同步给其他玩家
-        if loadPlayer == nil then
+        if localPlayer == nil then
             MetaData.Set(rawDataGlobal, _path, _value, nil, true)
         end
     elseif string.startswith(_path, MetaData.Enum.PLAYER .. uid) then
