@@ -160,7 +160,7 @@ end
 --- 退出游戏
 function QuitGame()
     print('[AvaKit][Heartbeat][Client] Game.Quit(), 玩家退出游戏')
-    Game.Quit()
+    --Game.Quit()
 end
 
 return ClientHeartbeat
